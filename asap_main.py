@@ -1,5 +1,5 @@
 import sys
-from PyQt5 import QtWidgets
+from PySide2 import QtWidgets
 from modules.applications import asap_application
 
 def main():
