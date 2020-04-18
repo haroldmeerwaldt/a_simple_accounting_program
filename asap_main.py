@@ -9,6 +9,8 @@ def main():
     main_application = asap_application.ASAPApplication()
     main_application.show()
 
+
+
     q_application.exec_()
 
 

@@ -19,3 +19,4 @@ class ASAPApplication(QtWidgets.QMainWindow):
         model = toolbox.PandasModel(df)
 
         self.ui.tableView.setModel(model)
+

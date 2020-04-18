@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>994</width>
+    <width>1111</width>
     <height>723</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>40</x>
       <y>40</y>
-      <width>931</width>
+      <width>1051</width>
       <height>651</height>
      </rect>
     </property>
@@ -33,7 +33,7 @@
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>
-        <x>180</x>
+        <x>350</x>
         <y>20</y>
         <width>681</width>
         <height>591</height>
@@ -74,6 +74,57 @@
              <string>Query dates and client</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_6">
+            <property name="text">
+             <string>Export query results</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="text">
+             <string>Overwrite</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_5">
+            <property name="text">
+             <string>Delete</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>
@@ -177,33 +228,119 @@
         </item>
        </layout>
       </widget>
-      <widget class="QPushButton" name="pushButton_add_working_day_2">
+     </widget>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>311</width>
+        <height>321</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Add</string>
+      </property>
+      <widget class="QPushButton" name="pushButton_add_working_day">
        <property name="geometry">
         <rect>
-         <x>530</x>
-         <y>50</y>
+         <x>180</x>
+         <y>230</y>
          <width>75</width>
          <height>75</height>
         </rect>
        </property>
        <property name="text">
-        <string>Export table</string>
+        <string>Add 
+working day</string>
        </property>
       </widget>
-     </widget>
-     <widget class="QPushButton" name="pushButton_add_working_day">
-      <property name="geometry">
-       <rect>
-        <x>40</x>
-        <y>230</y>
-        <width>75</width>
-        <height>75</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Add 
-working day</string>
-      </property>
+      <widget class="QWidget" name="formLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>40</y>
+         <width>241</width>
+         <height>151</height>
+        </rect>
+       </property>
+       <layout class="QFormLayout" name="formLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_times_client">
+          <property name="text">
+           <string>Client</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_times_date">
+          <property name="text">
+           <string>Date</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="comboBox_times_client"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_times_start_time">
+          <property name="text">
+           <string>Start time</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_times_end_time">
+          <property name="text">
+           <string>End time</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="comboBox_times_start_time"/>
+        </item>
+        <item row="4" column="1">
+         <widget class="QComboBox" name="comboBox_times_end_time"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="lineEdit_times_date"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="pushButton_times_fill_in_today">
+          <property name="text">
+           <string>Fill in today</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_times_hours">
+          <property name="text">
+           <string>Hours</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLabel" name="info_label_times_hours">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QPushButton" name="pushButton_times_clear_fields">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>230</y>
+         <width>75</width>
+         <height>75</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Clear fields</string>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_clients">
@@ -228,7 +365,7 @@ working day</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>994</width>
+     <width>1111</width>
      <height>21</height>
     </rect>
    </property>
