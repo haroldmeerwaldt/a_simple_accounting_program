@@ -20,52 +20,23 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1111, 723)
+        MainWindow.resize(1111, 829)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
-        self.tabWidget.setGeometry(QRect(40, 40, 1051, 651))
+        self.tabWidget.setGeometry(QRect(40, 40, 1051, 561))
         self.tab_times = QWidget()
         self.tab_times.setObjectName(u"tab_times")
         self.groupBox = QGroupBox(self.tab_times)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setGeometry(QRect(350, 20, 681, 591))
+        self.groupBox.setGeometry(QRect(350, 20, 681, 511))
         self.verticalLayoutWidget = QWidget(self.groupBox)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(20, 170, 641, 401))
+        self.verticalLayoutWidget.setGeometry(QRect(20, 170, 641, 331))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.pushButton_2 = QPushButton(self.verticalLayoutWidget)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-
-        self.horizontalLayout.addWidget(self.pushButton_2)
-
-        self.pushButton = QPushButton(self.verticalLayoutWidget)
-        self.pushButton.setObjectName(u"pushButton")
-
-        self.horizontalLayout.addWidget(self.pushButton)
-
-        self.pushButton_4 = QPushButton(self.verticalLayoutWidget)
-        self.pushButton_4.setObjectName(u"pushButton_4")
-
-        self.horizontalLayout.addWidget(self.pushButton_4)
-
-        self.pushButton_6 = QPushButton(self.verticalLayoutWidget)
-        self.pushButton_6.setObjectName(u"pushButton_6")
-
-        self.horizontalLayout.addWidget(self.pushButton_6)
-
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout.addItem(self.horizontalSpacer)
-
-
-        self.verticalLayout.addLayout(self.horizontalLayout)
-
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.pushButton_3 = QPushButton(self.verticalLayoutWidget)
@@ -167,6 +138,32 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.radioButton_3)
 
+        self.layoutWidget = QWidget(self.groupBox)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(510, 20, 119, 138))
+        self.verticalLayout_3 = QVBoxLayout(self.layoutWidget)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.pushButton_2 = QPushButton(self.layoutWidget)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+
+        self.verticalLayout_3.addWidget(self.pushButton_2)
+
+        self.pushButton = QPushButton(self.layoutWidget)
+        self.pushButton.setObjectName(u"pushButton")
+
+        self.verticalLayout_3.addWidget(self.pushButton)
+
+        self.pushButton_4 = QPushButton(self.layoutWidget)
+        self.pushButton_4.setObjectName(u"pushButton_4")
+
+        self.verticalLayout_3.addWidget(self.pushButton_4)
+
+        self.pushButton_6 = QPushButton(self.layoutWidget)
+        self.pushButton_6.setObjectName(u"pushButton_6")
+
+        self.verticalLayout_3.addWidget(self.pushButton_6)
+
         self.groupBox_2 = QGroupBox(self.tab_times)
         self.groupBox_2.setObjectName(u"groupBox_2")
         self.groupBox_2.setGeometry(QRect(20, 20, 311, 321))
@@ -199,20 +196,20 @@ class Ui_MainWindow(object):
 
         self.formLayout_2.setWidget(3, QFormLayout.LabelRole, self.label_times_start_time)
 
-        self.label_times_end_time = QLabel(self.formLayoutWidget_2)
-        self.label_times_end_time.setObjectName(u"label_times_end_time")
+        self.label_times_stop_time = QLabel(self.formLayoutWidget_2)
+        self.label_times_stop_time.setObjectName(u"label_times_stop_time")
 
-        self.formLayout_2.setWidget(4, QFormLayout.LabelRole, self.label_times_end_time)
+        self.formLayout_2.setWidget(4, QFormLayout.LabelRole, self.label_times_stop_time)
 
         self.comboBox_times_start_time = QComboBox(self.formLayoutWidget_2)
         self.comboBox_times_start_time.setObjectName(u"comboBox_times_start_time")
 
         self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.comboBox_times_start_time)
 
-        self.comboBox_times_end_time = QComboBox(self.formLayoutWidget_2)
-        self.comboBox_times_end_time.setObjectName(u"comboBox_times_end_time")
+        self.comboBox_times_stop_time = QComboBox(self.formLayoutWidget_2)
+        self.comboBox_times_stop_time.setObjectName(u"comboBox_times_stop_time")
 
-        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.comboBox_times_end_time)
+        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.comboBox_times_stop_time)
 
         self.lineEdit_times_date = QLineEdit(self.formLayoutWidget_2)
         self.lineEdit_times_date.setObjectName(u"lineEdit_times_date")
@@ -247,6 +244,9 @@ class Ui_MainWindow(object):
         self.tab_configuration = QWidget()
         self.tab_configuration.setObjectName(u"tab_configuration")
         self.tabWidget.addTab(self.tab_configuration, "")
+        self.textBrowser_console = QTextBrowser(self.centralwidget)
+        self.textBrowser_console.setObjectName(u"textBrowser_console")
+        self.textBrowser_console.setGeometry(QRect(40, 620, 1031, 131))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -267,10 +267,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Query", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Query dates only", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Query client only", None))
-        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Query dates and client", None))
-        self.pushButton_6.setText(QCoreApplication.translate("MainWindow", u"Export query results", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Overwrite", None))
         self.pushButton_5.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Start month", None))
@@ -281,13 +277,17 @@ class Ui_MainWindow(object):
         self.radioButton.setText(QCoreApplication.translate("MainWindow", u"Sort by date only", None))
         self.radioButton_2.setText(QCoreApplication.translate("MainWindow", u"Sort by client first", None))
         self.radioButton_3.setText(QCoreApplication.translate("MainWindow", u"Sort by month then by client", None))
+        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Query dates only", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Query client only", None))
+        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Query dates and client", None))
+        self.pushButton_6.setText(QCoreApplication.translate("MainWindow", u"Export query results", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Add", None))
         self.pushButton_add_working_day.setText(QCoreApplication.translate("MainWindow", u"Add \n"
 "working day", None))
         self.label_times_client.setText(QCoreApplication.translate("MainWindow", u"Client", None))
         self.label_times_date.setText(QCoreApplication.translate("MainWindow", u"Date", None))
         self.label_times_start_time.setText(QCoreApplication.translate("MainWindow", u"Start time", None))
-        self.label_times_end_time.setText(QCoreApplication.translate("MainWindow", u"End time", None))
+        self.label_times_stop_time.setText(QCoreApplication.translate("MainWindow", u"Stop time", None))
         self.pushButton_times_fill_in_today.setText(QCoreApplication.translate("MainWindow", u"Fill in today", None))
         self.label_times_hours.setText(QCoreApplication.translate("MainWindow", u"Hours", None))
         self.info_label_times_hours.setText("")
