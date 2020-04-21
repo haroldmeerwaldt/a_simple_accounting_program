@@ -230,7 +230,7 @@
         <x>20</x>
         <y>20</y>
         <width>311</width>
-        <height>321</height>
+        <height>351</height>
        </rect>
       </property>
       <property name="title">
@@ -240,7 +240,7 @@
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>230</y>
+         <y>250</y>
          <width>75</width>
          <height>75</height>
         </rect>
@@ -256,7 +256,7 @@ working day</string>
          <x>30</x>
          <y>40</y>
          <width>241</width>
-         <height>151</height>
+         <height>196</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout_2">
@@ -277,47 +277,68 @@ working day</string>
         <item row="0" column="1">
          <widget class="QComboBox" name="comboBox_times_client"/>
         </item>
-        <item row="3" column="0">
+        <item row="5" column="0">
          <widget class="QLabel" name="label_times_start_time">
           <property name="text">
            <string>Start time</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
+        <item row="6" column="0">
          <widget class="QLabel" name="label_times_stop_time">
           <property name="text">
            <string>Stop time</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
+        <item row="5" column="1">
          <widget class="QComboBox" name="comboBox_times_start_time"/>
         </item>
-        <item row="4" column="1">
+        <item row="6" column="1">
          <widget class="QComboBox" name="comboBox_times_stop_time"/>
         </item>
         <item row="1" column="1">
          <widget class="QLineEdit" name="lineEdit_times_date"/>
         </item>
-        <item row="2" column="1">
+        <item row="3" column="1">
          <widget class="QPushButton" name="pushButton_times_fill_in_today">
           <property name="text">
            <string>Fill in today</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="0">
+        <item row="7" column="0">
          <widget class="QLabel" name="label_times_hours">
           <property name="text">
            <string>Hours</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
+        <item row="7" column="1">
          <widget class="QLabel" name="info_label_times_hours">
           <property name="text">
            <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QPushButton" name="pushButton_times_increment_by_one_week">
+          <property name="text">
+           <string>Increment by one week</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="info_label_day_of_week">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_day_of_week">
+          <property name="text">
+           <string>Day of week</string>
           </property>
          </widget>
         </item>
@@ -327,7 +348,7 @@ working day</string>
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>230</y>
+         <y>250</y>
          <width>75</width>
          <height>75</height>
         </rect>

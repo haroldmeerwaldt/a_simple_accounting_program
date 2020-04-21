@@ -166,13 +166,13 @@ class Ui_MainWindow(object):
 
         self.groupBox_2 = QGroupBox(self.tab_times)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        self.groupBox_2.setGeometry(QRect(20, 20, 311, 321))
+        self.groupBox_2.setGeometry(QRect(20, 20, 311, 351))
         self.pushButton_add_working_day = QPushButton(self.groupBox_2)
         self.pushButton_add_working_day.setObjectName(u"pushButton_add_working_day")
-        self.pushButton_add_working_day.setGeometry(QRect(180, 230, 75, 75))
+        self.pushButton_add_working_day.setGeometry(QRect(180, 250, 75, 75))
         self.formLayoutWidget_2 = QWidget(self.groupBox_2)
         self.formLayoutWidget_2.setObjectName(u"formLayoutWidget_2")
-        self.formLayoutWidget_2.setGeometry(QRect(30, 40, 241, 151))
+        self.formLayoutWidget_2.setGeometry(QRect(30, 40, 241, 196))
         self.formLayout_2 = QFormLayout(self.formLayoutWidget_2)
         self.formLayout_2.setObjectName(u"formLayout_2")
         self.formLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -194,22 +194,22 @@ class Ui_MainWindow(object):
         self.label_times_start_time = QLabel(self.formLayoutWidget_2)
         self.label_times_start_time.setObjectName(u"label_times_start_time")
 
-        self.formLayout_2.setWidget(3, QFormLayout.LabelRole, self.label_times_start_time)
+        self.formLayout_2.setWidget(5, QFormLayout.LabelRole, self.label_times_start_time)
 
         self.label_times_stop_time = QLabel(self.formLayoutWidget_2)
         self.label_times_stop_time.setObjectName(u"label_times_stop_time")
 
-        self.formLayout_2.setWidget(4, QFormLayout.LabelRole, self.label_times_stop_time)
+        self.formLayout_2.setWidget(6, QFormLayout.LabelRole, self.label_times_stop_time)
 
         self.comboBox_times_start_time = QComboBox(self.formLayoutWidget_2)
         self.comboBox_times_start_time.setObjectName(u"comboBox_times_start_time")
 
-        self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.comboBox_times_start_time)
+        self.formLayout_2.setWidget(5, QFormLayout.FieldRole, self.comboBox_times_start_time)
 
         self.comboBox_times_stop_time = QComboBox(self.formLayoutWidget_2)
         self.comboBox_times_stop_time.setObjectName(u"comboBox_times_stop_time")
 
-        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.comboBox_times_stop_time)
+        self.formLayout_2.setWidget(6, QFormLayout.FieldRole, self.comboBox_times_stop_time)
 
         self.lineEdit_times_date = QLineEdit(self.formLayoutWidget_2)
         self.lineEdit_times_date.setObjectName(u"lineEdit_times_date")
@@ -219,21 +219,36 @@ class Ui_MainWindow(object):
         self.pushButton_times_fill_in_today = QPushButton(self.formLayoutWidget_2)
         self.pushButton_times_fill_in_today.setObjectName(u"pushButton_times_fill_in_today")
 
-        self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.pushButton_times_fill_in_today)
+        self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.pushButton_times_fill_in_today)
 
         self.label_times_hours = QLabel(self.formLayoutWidget_2)
         self.label_times_hours.setObjectName(u"label_times_hours")
 
-        self.formLayout_2.setWidget(5, QFormLayout.LabelRole, self.label_times_hours)
+        self.formLayout_2.setWidget(7, QFormLayout.LabelRole, self.label_times_hours)
 
         self.info_label_times_hours = QLabel(self.formLayoutWidget_2)
         self.info_label_times_hours.setObjectName(u"info_label_times_hours")
 
-        self.formLayout_2.setWidget(5, QFormLayout.FieldRole, self.info_label_times_hours)
+        self.formLayout_2.setWidget(7, QFormLayout.FieldRole, self.info_label_times_hours)
+
+        self.pushButton_times_increment_by_one_week = QPushButton(self.formLayoutWidget_2)
+        self.pushButton_times_increment_by_one_week.setObjectName(u"pushButton_times_increment_by_one_week")
+
+        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.pushButton_times_increment_by_one_week)
+
+        self.info_label_day_of_week = QLabel(self.formLayoutWidget_2)
+        self.info_label_day_of_week.setObjectName(u"info_label_day_of_week")
+
+        self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.info_label_day_of_week)
+
+        self.label_day_of_week = QLabel(self.formLayoutWidget_2)
+        self.label_day_of_week.setObjectName(u"label_day_of_week")
+
+        self.formLayout_2.setWidget(2, QFormLayout.LabelRole, self.label_day_of_week)
 
         self.pushButton_times_clear_fields = QPushButton(self.groupBox_2)
         self.pushButton_times_clear_fields.setObjectName(u"pushButton_times_clear_fields")
-        self.pushButton_times_clear_fields.setGeometry(QRect(60, 230, 75, 75))
+        self.pushButton_times_clear_fields.setGeometry(QRect(60, 250, 75, 75))
         self.tabWidget.addTab(self.tab_times, "")
         self.tab_clients = QWidget()
         self.tab_clients.setObjectName(u"tab_clients")
@@ -291,6 +306,9 @@ class Ui_MainWindow(object):
         self.pushButton_times_fill_in_today.setText(QCoreApplication.translate("MainWindow", u"Fill in today", None))
         self.label_times_hours.setText(QCoreApplication.translate("MainWindow", u"Hours", None))
         self.info_label_times_hours.setText("")
+        self.pushButton_times_increment_by_one_week.setText(QCoreApplication.translate("MainWindow", u"Increment by one week", None))
+        self.info_label_day_of_week.setText("")
+        self.label_day_of_week.setText(QCoreApplication.translate("MainWindow", u"Day of week", None))
         self.pushButton_times_clear_fields.setText(QCoreApplication.translate("MainWindow", u"Clear fields", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_times), QCoreApplication.translate("MainWindow", u"Times", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_clients), QCoreApplication.translate("MainWindow", u"Clients", None))

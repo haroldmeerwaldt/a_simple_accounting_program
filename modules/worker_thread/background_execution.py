@@ -19,6 +19,8 @@ class BackgroundExecution(QtCore.QObject):
     def pushbutton_clicked_slot(self, pushbutton_name, snapshot_dict):
         print('testing', pushbutton_name, snapshot_dict)
 
+    def pushbutton_add_working_day_clicked_slot(self, snapshot_dict):
+        print('testing adding', snapshot_dict)
 
 
 
