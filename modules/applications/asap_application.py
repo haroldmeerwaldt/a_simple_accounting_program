@@ -21,6 +21,7 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.signals = Signals()
         self._initialize_background_execution_thread()
         self._connect_buttons_to_slots()
+        self._connect_signals_to_slots()
 
 
     def _initialize_user_interface(self):
@@ -35,8 +36,23 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui.tableView.setModel(model)
 
         self.widgets = Widgets(self.ui, self.DATE_FORMAT)
+        self._initialize_combobox_lists()
 
 
+    def _initialize_combobox_lists(self):
+        client_list = ['Jantje', 'Pietje']
+        client_widget = self.widgets.get_widget('comboBox_times_client')
+        client_widget.add_values(client_list)
+
+        time_list = [str(SimpleTime(minutes=15*i)) for i in range(96)]
+        start_time_widget = self.widgets.get_widget('comboBox_times_start_time')
+        start_time_widget.add_values(time_list)
+        start_time_widget.set_value('08:00')
+        stop_time_widget = self.widgets.get_widget('comboBox_times_stop_time')
+        stop_time_widget.add_values(time_list)
+        stop_time_widget.set_value('17:00')
+
+        self._update_difference_between_start_and_stop_time()
 
 
     def _initialize_background_execution_thread(self):
@@ -49,9 +65,14 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui.pushButton_add_working_day.clicked.connect(self._on_pushbutton_add_working_day_clicked)
         self.ui.pushButton_times_fill_in_today.clicked.connect(self._on_pushbutton_fill_in_today_clicked)
         self.ui.pushButton_times_increment_by_one_week.clicked.connect(self._on_pushbutton_increment_by_one_week_clicked)
+        self.ui.lineEdit_times_date.editingFinished.connect(self._update_day_of_week)
+        self.ui.comboBox_times_start_time.currentIndexChanged.connect(self._update_difference_between_start_and_stop_time)
+        self.ui.comboBox_times_stop_time.currentIndexChanged.connect(self._update_difference_between_start_and_stop_time)
+
+
 
     def _connect_signals_to_slots(self):
-        self.signals.pushbutton_add_working_day_clicked_signal.connect(self.background_execution)
+        self.signals.pushbutton_add_working_day_clicked_signal.connect(self.background_execution.pushbutton_add_working_day_clicked_slot)
 
 
     def _on_pushbutton_add_working_day_clicked(self):
@@ -69,23 +90,44 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self._update_day_of_week()
 
     def _update_day_of_week(self):
-        date_object = self.widgets.get_times_date_as_object()
-
-        day_of_week_widget = self.widgets.get_widget('info_label_day_of_week')
-        day_of_week_string = date_object.strftime("%A")
-        day_of_week_widget.set_value(day_of_week_string)
+        try:
+            date_object = self.widgets.get_times_date_as_object()
+            day_of_week_widget = self.widgets.get_widget('info_label_day_of_week')
+            day_of_week_string = date_object.strftime("%A")
+            day_of_week_widget.set_value(day_of_week_string)
+        except ValueError:
+            print('An invalid date was entered')
 
     def _on_pushbutton_increment_by_one_week_clicked(self):
-        date_object = self.widgets.get_times_date_as_object()
-        one_week_increment = datetime.timedelta(weeks=1)
-        date_one_week_incremented_object = date_object + one_week_increment
-        date_one_week_incremented_string = date_one_week_incremented_object.strftime(self.DATE_FORMAT)
 
-        date_widget = self.widgets.get_widget('lineEdit_times_date')
-        date_widget.set_value(date_one_week_incremented_string)
+        try:
+            date_object = self.widgets.get_times_date_as_object()
+            one_week_increment = datetime.timedelta(weeks=1)
+            date_one_week_incremented_object = date_object + one_week_increment
+            date_one_week_incremented_string = date_one_week_incremented_object.strftime(self.DATE_FORMAT)
+
+            date_widget = self.widgets.get_widget('lineEdit_times_date')
+            date_widget.set_value(date_one_week_incremented_string)
+
+            self._update_day_of_week()
+        except ValueError:
+            print('An invalid date was entered')
+
+    def _update_difference_between_start_and_stop_time(self):
+        start_time_widget = self.widgets.get_widget('comboBox_times_start_time')
+        start_time_string = start_time_widget.get_value()
+        start_time = SimpleTime(string=start_time_string)
+
+        stop_time_widget = self.widgets.get_widget('comboBox_times_stop_time')
+        stop_time_string = stop_time_widget.get_value()
+        stop_time = SimpleTime(string=stop_time_string)
+
+        time_difference = stop_time - start_time
+        number_of_hours = float(time_difference)
+        time_difference_widget = self.widgets.get_widget('info_label_times_hours')
+        time_difference_widget.set_value(number_of_hours)
 
 
-        self._update_day_of_week()
 
 
     def closeEvent(self, event):
@@ -121,11 +163,9 @@ class Widgets:
     def get_times_date_as_object(self):
         date_widget = self.get_widget('lineEdit_times_date')
         date_string = date_widget.get_value()
-        try:
-            date_object = datetime.datetime.strptime(date_string, self.DATE_FORMAT)
-            return date_object
-        except ValueError:
-            return None
+        date_object = datetime.datetime.strptime(date_string, self.DATE_FORMAT)
+        return date_object
+
 
 
 class Widget:
@@ -145,6 +185,14 @@ class ComboboxWidget(Widget):
     def get_value(self):
         return self.qt_widget.currentText()
 
+    def set_value(self, value):
+        current_index = self.qt_widget.findText(value)
+        self.qt_widget.setCurrentIndex(current_index)
+
+    def add_values(self, value_list):
+        self.qt_widget.addItems(value_list)
+
+
 class LineeditWidget(Widget):
     def __init__(self, *args):
         super().__init__(*args)
@@ -155,12 +203,74 @@ class LineeditWidget(Widget):
     def set_value(self, value):
         return self.qt_widget.setText(str(value))
 
+
 class InfolabelWidget(Widget):
     def __init__(self, *args):
         super().__init__(*args)
 
     def get_value(self):
-        return self.qt_widget.text()
+        return self._value
 
     def set_value(self, value):
+        self._value = value
         return self.qt_widget.setText(str(value))
+
+
+class SimpleTime:
+    def __init__(self, string=None, hours=None, minutes=None):
+        if hours is not None or minutes is not None:
+            carry_hours = 0
+
+            try:
+                self.minutes = int(minutes)
+            except TypeError:
+                self.minutes = 0
+
+            while self.minutes > 59:
+                self.minutes = self.minutes - 60
+                carry_hours = carry_hours + 1
+
+            try:
+                self.hours = int(hours + carry_hours)
+            except TypeError:
+                self.hours = carry_hours
+        elif string is not None:
+            hours_minutes_list = string.split(':')
+            if len(hours_minutes_list) != 2:
+                raise ValueError('if a string is provided, it should be in format HH:MM')
+            self.hours = int(hours_minutes_list[0])
+            self.minutes = int(hours_minutes_list[1])
+        else:
+            raise ValueError('Either a string in format HH:MM should be provided or hours and minutes as numbers')
+
+    def __add__(self, other):
+        carry_hours = 0
+
+        sum_minutes = self.minutes - other.minutes
+        while sum_minutes > 59:
+            sum_minutes = sum_minutes - 60
+            carry_hours = carry_hours + 1
+
+        sum_hours = self.hours + other.hours + carry_hours
+        while sum_hours > 23:
+            sum_hours = sum_hours - 24
+
+        return SimpleTime(hours=sum_hours, minutes=sum_minutes)
+
+
+    def __sub__(self, other):
+        delta_hours = self.hours - other.hours
+        if delta_hours < 0:
+            delta_hours = delta_hours + 24
+
+        delta_minutes = self.minutes - other.minutes
+        if delta_minutes < 0:
+            delta_minutes = delta_minutes + 60
+
+        return SimpleTime(hours=delta_hours, minutes=delta_minutes)
+
+    def __str__(self):
+        return "{:02d}:{:02d}".format(self.hours, self.minutes)
+
+    def __float__(self):
+        return float(self.hours + self.minutes/60)
