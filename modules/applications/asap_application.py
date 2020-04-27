@@ -15,8 +15,9 @@ class Signals(QtCore.QObject):
 
 class ASAPApplication(QtWidgets.QMainWindow):
     DATE_FORMAT = "%d-%m-%Y"
-    def __init__(self):
+    def __init__(self, params):
         super().__init__()
+        self.params = params
         self._initialize_user_interface()
         self.signals = Signals()
         self._initialize_background_execution_thread()
@@ -41,23 +42,22 @@ class ASAPApplication(QtWidgets.QMainWindow):
 
     def _initialize_combobox_lists(self):
         client_list = ['Jantje', 'Pietje']
-        client_widget = self.widgets.get_widget('comboBox_times_client')
-        client_widget.add_values(client_list)
+        self.widgets.add_values_to_widget('comboBox_times_client', client_list)
 
         time_list = [str(SimpleTime(minutes=15*i)) for i in range(96)]
-        start_time_widget = self.widgets.get_widget('comboBox_times_start_time')
-        start_time_widget.add_values(time_list)
-        start_time_widget.set_value('08:00')
-        stop_time_widget = self.widgets.get_widget('comboBox_times_stop_time')
-        stop_time_widget.add_values(time_list)
-        stop_time_widget.set_value('17:00')
+
+        self.widgets.add_values_to_widget('comboBox_times_start_time', time_list)
+        self.widgets.set_widget_value('comboBox_times_start_time', '08:00')
+
+        self.widgets.add_values_to_widget('comboBox_times_stop_time', time_list)
+        self.widgets.set_widget_value('comboBox_times_stop_time', '17:00')
 
         self._update_difference_between_start_and_stop_time()
 
 
     def _initialize_background_execution_thread(self):
         self.background_execution_thread = QtCore.QThread()
-        self.background_execution = background_execution.BackgroundExecution(self.signals)
+        self.background_execution = background_execution.BackgroundExecution(self.signals, self.params)
         self.background_execution.moveToThread(self.background_execution_thread)
         self.background_execution_thread.start()
 
@@ -68,6 +68,7 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui.lineEdit_times_date.editingFinished.connect(self._update_day_of_week)
         self.ui.comboBox_times_start_time.currentIndexChanged.connect(self._update_difference_between_start_and_stop_time)
         self.ui.comboBox_times_stop_time.currentIndexChanged.connect(self._update_difference_between_start_and_stop_time)
+        self.ui.pushButton_times_clear_fields.clicked.connect(self._on_pushbutton_clear_fields_clicked)
 
 
 
@@ -82,19 +83,17 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.signals.pushbutton_add_working_day_clicked_signal.emit(add_working_day_snapshot_dict)
 
     def _on_pushbutton_fill_in_today_clicked(self):
-        date_widget = self.widgets.get_widget('lineEdit_times_date')
         today = datetime.date.today()
         today_string = today.strftime(self.DATE_FORMAT)
-        date_widget.set_value(today_string)
+        self.widgets.set_widget_value('lineEdit_times_date', today_string)
 
         self._update_day_of_week()
 
     def _update_day_of_week(self):
         try:
             date_object = self.widgets.get_times_date_as_object()
-            day_of_week_widget = self.widgets.get_widget('info_label_day_of_week')
             day_of_week_string = date_object.strftime("%A")
-            day_of_week_widget.set_value(day_of_week_string)
+            self.widgets.set_widget_value('info_label_day_of_week', day_of_week_string)
         except ValueError:
             print('An invalid date was entered')
 
@@ -106,27 +105,26 @@ class ASAPApplication(QtWidgets.QMainWindow):
             date_one_week_incremented_object = date_object + one_week_increment
             date_one_week_incremented_string = date_one_week_incremented_object.strftime(self.DATE_FORMAT)
 
-            date_widget = self.widgets.get_widget('lineEdit_times_date')
-            date_widget.set_value(date_one_week_incremented_string)
+            self.widgets.set_widget_value('lineEdit_times_date', date_one_week_incremented_string)
 
             self._update_day_of_week()
         except ValueError:
             print('An invalid date was entered')
 
     def _update_difference_between_start_and_stop_time(self):
-        start_time_widget = self.widgets.get_widget('comboBox_times_start_time')
-        start_time_string = start_time_widget.get_value()
+        start_time_string = self.widgets.get_widget_value('comboBox_times_start_time')
         start_time = SimpleTime(string=start_time_string)
 
-        stop_time_widget = self.widgets.get_widget('comboBox_times_stop_time')
-        stop_time_string = stop_time_widget.get_value()
+        stop_time_string = self.widgets.get_widget_value('comboBox_times_stop_time')
         stop_time = SimpleTime(string=stop_time_string)
 
         time_difference = stop_time - start_time
         number_of_hours = float(time_difference)
-        time_difference_widget = self.widgets.get_widget('info_label_times_hours')
-        time_difference_widget.set_value(number_of_hours)
+        self.widgets.set_widget_value('info_label_times_hours', number_of_hours)
 
+    def _on_pushbutton_clear_fields_clicked(self):
+        self.widgets.set_widget_value('lineEdit_times_date', '')
+        self.widgets.set_widget_value('info_label_day_of_week', '')
 
 
 
@@ -160,9 +158,20 @@ class Widgets:
     def get_widget(self, widget_name):
         return self._widget_dict[widget_name]
 
+    def get_widget_value(self, widget_name):
+        widget = self.get_widget(widget_name)
+        return widget.get_value()
+
+    def set_widget_value(self, widget_name, value):
+        widget = self.get_widget(widget_name)
+        widget.set_value(value)
+
+    def add_values_to_widget(self, widget_name, value_list):
+        widget = self.get_widget(widget_name)
+        widget.add_values(value_list)
+
     def get_times_date_as_object(self):
-        date_widget = self.get_widget('lineEdit_times_date')
-        date_string = date_widget.get_value()
+        date_string = self.get_widget_value('lineEdit_times_date')
         date_object = datetime.datetime.strptime(date_string, self.DATE_FORMAT)
         return date_object
 
