@@ -55,14 +55,14 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QPushButton" name="pushButton_3">
+           <widget class="QPushButton" name="pushButton_times_overwrite">
             <property name="text">
              <string>Overwrite</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_5">
+           <widget class="QPushButton" name="pushButton_times_delete">
             <property name="text">
              <string>Delete</string>
             </property>
@@ -84,7 +84,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableView" name="tableView"/>
+         <widget class="QTableView" name="tableView_times_query"/>
         </item>
        </layout>
       </widget>
@@ -99,10 +99,10 @@
        </property>
        <layout class="QFormLayout" name="formLayout">
         <item row="0" column="1">
-         <widget class="QComboBox" name="comboBox_2"/>
+         <widget class="QComboBox" name="comboBox_times_query_start_month"/>
         </item>
         <item row="2" column="1">
-         <widget class="QComboBox" name="comboBox"/>
+         <widget class="QComboBox" name="comboBox_times_query_stop_month"/>
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_2">
@@ -114,12 +114,12 @@
         <item row="2" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>End month</string>
+           <string>Stop month</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QComboBox" name="comboBox_3"/>
+         <widget class="QComboBox" name="comboBox_times_query_start_year"/>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="label_3">
@@ -131,7 +131,7 @@
         <item row="3" column="0">
          <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>End year</string>
+           <string>Stop year</string>
           </property>
          </widget>
         </item>
@@ -143,10 +143,10 @@
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QComboBox" name="comboBox_4"/>
+         <widget class="QComboBox" name="comboBox_times_query_stop_year"/>
         </item>
         <item row="4" column="1">
-         <widget class="QComboBox" name="comboBox_5"/>
+         <widget class="QComboBox" name="comboBox_times_query_client"/>
         </item>
        </layout>
       </widget>
@@ -161,21 +161,21 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QRadioButton" name="radioButton">
+         <widget class="QRadioButton" name="radioButton_times_sort_by_date_only">
           <property name="text">
            <string>Sort by date only</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_2">
+         <widget class="QRadioButton" name="radioButton_times_sort_by_client_first">
           <property name="text">
            <string>Sort by client first</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_3">
+         <widget class="QRadioButton" name="radioButton_times_sort_by_month_then_by_client">
           <property name="text">
            <string>Sort by month then by client</string>
           </property>
@@ -194,28 +194,28 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="pushButton_times_query_dates_only">
           <property name="text">
            <string>Query dates only</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="pushButton_times_query_client_only">
           <property name="text">
            <string>Query client only</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_4">
+         <widget class="QPushButton" name="pushButton_times_query_dates_and_client">
           <property name="text">
            <string>Query dates and client</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_6">
+         <widget class="QPushButton" name="pushButton_times_export_query_results">
           <property name="text">
            <string>Export query results</string>
           </property>

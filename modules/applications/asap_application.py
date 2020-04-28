@@ -8,6 +8,7 @@ import datetime
 
 class Signals(QtCore.QObject):
     pushbutton_add_working_day_clicked_signal = QtCore.Signal(dict)
+    pushbutton_times_query_clicked_signal = QtCore.Signal(str, dict)
     def __init__(self):
         super().__init__()
 
@@ -30,11 +31,11 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         print(vars(self.ui))
 
-        df = pd.DataFrame({'a': [2, 4], 'b': [3, 5]})
-
-        model = toolbox.PandasModel(df)
-
-        self.ui.tableView.setModel(model)
+        # df = pd.DataFrame({'a': [2, 4], 'b': [3, 5]})
+        #
+        # model = toolbox.PandasModel(df)
+        #
+        # self.ui.tableView.setModel(model)
 
         self.widgets = Widgets(self.ui, self.DATE_FORMAT)
         self._initialize_combobox_lists()
@@ -43,8 +44,10 @@ class ASAPApplication(QtWidgets.QMainWindow):
     def _initialize_combobox_lists(self):
         client_list = ['Jantje', 'Pietje']
         self.widgets.add_values_to_widget('comboBox_times_client', client_list)
+        self.widgets.add_values_to_widget('comboBox_times_query_client', client_list)
 
         time_list = [str(SimpleTime(minutes=15*i)) for i in range(96)]
+        print(time_list)
 
         self.widgets.add_values_to_widget('comboBox_times_start_time', time_list)
         self.widgets.set_widget_value('comboBox_times_start_time', '08:00')
@@ -53,6 +56,22 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.widgets.set_widget_value('comboBox_times_stop_time', '17:00')
 
         self._update_difference_between_start_and_stop_time()
+
+        month_list = [datetime.date(2000, m, 1).strftime('%B') for m in range(1, 13)]
+        self.widgets.add_values_to_widget('comboBox_times_query_start_month', month_list)
+        self.widgets.set_widget_value('comboBox_times_query_start_month', month_list[0])
+        self.widgets.add_values_to_widget('comboBox_times_query_stop_month', month_list)
+        self.widgets.set_widget_value('comboBox_times_query_stop_month', month_list[-1])
+
+        current_year = int(datetime.datetime.now().strftime('%Y'))
+        year_list = list(range(current_year-10, current_year + 1))
+        self.widgets.add_values_to_widget('comboBox_times_query_start_year', year_list)
+        self.widgets.set_widget_value('comboBox_times_query_start_year', year_list[0])
+        self.widgets.add_values_to_widget('comboBox_times_query_stop_year', year_list)
+        self.widgets.set_widget_value('comboBox_times_query_stop_year', year_list[-1])
+
+
+
 
 
     def _initialize_background_execution_thread(self):
@@ -70,10 +89,15 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui.comboBox_times_stop_time.currentIndexChanged.connect(self._update_difference_between_start_and_stop_time)
         self.ui.pushButton_times_clear_fields.clicked.connect(self._on_pushbutton_clear_fields_clicked)
 
+        self.ui.pushButton_times_query_dates_only.clicked.connect(self._on_pushbutton_times_query_clicked)
+        self.ui.pushButton_times_query_client_only.clicked.connect(self._on_pushbutton_times_query_clicked)
+        self.ui.pushButton_times_query_dates_and_client.clicked.connect(self._on_pushbutton_times_query_clicked)
+
 
 
     def _connect_signals_to_slots(self):
         self.signals.pushbutton_add_working_day_clicked_signal.connect(self.background_execution.pushbutton_add_working_day_clicked_slot)
+        self.signals.pushbutton_times_query_clicked_signal.connect(self.background_execution.pushbutton_times_query_clicked_slot)
 
 
     def _on_pushbutton_add_working_day_clicked(self):
@@ -115,7 +139,7 @@ class ASAPApplication(QtWidgets.QMainWindow):
         start_time_string = self.widgets.get_widget_value('comboBox_times_start_time')
         start_time = SimpleTime(string=start_time_string)
 
-        stop_time_string = self.widgets.get_widget_value('comboBox_times_stop_time')
+        stop_time_string = str(self.widgets.get_widget_value('comboBox_times_stop_time'))
         stop_time = SimpleTime(string=stop_time_string)
 
         time_difference = stop_time - start_time
@@ -125,6 +149,15 @@ class ASAPApplication(QtWidgets.QMainWindow):
     def _on_pushbutton_clear_fields_clicked(self):
         self.widgets.set_widget_value('lineEdit_times_date', '')
         self.widgets.set_widget_value('info_label_day_of_week', '')
+
+    def _on_pushbutton_times_query_clicked(self):
+        pushbutton_name = self.sender().objectName()
+        relevant_widget_name_list = ['comboBox_times_query_start_month', 'comboBox_times_query_start_year',
+                                     'comboBox_times_query_stop_month', 'comboBox_times_query_stop_year',
+                                     'comboBox_times_query_client']
+        times_query_snapshot_dict = self.widgets.get_snapshot_dict(relevant_widget_name_list)
+        self.signals.pushbutton_times_query_clicked_signal.emit(pushbutton_name, times_query_snapshot_dict)
+
 
 
 
@@ -192,14 +225,15 @@ class ComboboxWidget(Widget):
         super().__init__(*args)
 
     def get_value(self):
-        return self.qt_widget.currentText()
+        return self.qt_widget.currentData()
 
     def set_value(self, value):
-        current_index = self.qt_widget.findText(value)
+        current_index = self.qt_widget.findData(value)
         self.qt_widget.setCurrentIndex(current_index)
 
     def add_values(self, value_list):
-        self.qt_widget.addItems(value_list)
+        for value in value_list:
+            self.qt_widget.addItem(str(value), value)
 
 
 class LineeditWidget(Widget):
