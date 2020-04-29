@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1111</width>
+    <width>1268</width>
     <height>829</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>40</x>
       <y>40</y>
-      <width>1051</width>
+      <width>1221</width>
       <height>561</height>
      </rect>
     </property>
@@ -35,7 +35,7 @@
        <rect>
         <x>350</x>
         <y>20</y>
-        <width>681</width>
+        <width>861</width>
         <height>511</height>
        </rect>
       </property>
@@ -47,7 +47,7 @@
         <rect>
          <x>20</x>
          <y>170</y>
-         <width>641</width>
+         <width>831</width>
          <height>331</height>
         </rect>
        </property>
@@ -153,8 +153,8 @@
       <widget class="QWidget" name="verticalLayoutWidget_2">
        <property name="geometry">
         <rect>
-         <x>290</x>
-         <y>50</y>
+         <x>370</x>
+         <y>40</y>
          <width>161</width>
          <height>80</height>
         </rect>
@@ -186,7 +186,7 @@
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>510</x>
+         <x>650</x>
          <y>20</y>
          <width>119</width>
          <height>138</height>
@@ -380,7 +380,7 @@ working day</string>
      <rect>
       <x>40</x>
       <y>620</y>
-      <width>1031</width>
+      <width>1201</width>
       <height>131</height>
      </rect>
     </property>
@@ -391,7 +391,7 @@ working day</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1111</width>
+     <width>1268</width>
      <height>21</height>
     </rect>
    </property>

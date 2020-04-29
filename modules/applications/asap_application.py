@@ -9,6 +9,8 @@ import datetime
 class Signals(QtCore.QObject):
     pushbutton_add_working_day_clicked_signal = QtCore.Signal(dict)
     pushbutton_times_query_clicked_signal = QtCore.Signal(str, dict)
+    radiobutton_times_sort_clicked_signal = QtCore.Signal(str)
+    display_times_query_df_in_tableview_signal = QtCore.Signal(pd.DataFrame)
     def __init__(self):
         super().__init__()
 
@@ -31,14 +33,11 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         print(vars(self.ui))
 
-        # df = pd.DataFrame({'a': [2, 4], 'b': [3, 5]})
-        #
-        # model = toolbox.PandasModel(df)
-        #
-        # self.ui.tableView.setModel(model)
+
 
         self.widgets = Widgets(self.ui, self.DATE_FORMAT)
         self._initialize_combobox_lists()
+        self._initialize_radiobuttons()
 
 
     def _initialize_combobox_lists(self):
@@ -70,7 +69,8 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.widgets.add_values_to_widget('comboBox_times_query_stop_year', year_list)
         self.widgets.set_widget_value('comboBox_times_query_stop_year', year_list[-1])
 
-
+    def _initialize_radiobuttons(self):
+        self.widgets.set_widget_value('radioButton_times_sort_by_date_only', True)
 
 
 
@@ -93,11 +93,16 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui.pushButton_times_query_client_only.clicked.connect(self._on_pushbutton_times_query_clicked)
         self.ui.pushButton_times_query_dates_and_client.clicked.connect(self._on_pushbutton_times_query_clicked)
 
-
+        self.ui.radioButton_times_sort_by_date_only.clicked.connect(self._on_radiobutton_times_sort_clicked)
+        self.ui.radioButton_times_sort_by_client_first.clicked.connect(self._on_radiobutton_times_sort_clicked)
+        self.ui.radioButton_times_sort_by_month_then_by_client.clicked.connect(self._on_radiobutton_times_sort_clicked)
 
     def _connect_signals_to_slots(self):
         self.signals.pushbutton_add_working_day_clicked_signal.connect(self.background_execution.pushbutton_add_working_day_clicked_slot)
         self.signals.pushbutton_times_query_clicked_signal.connect(self.background_execution.pushbutton_times_query_clicked_slot)
+        self.signals.radiobutton_times_sort_clicked_signal.connect(self.background_execution.radiobutton_times_sort_clicked_slot)
+        self.signals.display_times_query_df_in_tableview_signal.connect(self.display_times_query_df_in_tableview_slot)
+
 
 
     def _on_pushbutton_add_working_day_clicked(self):
@@ -158,7 +163,13 @@ class ASAPApplication(QtWidgets.QMainWindow):
         times_query_snapshot_dict = self.widgets.get_snapshot_dict(relevant_widget_name_list)
         self.signals.pushbutton_times_query_clicked_signal.emit(pushbutton_name, times_query_snapshot_dict)
 
+    def display_times_query_df_in_tableview_slot(self, times_query_df):
+        model = toolbox.PandasModel(times_query_df)
+        self.ui.tableView_times_query.setModel(model)
 
+    def _on_radiobutton_times_sort_clicked(self):
+        radiobutton_name = self.sender().objectName()
+        self.signals.radiobutton_times_sort_clicked_signal.emit(radiobutton_name)
 
 
     def closeEvent(self, event):
@@ -180,6 +191,8 @@ class Widgets:
                 self._widget_dict[widget_name] = LineeditWidget(qt_widget)
             elif 'info_label' in widget_name:
                 self._widget_dict[widget_name] = InfolabelWidget(qt_widget)
+            elif 'radioButton' in widget_name:
+                self._widget_dict[widget_name] = RadiobuttonWidget(qt_widget)
 
     def get_snapshot_dict(self, widget_name_list):
         snapshot_dict = dict()
@@ -257,6 +270,17 @@ class InfolabelWidget(Widget):
     def set_value(self, value):
         self._value = value
         return self.qt_widget.setText(str(value))
+
+
+class RadiobuttonWidget(Widget):
+    def __init__(self, *args):
+        super().__init__(*args)
+
+    def get_value(self):
+        return self.qt_widget.isChecked()
+
+    def set_value(self, value):
+        return self.qt_widget.setChecked(value)
 
 
 class SimpleTime:

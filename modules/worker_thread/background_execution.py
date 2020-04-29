@@ -35,12 +35,22 @@ class BackgroundExecution(QtCore.QObject):
         elif pushbutton_name == 'pushButton_times_query_dates_and_client':
             self.times.query_dates_and_client(snapshot_dict)
 
+    def radiobutton_times_sort_clicked_slot(self, radiobutton_name):
+        if radiobutton_name == 'radioButton_times_sort_by_date_only':
+            self.times.sort_by_date_only()
+        elif radiobutton_name == 'radioButton_times_sort_by_client_first':
+            self.times.sort_by_client_first()
+        elif radiobutton_name == 'radioButton_times_sort_by_month_then_by_client':
+            self.times.sort_by_month_then_by_client()
+
+
 
 class Times:
     def __init__(self, signals, params):
         self.signals = signals
         self.params = params
         self._load_input_file()
+        self.query_result_df = None
 
     def _load_input_file(self):
         user_directory = os.path.expanduser('~/ASAP')
@@ -76,10 +86,8 @@ class Times:
         return UID
 
     def query_dates_only(self, snapshot_dict):
-        print(snapshot_dict)
         try:
             start_date_string = snapshot_dict['comboBox_times_query_start_month'] + ' ' + str(snapshot_dict['comboBox_times_query_start_year'])
-            print(start_date_string)
             start_date = datetime.datetime.strptime(start_date_string, '%B %Y')
             stop_date_string = snapshot_dict['comboBox_times_query_stop_month'] + ' ' + str(snapshot_dict['comboBox_times_query_stop_year'])
             stop_date = datetime.datetime.strptime(stop_date_string, '%B %Y')
@@ -94,24 +102,73 @@ class Times:
 
             stop_date = datetime.datetime(year=stop_date_year, month=stop_date_month, day=1, hour=0, minute=0, second=0)
 
-            # print(type(start_date), type(stop_date))
-            print(start_date_string, start_date, stop_date_string, stop_date)
-            print(self.times_df['Date'])
             valid_row_indices = (start_date <= self.times_df['Date']) & (self.times_df['Date'] < stop_date)
             self.query_result_df = self.times_df.loc[valid_row_indices]
-            print(self.query_result_df)
-            print(len(self.query_result_df))
+            self.signals.display_times_query_df_in_tableview_signal.emit(self.query_result_df)
 
         except:
             type, value, tb = sys.exc_info()
             traceback.print_tb(tb)
 
-
-
-
-
     def query_client_only(self, snapshot_dict):
-        pass
+        try:
+            client = snapshot_dict['comboBox_times_query_client']
+
+            valid_row_indices = self.times_df['Client'] == client
+            self.query_result_df = self.times_df.loc[valid_row_indices]
+            self.signals.display_times_query_df_in_tableview_signal.emit(self.query_result_df)
+        except:
+            type, value, tb = sys.exc_info()
+            traceback.print_tb(tb)
 
     def query_dates_and_client(self, snapshot_dict):
-        pass
+        try:
+            start_date_string = snapshot_dict['comboBox_times_query_start_month'] + ' ' + str(
+                snapshot_dict['comboBox_times_query_start_year'])
+            start_date = datetime.datetime.strptime(start_date_string, '%B %Y')
+            stop_date_string = snapshot_dict['comboBox_times_query_stop_month'] + ' ' + str(
+                snapshot_dict['comboBox_times_query_stop_year'])
+            stop_date = datetime.datetime.strptime(stop_date_string, '%B %Y')
+
+            stop_date_month = stop_date.month
+            stop_date_year = stop_date.year
+            if stop_date_month == 12:
+                stop_date_month = 1
+                stop_date_year = stop_date_year + 1
+            else:
+                stop_date_month = stop_date_month + 1
+
+            stop_date = datetime.datetime(year=stop_date_year, month=stop_date_month, day=1, hour=0, minute=0, second=0)
+
+            client = snapshot_dict['comboBox_times_query_client']
+
+            valid_row_indices = (start_date <= self.times_df['Date']) & (self.times_df['Date'] < stop_date) & (self.times_df['Client'] == client)
+            self.query_result_df = self.times_df.loc[valid_row_indices]
+            self.signals.display_times_query_df_in_tableview_signal.emit(self.query_result_df)
+
+        except:
+            type, value, tb = sys.exc_info()
+            traceback.print_tb(tb)
+
+    def sort_by_date_only(self):
+        self.sort_method = 'by_date_only'
+        if self.query_result_df is not None:
+            self.query_result_df = self.query_result_df.sort_values(by=['Date'])
+            self.signals.display_times_query_df_in_tableview_signal.emit(self.query_result_df)
+
+    def sort_by_client_first(self):
+        self.sort_method = 'by_client_first'
+        if self.query_result_df is not None:
+            self.query_result_df = self.query_result_df.sort_values(by=['Client', 'Date'])
+            self.signals.display_times_query_df_in_tableview_signal.emit(self.query_result_df)
+
+    @toolbox.print_when_called_and_return_exception_inside_thread
+    def sort_by_month_then_by_client(self):
+        self.sort_method = 'by_month_then_by_client'
+
+        if self.query_result_df is not None:
+            self.query_result_df['Month'] = self.query_result_df['Date'].month
+            self.query_result_df = self.query_result_df.sort_values(by=['Month', 'Client'])
+            self.query_result_df = self.query_result_df.drop(labels='Month', axis='columns')
+            self.signals.display_times_query_df_in_tableview_signal.emit(self.query_result_df)
+
