@@ -17,10 +17,10 @@ class Signals(QtCore.QObject):
 
 
 class ASAPApplication(QtWidgets.QMainWindow):
-    DATE_FORMAT = "%d-%m-%Y"
     def __init__(self, params):
         super().__init__()
         self.params = params
+        self.DATE_FORMAT = params.DATE_FORMAT
         self._initialize_user_interface()
         self.signals = Signals()
         self._initialize_background_execution_thread()
@@ -187,6 +187,8 @@ class Widgets:
                 self._widget_dict[widget_name] = PushbuttonWidget(qt_widget)
             elif 'comboBox' in widget_name:
                 self._widget_dict[widget_name] = ComboboxWidget(qt_widget)
+            elif widget_name == 'lineEdit_times_date':
+                self._widget_dict[widget_name] = LineeditTimesDateWidget(qt_widget, date_format=DATE_FORMAT)
             elif 'lineEdit' in widget_name:
                 self._widget_dict[widget_name] = LineeditWidget(qt_widget)
             elif 'info_label' in widget_name:
@@ -217,9 +219,9 @@ class Widgets:
         widget.add_values(value_list)
 
     def get_times_date_as_object(self):
-        date_string = self.get_widget_value('lineEdit_times_date')
-        date_object = datetime.datetime.strptime(date_string, self.DATE_FORMAT)
-        return date_object
+        date = self.get_widget_value('lineEdit_times_date')
+        # date_object = datetime.datetime.strptime(date_string, self.DATE_FORMAT)
+        return date
 
 
 
@@ -247,6 +249,20 @@ class ComboboxWidget(Widget):
     def add_values(self, value_list):
         for value in value_list:
             self.qt_widget.addItem(str(value), value)
+
+class LineeditTimesDateWidget(Widget):
+    def __init__(self, *args, date_format=None):
+        super().__init__(*args)
+        self.date_format = date_format
+
+    def get_value(self):
+        text = self.qt_widget.text()
+        print(type(text))
+        value = datetime.datetime.strptime(text, self.date_format)
+        return value
+
+    def set_value(self, value):
+        return self.qt_widget.setText(str(value))
 
 
 class LineeditWidget(Widget):

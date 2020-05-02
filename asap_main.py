@@ -8,6 +8,7 @@ from modules.applications import asap_application
 
 
 class Parameters:
+    DATE_FORMAT = "%d-%m-%Y"
     def __init__(self):
         self._get_input_file_constants()
         self._get_times_info_structure()

@@ -49,6 +49,7 @@ class Times:
     def __init__(self, signals, params):
         self.signals = signals
         self.params = params
+        self.DATE_FORMAT = params.DATE_FORMAT
         self._load_input_file()
         self.query_result_df = None
 
@@ -64,8 +65,9 @@ class Times:
             column_list = ['UID'] + self.params.times_info_structure_df['info_name'].tolist()
             self.times_df = pd.DataFrame(columns=column_list)
 
-        self.times_df['Date'] = pd.to_datetime(self.times_df['Date'])
+        self.times_df['Date'] = pd.to_datetime(self.times_df['Date'], format=self.DATE_FORMAT)
 
+    @toolbox.print_when_called_and_return_exception_inside_thread
     def add_dict_to_file(self, widget_value_dict):
         dict_to_be_added = dict()
         for row in self.params.get_times_info_structure_df_itertuples():
@@ -75,16 +77,24 @@ class Times:
 
         dict_to_be_added['UID'] = self._generate_UID(dict_to_be_added)
 
+        print(widget_value_dict)
+        print('before', self.times_df)
         self.times_df = self.times_df.append(dict_to_be_added, ignore_index=True)
+        print('after', self.times_df)
         df_to_be_added = pd.DataFrame([dict_to_be_added], columns=self.times_df.columns)
         use_header = not os.path.exists(self.times_filename)
-        df_to_be_added.to_csv(self.times_filename, sep='\t', mode='a', index=False, header=use_header)
+        df_to_be_added.to_csv(self.times_filename, sep='\t', mode='a', index=False, header=use_header, date_format=self.DATE_FORMAT)
 
     def _generate_UID(self, dict_to_be_added):
-        list_of_info_in_UID = [dict_to_be_added[key] for key in ['Client', 'Date', 'Start time']]
+        client = dict_to_be_added['Client']
+        date = dict_to_be_added['Date']
+        date_string = date.strftime(self.DATE_FORMAT)
+        start_time = dict_to_be_added['Start time']
+        list_of_info_in_UID = [client, date_string, start_time]
         UID = '_'.join(list_of_info_in_UID)
         return UID
 
+    @toolbox.print_when_called_and_return_exception_inside_thread
     def query_dates_only(self, snapshot_dict):
         try:
             start_date_string = snapshot_dict['comboBox_times_query_start_month'] + ' ' + str(snapshot_dict['comboBox_times_query_start_year'])
@@ -102,8 +112,12 @@ class Times:
 
             stop_date = datetime.datetime(year=stop_date_year, month=stop_date_month, day=1, hour=0, minute=0, second=0)
 
+            print(self.times_df['Date'], self.times_df['Date'].dtype)
+
             valid_row_indices = (start_date <= self.times_df['Date']) & (self.times_df['Date'] < stop_date)
-            self.query_result_df = self.times_df.loc[valid_row_indices]
+            times_df_copy = self.times_df.copy()
+            times_df_copy['Date'] = times_df_copy['Date'].dt.strftime(self.DATE_FORMAT)
+            self.query_result_df = times_df_copy.loc[valid_row_indices]
             self.signals.display_times_query_df_in_tableview_signal.emit(self.query_result_df)
 
         except:
@@ -115,7 +129,12 @@ class Times:
             client = snapshot_dict['comboBox_times_query_client']
 
             valid_row_indices = self.times_df['Client'] == client
-            self.query_result_df = self.times_df.loc[valid_row_indices]
+
+            # self.query_result_df = self.times_df.loc[valid_row_indices]
+            # self.query_result_df.loc[:, 'Date'] = self.query_result_df['Date'].dt.strftime(self.DATE_FORMAT)
+            times_df_copy = self.times_df.copy()
+            times_df_copy['Date'] = times_df_copy['Date'].dt.strftime(self.DATE_FORMAT)
+            self.query_result_df = times_df_copy.loc[valid_row_indices]
             self.signals.display_times_query_df_in_tableview_signal.emit(self.query_result_df)
         except:
             type, value, tb = sys.exc_info()
@@ -143,7 +162,11 @@ class Times:
             client = snapshot_dict['comboBox_times_query_client']
 
             valid_row_indices = (start_date <= self.times_df['Date']) & (self.times_df['Date'] < stop_date) & (self.times_df['Client'] == client)
-            self.query_result_df = self.times_df.loc[valid_row_indices]
+            # self.query_result_df = self.times_df.loc[valid_row_indices]
+            # self.query_result_df.loc[:, 'Date'] = self.query_result_df['Date'].dt.strftime(self.DATE_FORMAT)
+            times_df_copy = self.times_df.copy()
+            times_df_copy['Date'] = times_df_copy['Date'].dt.strftime(self.DATE_FORMAT)
+            self.query_result_df = times_df_copy.loc[valid_row_indices]
             self.signals.display_times_query_df_in_tableview_signal.emit(self.query_result_df)
 
         except:
@@ -167,7 +190,8 @@ class Times:
         self.sort_method = 'by_month_then_by_client'
 
         if self.query_result_df is not None:
-            self.query_result_df['Month'] = self.query_result_df['Date'].month
+            date_series = self.query_result_df['Date']
+            self.query_result_df['Month'] = [date.month for date in date_series]
             self.query_result_df = self.query_result_df.sort_values(by=['Month', 'Client'])
             self.query_result_df = self.query_result_df.drop(labels='Month', axis='columns')
             self.signals.display_times_query_df_in_tableview_signal.emit(self.query_result_df)
