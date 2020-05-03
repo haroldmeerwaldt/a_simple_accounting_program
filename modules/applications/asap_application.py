@@ -11,6 +11,7 @@ class Signals(QtCore.QObject):
     pushbutton_times_query_clicked_signal = QtCore.Signal(str, dict)
     radiobutton_times_sort_clicked_signal = QtCore.Signal(str)
     display_times_query_df_in_tableview_signal = QtCore.Signal(pd.DataFrame)
+    pushbutton_times_export_query_results_clicked_signal = QtCore.Signal()
     def __init__(self):
         super().__init__()
 
@@ -97,19 +98,23 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui.radioButton_times_sort_by_client_first.clicked.connect(self._on_radiobutton_times_sort_clicked)
         self.ui.radioButton_times_sort_by_month_then_by_client.clicked.connect(self._on_radiobutton_times_sort_clicked)
 
+        self.ui.pushButton_times_export_query_results.clicked.connect(self._on_pushButton_times_export_query_results_clicked)
+
+
+
     def _connect_signals_to_slots(self):
         self.signals.pushbutton_add_working_day_clicked_signal.connect(self.background_execution.pushbutton_add_working_day_clicked_slot)
         self.signals.pushbutton_times_query_clicked_signal.connect(self.background_execution.pushbutton_times_query_clicked_slot)
         self.signals.radiobutton_times_sort_clicked_signal.connect(self.background_execution.radiobutton_times_sort_clicked_slot)
         self.signals.display_times_query_df_in_tableview_signal.connect(self.display_times_query_df_in_tableview_slot)
-
+        self.signals.pushbutton_times_export_query_results_clicked_signal.connect(self.background_execution.pushButton_times_export_query_results_clicked_slot)
 
 
     def _on_pushbutton_add_working_day_clicked(self):
         relevant_widget_name_list = ['comboBox_times_client', 'lineEdit_times_date', 'info_label_day_of_week',
                                      'comboBox_times_start_time', 'comboBox_times_stop_time', 'info_label_times_hours']
-        add_working_day_snapshot_dict = self.widgets.get_snapshot_dict(relevant_widget_name_list)
-        self.signals.pushbutton_add_working_day_clicked_signal.emit(add_working_day_snapshot_dict)
+        add_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
+        self.signals.pushbutton_add_working_day_clicked_signal.emit(add_working_day_widget_value_dict)
 
     def _on_pushbutton_fill_in_today_clicked(self):
         today = datetime.date.today()
@@ -160,8 +165,8 @@ class ASAPApplication(QtWidgets.QMainWindow):
         relevant_widget_name_list = ['comboBox_times_query_start_month', 'comboBox_times_query_start_year',
                                      'comboBox_times_query_stop_month', 'comboBox_times_query_stop_year',
                                      'comboBox_times_query_client']
-        times_query_snapshot_dict = self.widgets.get_snapshot_dict(relevant_widget_name_list)
-        self.signals.pushbutton_times_query_clicked_signal.emit(pushbutton_name, times_query_snapshot_dict)
+        times_query_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
+        self.signals.pushbutton_times_query_clicked_signal.emit(pushbutton_name, times_query_widget_value_dict)
 
     def display_times_query_df_in_tableview_slot(self, times_query_df):
         model = toolbox.PandasModel(times_query_df)
@@ -170,6 +175,9 @@ class ASAPApplication(QtWidgets.QMainWindow):
     def _on_radiobutton_times_sort_clicked(self):
         radiobutton_name = self.sender().objectName()
         self.signals.radiobutton_times_sort_clicked_signal.emit(radiobutton_name)
+
+    def _on_pushButton_times_export_query_results_clicked(self):
+        self.signals.pushbutton_times_export_query_results_clicked_signal.emit()
 
 
     def closeEvent(self, event):
@@ -196,12 +204,12 @@ class Widgets:
             elif 'radioButton' in widget_name:
                 self._widget_dict[widget_name] = RadiobuttonWidget(qt_widget)
 
-    def get_snapshot_dict(self, widget_name_list):
-        snapshot_dict = dict()
+    def get_widget_value_dict(self, widget_name_list):
+        widget_value_dict = dict()
         for widget_name in widget_name_list:
-            snapshot_dict[widget_name] = self._widget_dict[widget_name].get_value()
+            widget_value_dict[widget_name] = self._widget_dict[widget_name].get_value()
 
-        return snapshot_dict
+        return widget_value_dict
 
     def get_widget(self, widget_name):
         return self._widget_dict[widget_name]

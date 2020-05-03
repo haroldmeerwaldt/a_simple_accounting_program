@@ -10,9 +10,15 @@ from modules.applications import asap_application
 class Parameters:
     DATE_FORMAT = "%d-%m-%Y"
     def __init__(self):
+        self._generate_user_directory()
         self._get_input_file_constants()
         self._get_times_info_structure()
+        self._get_times_data_file()
 
+    def _generate_user_directory(self):
+        self.user_directory = os.path.expanduser('~/ASAP')
+        if not os.path.exists(self.user_directory):
+            os.makedirs(self.user_directory)
 
     def _get_input_file_constants(self):
         current_directory = os.path.dirname(os.path.realpath(__file__))
@@ -28,6 +34,9 @@ class Parameters:
 
     def _get_times_info_structure(self):
         self.times_info_structure_df = pd.read_csv(self.times_info_structure_path, sep='\t')
+
+    def _get_times_data_file(self):
+        self.times_filename = os.path.join(self.user_directory, 'times.tsv')
 
     def get_times_info_structure_df_itertuples(self):
         return self.times_info_structure_df.itertuples()
