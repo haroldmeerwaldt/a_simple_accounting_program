@@ -5,6 +5,8 @@ from modules.worker_thread import background_execution
 import pandas as pd
 import os
 import datetime
+import sys
+import traceback
 
 class Signals(QtCore.QObject):
     pushbutton_add_working_day_clicked_signal = QtCore.Signal(dict)
@@ -33,6 +35,7 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui = asap_layout.Ui_MainWindow()
         self.ui.setupUi(self)
         print(vars(self.ui))
+        self.ui.tableView_times_query.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 
 
 
@@ -100,7 +103,7 @@ class ASAPApplication(QtWidgets.QMainWindow):
 
         self.ui.pushButton_times_export_query_results.clicked.connect(self._on_pushButton_times_export_query_results_clicked)
 
-
+        self.ui.tableView_times_query.clicked.connect(self._on_tableview_times_query_clicked)
 
     def _connect_signals_to_slots(self):
         self.signals.pushbutton_add_working_day_clicked_signal.connect(self.background_execution.pushbutton_add_working_day_clicked_slot)
@@ -157,8 +160,8 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.widgets.set_widget_value('info_label_times_hours', number_of_hours)
 
     def _on_pushbutton_clear_fields_clicked(self):
-        self.widgets.set_widget_value('lineEdit_times_date', '')
-        self.widgets.set_widget_value('info_label_day_of_week', '')
+        widget_value_dict = {'lineEdit_times_date': '', 'info_label_day_of_week': ''}
+        self.widgets.set_widget_values_using_dict(widget_value_dict)
 
     def _on_pushbutton_times_query_clicked(self):
         pushbutton_name = self.sender().objectName()
@@ -169,8 +172,7 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.signals.pushbutton_times_query_clicked_signal.emit(pushbutton_name, times_query_widget_value_dict)
 
     def display_times_query_df_in_tableview_slot(self, times_query_df):
-        model = toolbox.PandasModel(times_query_df)
-        self.ui.tableView_times_query.setModel(model)
+        self.widgets.set_widget_value('tableView_times_query', times_query_df)
 
     def _on_radiobutton_times_sort_clicked(self):
         radiobutton_name = self.sender().objectName()
@@ -179,6 +181,21 @@ class ASAPApplication(QtWidgets.QMainWindow):
     def _on_pushButton_times_export_query_results_clicked(self):
         self.signals.pushbutton_times_export_query_results_clicked_signal.emit()
 
+    def _on_tableview_times_query_clicked(self):
+        selected_indices = self.ui.tableView_times_query.selectedIndexes()
+        current_row = selected_indices[0].row()
+        tableview_times_query_widget = self.widgets.get_widget('tableView_times_query') # violates Law of Demeter, todo fix it
+        row_dict = tableview_times_query_widget.get_df_row_as_dict(current_row)
+        widget_value_dict = self._generate_widget_value_dict_from_row_dict(row_dict)
+        self.widgets.set_widget_values_using_dict(widget_value_dict)
+
+    def _generate_widget_value_dict_from_row_dict(self, row_dict):
+        widget_value_dict = dict()
+        for row in self.params.get_times_info_structure_df_itertuples():
+            info_name = row.info_name
+            widget_name = row.widget_name
+            widget_value_dict[widget_name] = row_dict[info_name]
+        return widget_value_dict
 
     def closeEvent(self, event):
         self.background_execution_thread.quit()
@@ -203,6 +220,8 @@ class Widgets:
                 self._widget_dict[widget_name] = InfolabelWidget(qt_widget)
             elif 'radioButton' in widget_name:
                 self._widget_dict[widget_name] = RadiobuttonWidget(qt_widget)
+            elif 'tableView' in widget_name:
+                self._widget_dict[widget_name] = TableviewWidget(qt_widget)
 
     def get_widget_value_dict(self, widget_name_list):
         widget_value_dict = dict()
@@ -210,6 +229,10 @@ class Widgets:
             widget_value_dict[widget_name] = self._widget_dict[widget_name].get_value()
 
         return widget_value_dict
+
+    def set_widget_values_using_dict(self, widget_value_dict):
+        for widget_name, value in widget_value_dict.items():
+            self.set_widget_value(widget_name, value)
 
     def get_widget(self, widget_name):
         return self._widget_dict[widget_name]
@@ -265,7 +288,6 @@ class LineeditTimesDateWidget(Widget):
 
     def get_value(self):
         text = self.qt_widget.text()
-        print(type(text))
         value = datetime.datetime.strptime(text, self.date_format)
         return value
 
@@ -305,6 +327,26 @@ class RadiobuttonWidget(Widget):
 
     def set_value(self, value):
         return self.qt_widget.setChecked(value)
+
+class TableviewWidget(Widget):
+    def __init__(self, *args):
+        super().__init__(*args)
+
+    def set_value(self, value_df):
+        self._value_df = value_df
+        model = toolbox.PandasModel(value_df)
+        self.qt_widget.setModel(model)
+
+    def get_value(self):
+        return self._value_df
+
+    def get_df_row_as_dict(self, row_number):
+        row_series = self._value_df.iloc[row_number, :]
+        row_dict = row_series.to_dict()
+        return row_dict
+
+
+
 
 
 class SimpleTime:
