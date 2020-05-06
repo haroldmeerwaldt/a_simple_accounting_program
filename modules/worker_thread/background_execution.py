@@ -26,6 +26,10 @@ class BackgroundExecution(QtCore.QObject):
     def pushbutton_add_working_day_clicked_slot(self, widget_value_dict):
         self.times.add_working_day_from_dict(widget_value_dict)
 
+    def pushbutton_times_overwrite_clicked_slot(self, widget_value_dict, UID):
+        print('in slot')
+        self.times.overwrite_working_day_from_dict(widget_value_dict, UID)
+
 
     def pushbutton_times_query_clicked_slot(self, pushbutton_name, widget_value_dict):
         if pushbutton_name == 'pushButton_times_query_dates_only':
@@ -46,7 +50,7 @@ class BackgroundExecution(QtCore.QObject):
             self.times_query.sort_query_result_by_month_then_by_client()
         self.times_query.display_query_result_in_tableview()
 
-    def pushButton_times_export_query_results_clicked_slot(self):
+    def pushbutton_times_export_query_results_clicked_slot(self):
         self.times_query.export_query_result()
 
 
@@ -102,6 +106,22 @@ class Times:
         df_to_be_added = pd.DataFrame([dict_to_be_added], columns=self.times_df.columns)
         use_header = not os.path.exists(self.times_filename)
         df_to_be_added.to_csv(self.times_filename, sep='\t', mode='a', index=False, header=use_header, date_format=self.DATE_FORMAT)
+
+    @toolbox.print_when_called_and_return_exception_inside_thread
+    def overwrite_working_day_from_dict(self, widget_value_dict, UID_of_dropped_row):
+        dict_to_be_overwritten_with = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
+        dict_to_be_overwritten_with['UID'] = self._generate_UID(dict_to_be_overwritten_with)
+        # df_to_be_overwritten_with = pd.DataFrame([dict_to_be_added], columns=self.times_df.columns)
+        # df_to_be_overwritten_with = df_to_be_overwritten_with.set_index('UID')
+        self.times_df = self.times_df.set_index('UID')
+        self.times_df = self.times_df.drop(index=UID_of_dropped_row)
+        self.times_df = self.times_df.reset_index().rename(columns={'index': 'UID'})
+        self.times_df = self.times_df.append(dict_to_be_overwritten_with, ignore_index=True)
+        print(self.times_df)
+        self.times_df.to_csv(self.times_filename, sep='\t', index=False, date_format=self.DATE_FORMAT)
+
+        # self._add_working_day_in_memory(dict_to_be_added)
+        # self._add_working_day_to_file(dict_to_be_added)
 
 
 class TimesQuery:

@@ -14,6 +14,7 @@ class Signals(QtCore.QObject):
     radiobutton_times_sort_clicked_signal = QtCore.Signal(str)
     display_times_query_df_in_tableview_signal = QtCore.Signal(pd.DataFrame)
     pushbutton_times_export_query_results_clicked_signal = QtCore.Signal()
+    pushbutton_times_overwrite_clicked_signal = QtCore.Signal(dict, str)
     def __init__(self):
         super().__init__()
 
@@ -105,19 +106,25 @@ class ASAPApplication(QtWidgets.QMainWindow):
 
         self.ui.tableView_times_query.clicked.connect(self._on_tableview_times_query_clicked)
 
+        self.ui.pushButton_times_overwrite.clicked.connect(self._on_pushbutton_times_overwrite_clicked)
+
     def _connect_signals_to_slots(self):
         self.signals.pushbutton_add_working_day_clicked_signal.connect(self.background_execution.pushbutton_add_working_day_clicked_slot)
         self.signals.pushbutton_times_query_clicked_signal.connect(self.background_execution.pushbutton_times_query_clicked_slot)
         self.signals.radiobutton_times_sort_clicked_signal.connect(self.background_execution.radiobutton_times_sort_clicked_slot)
         self.signals.display_times_query_df_in_tableview_signal.connect(self.display_times_query_df_in_tableview_slot)
-        self.signals.pushbutton_times_export_query_results_clicked_signal.connect(self.background_execution.pushButton_times_export_query_results_clicked_slot)
+        self.signals.pushbutton_times_export_query_results_clicked_signal.connect(self.background_execution.pushbutton_times_export_query_results_clicked_slot)
+        self.signals.pushbutton_times_overwrite_clicked_signal.connect(self.background_execution.pushbutton_times_overwrite_clicked_slot)
 
 
     def _on_pushbutton_add_working_day_clicked(self):
         relevant_widget_name_list = ['comboBox_times_client', 'lineEdit_times_date', 'info_label_day_of_week',
                                      'comboBox_times_start_time', 'comboBox_times_stop_time', 'info_label_times_hours']
-        add_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
-        self.signals.pushbutton_add_working_day_clicked_signal.emit(add_working_day_widget_value_dict)
+        try:
+            add_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
+            self.signals.pushbutton_add_working_day_clicked_signal.emit(add_working_day_widget_value_dict)
+        except ValueError:
+            print('Date was provided in an invalid format. It should be DD-MM-YYYY')
 
     def _on_pushbutton_fill_in_today_clicked(self):
         today = datetime.date.today()
@@ -160,7 +167,7 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.widgets.set_widget_value('info_label_times_hours', number_of_hours)
 
     def _on_pushbutton_clear_fields_clicked(self):
-        widget_value_dict = {'lineEdit_times_date': '', 'info_label_day_of_week': ''}
+        widget_value_dict = {'lineEdit_times_date': '', 'info_label_day_of_week': '', 'comboBox_times_start_time': '08:00', 'comboBox_times_stop_time': '17:00'}
         self.widgets.set_widget_values_using_dict(widget_value_dict)
 
     def _on_pushbutton_times_query_clicked(self):
@@ -182,12 +189,16 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.signals.pushbutton_times_export_query_results_clicked_signal.emit()
 
     def _on_tableview_times_query_clicked(self):
-        selected_indices = self.ui.tableView_times_query.selectedIndexes()
-        current_row = selected_indices[0].row()
+        current_row = self._get_current_row_of_tableview_times_query()
         tableview_times_query_widget = self.widgets.get_widget('tableView_times_query') # violates Law of Demeter, todo fix it
         row_dict = tableview_times_query_widget.get_df_row_as_dict(current_row)
         widget_value_dict = self._generate_widget_value_dict_from_row_dict(row_dict)
         self.widgets.set_widget_values_using_dict(widget_value_dict)
+
+    def _get_current_row_of_tableview_times_query(self):
+        selected_indices = self.ui.tableView_times_query.selectedIndexes()
+        current_row = selected_indices[0].row()
+        return current_row
 
     def _generate_widget_value_dict_from_row_dict(self, row_dict):
         widget_value_dict = dict()
@@ -196,6 +207,20 @@ class ASAPApplication(QtWidgets.QMainWindow):
             widget_name = row.widget_name
             widget_value_dict[widget_name] = row_dict[info_name]
         return widget_value_dict
+
+    def _on_pushbutton_times_overwrite_clicked(self):
+        current_row = self._get_current_row_of_tableview_times_query()
+        tableview_times_query_widget = self.widgets.get_widget('tableView_times_query') # violates Law of Demeter, todo fix it
+        row_dict = tableview_times_query_widget.get_df_row_as_dict(current_row)
+        UID = row_dict['UID']
+        relevant_widget_name_list = ['comboBox_times_client', 'lineEdit_times_date', 'info_label_day_of_week',
+                                     'comboBox_times_start_time', 'comboBox_times_stop_time', 'info_label_times_hours']
+        try:
+            overwrite_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
+            self.signals.pushbutton_times_overwrite_clicked_signal.emit(overwrite_working_day_widget_value_dict, UID)
+        except ValueError:
+            print('Date was provided in an invalid format. It should be DD-MM-YYYY')
+
 
     def closeEvent(self, event):
         self.background_execution_thread.quit()
@@ -399,6 +424,7 @@ class SimpleTime:
         delta_minutes = self.minutes - other.minutes
         if delta_minutes < 0:
             delta_minutes = delta_minutes + 60
+            delta_hours = delta_hours - 1
 
         return SimpleTime(hours=delta_hours, minutes=delta_minutes)
 
