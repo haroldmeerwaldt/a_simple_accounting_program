@@ -18,26 +18,28 @@ class BackgroundExecution(QtCore.QObject):
         self.times = Times(self.signals, self.params)
         self.times_query = TimesQuery(self.signals, self.params, self.times)
 
-
-    # @toolbox.print_when_called_and_return_exception_inside_thread
-    def pushbutton_clicked_slot(self, pushbutton_name, widget_value_dict):
-        print('testing', pushbutton_name, widget_value_dict)
-
     def pushbutton_add_working_day_clicked_slot(self, widget_value_dict):
         self.times.add_working_day_from_dict(widget_value_dict)
 
-    def pushbutton_times_overwrite_clicked_slot(self, widget_value_dict, UID):
-        print('in slot')
-        self.times.overwrite_working_day_from_dict(widget_value_dict, UID)
+    def pushbutton_times_overwrite_clicked_slot(self, widget_value_dict, UID_to_be_overwritten):
+        self.times.overwrite_working_day_from_dict(widget_value_dict, UID_to_be_overwritten)
 
+    def pushbutton_times_delete_clicked_slot(self, UID_to_be_removed):
+        self.times.delete_working_day(UID_to_be_removed)
 
-    def pushbutton_times_query_clicked_slot(self, pushbutton_name, widget_value_dict):
-        if pushbutton_name == 'pushButton_times_query_dates_only':
-            self.times_query.query_dates_only(widget_value_dict)
-        elif pushbutton_name == 'pushButton_times_query_client_only':
-            self.times_query.query_client_only(widget_value_dict)
-        elif pushbutton_name == 'pushButton_times_query_dates_and_client':
-            self.times_query.query_dates_and_client(widget_value_dict)
+    def radiobutton_times_query_clicked_slot(self, radiobutton_name, widget_value_dict):
+        if radiobutton_name == 'radioButton_times_query_dates_only':
+            self.times_query.set_query_selection('dates_only')
+        elif radiobutton_name == 'radioButton_times_query_client_only':
+            self.times_query.set_query_selection('client_only')
+        elif radiobutton_name == 'radioButton_times_query_dates_and_client':
+            self.times_query.set_query_selection('dates_and_client')
+
+        if self.times_query.query_has_been_run_before():
+            self.pushbutton_times_run_query_clicked_slot(widget_value_dict)
+
+    def pushbutton_times_run_query_clicked_slot(self, widget_value_dict):
+        self.times_query.run_query(widget_value_dict)
         self.times_query.sort_query_result()
         self.times_query.display_query_result_in_tableview()
 
@@ -48,11 +50,11 @@ class BackgroundExecution(QtCore.QObject):
             self.times_query.sort_query_result_by_client_first()
         elif radiobutton_name == 'radioButton_times_sort_by_month_then_by_client':
             self.times_query.sort_query_result_by_month_then_by_client()
+
         self.times_query.display_query_result_in_tableview()
 
     def pushbutton_times_export_query_results_clicked_slot(self):
         self.times_query.export_query_result()
-
 
 
 class Times:
@@ -109,19 +111,26 @@ class Times:
 
     @toolbox.print_when_called_and_return_exception_inside_thread
     def overwrite_working_day_from_dict(self, widget_value_dict, UID_of_dropped_row):
+        self._drop_rows_from_times_df_based_on_UID(UID_of_dropped_row)
+        self._append_row_to_times_df_using_widget_value_dict(widget_value_dict)
+        self._save_times_df_to_tsv_file()
+
+    def _append_row_to_times_df_using_widget_value_dict(self, widget_value_dict):
         dict_to_be_overwritten_with = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
         dict_to_be_overwritten_with['UID'] = self._generate_UID(dict_to_be_overwritten_with)
-        # df_to_be_overwritten_with = pd.DataFrame([dict_to_be_added], columns=self.times_df.columns)
-        # df_to_be_overwritten_with = df_to_be_overwritten_with.set_index('UID')
+        self.times_df = self.times_df.append(dict_to_be_overwritten_with, ignore_index=True)
+
+    def delete_working_day(self, UID_of_dropped_row):
+        self._drop_rows_from_times_df_based_on_UID(UID_of_dropped_row)
+        self._save_times_df_to_tsv_file()
+
+    def _drop_rows_from_times_df_based_on_UID(self, UID_of_dropped_row):
         self.times_df = self.times_df.set_index('UID')
         self.times_df = self.times_df.drop(index=UID_of_dropped_row)
         self.times_df = self.times_df.reset_index().rename(columns={'index': 'UID'})
-        self.times_df = self.times_df.append(dict_to_be_overwritten_with, ignore_index=True)
-        print(self.times_df)
-        self.times_df.to_csv(self.times_filename, sep='\t', index=False, date_format=self.DATE_FORMAT)
 
-        # self._add_working_day_in_memory(dict_to_be_added)
-        # self._add_working_day_to_file(dict_to_be_added)
+    def _save_times_df_to_tsv_file(self):
+        self.times_df.to_csv(self.times_filename, sep='\t', index=False, date_format=self.DATE_FORMAT)
 
 
 class TimesQuery:
@@ -131,9 +140,26 @@ class TimesQuery:
         self.times = times
         self.DATE_FORMAT = params.DATE_FORMAT
         self.query_result_df = None
+        self.query_selection = 'dates_only'
         self.query_sort_method = 'by_date_only'
 
-    @toolbox.print_when_called_and_return_exception_inside_thread
+    def set_query_selection(self, query_selection):
+        self.query_selection = query_selection
+
+    def _is_query_selection(self, query_selection):
+        return self.query_selection == query_selection
+
+    def query_has_been_run_before(self):
+        return self.query_result_df is not None
+
+    def run_query(self, widget_value_dict):
+        if self._is_query_selection('dates_only'):
+            self.query_dates_only(widget_value_dict)
+        elif self._is_query_selection('client_only'):
+            self.query_client_only(widget_value_dict)
+        elif self._is_query_selection('dates_and_client'):
+            self.query_dates_and_client(widget_value_dict)
+
     def query_dates_only(self, snapshot_dict):
         start_date, stop_date = self._extract_start_and_stop_date_from_snapshot_dict(snapshot_dict)
         times_df = self.times.get_times_df()

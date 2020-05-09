@@ -10,11 +10,13 @@ import traceback
 
 class Signals(QtCore.QObject):
     pushbutton_add_working_day_clicked_signal = QtCore.Signal(dict)
-    pushbutton_times_query_clicked_signal = QtCore.Signal(str, dict)
+    radiobutton_times_query_clicked_signal = QtCore.Signal(str, dict)
+    pushbutton_times_run_query_clicked_signal = QtCore.Signal(dict)
     radiobutton_times_sort_clicked_signal = QtCore.Signal(str)
     display_times_query_df_in_tableview_signal = QtCore.Signal(pd.DataFrame)
     pushbutton_times_export_query_results_clicked_signal = QtCore.Signal()
     pushbutton_times_overwrite_clicked_signal = QtCore.Signal(dict, str)
+    pushbutton_times_delete_clicked_signal = QtCore.Signal(str)
     def __init__(self):
         super().__init__()
 
@@ -76,6 +78,7 @@ class ASAPApplication(QtWidgets.QMainWindow):
 
     def _initialize_radiobuttons(self):
         self.widgets.set_widget_value('radioButton_times_sort_by_date_only', True)
+        self.widgets.set_widget_value('radioButton_times_query_dates_only', True)
 
 
 
@@ -94,9 +97,16 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui.comboBox_times_stop_time.currentIndexChanged.connect(self._update_difference_between_start_and_stop_time)
         self.ui.pushButton_times_clear_fields.clicked.connect(self._on_pushbutton_clear_fields_clicked)
 
-        self.ui.pushButton_times_query_dates_only.clicked.connect(self._on_pushbutton_times_query_clicked)
-        self.ui.pushButton_times_query_client_only.clicked.connect(self._on_pushbutton_times_query_clicked)
-        self.ui.pushButton_times_query_dates_and_client.clicked.connect(self._on_pushbutton_times_query_clicked)
+        # self.ui.pushButton_times_query_dates_only.clicked.connect(self._on_pushbutton_times_query_clicked)
+        # self.ui.pushButton_times_query_client_only.clicked.connect(self._on_pushbutton_times_query_clicked)
+        # self.ui.pushButton_times_query_dates_and_client.clicked.connect(self._on_pushbutton_times_query_clicked)
+
+        self.ui.pushButton_times_run_query.clicked.connect(self._on_pushbutton_times_run_query_clicked)
+
+        self.ui.radioButton_times_query_dates_only.clicked.connect(self._on_radiobutton_times_query_clicked)
+        self.ui.radioButton_times_query_client_only.clicked.connect(self._on_radiobutton_times_query_clicked)
+        self.ui.radioButton_times_query_dates_and_client.clicked.connect(self._on_radiobutton_times_query_clicked)
+
 
         self.ui.radioButton_times_sort_by_date_only.clicked.connect(self._on_radiobutton_times_sort_clicked)
         self.ui.radioButton_times_sort_by_client_first.clicked.connect(self._on_radiobutton_times_sort_clicked)
@@ -107,14 +117,17 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui.tableView_times_query.clicked.connect(self._on_tableview_times_query_clicked)
 
         self.ui.pushButton_times_overwrite.clicked.connect(self._on_pushbutton_times_overwrite_clicked)
+        self.ui.pushButton_times_delete.clicked.connect(self._on_pushbutton_times_delete_clicked)
 
     def _connect_signals_to_slots(self):
         self.signals.pushbutton_add_working_day_clicked_signal.connect(self.background_execution.pushbutton_add_working_day_clicked_slot)
-        self.signals.pushbutton_times_query_clicked_signal.connect(self.background_execution.pushbutton_times_query_clicked_slot)
+        self.signals.radiobutton_times_query_clicked_signal.connect(self.background_execution.radiobutton_times_query_clicked_slot)
+        self.signals.pushbutton_times_run_query_clicked_signal.connect(self.background_execution.pushbutton_times_run_query_clicked_slot)
         self.signals.radiobutton_times_sort_clicked_signal.connect(self.background_execution.radiobutton_times_sort_clicked_slot)
         self.signals.display_times_query_df_in_tableview_signal.connect(self.display_times_query_df_in_tableview_slot)
         self.signals.pushbutton_times_export_query_results_clicked_signal.connect(self.background_execution.pushbutton_times_export_query_results_clicked_slot)
         self.signals.pushbutton_times_overwrite_clicked_signal.connect(self.background_execution.pushbutton_times_overwrite_clicked_slot)
+        self.signals.pushbutton_times_delete_clicked_signal.connect(self.background_execution.pushbutton_times_delete_clicked_slot)
 
 
     def _on_pushbutton_add_working_day_clicked(self):
@@ -170,13 +183,21 @@ class ASAPApplication(QtWidgets.QMainWindow):
         widget_value_dict = {'lineEdit_times_date': '', 'info_label_day_of_week': '', 'comboBox_times_start_time': '08:00', 'comboBox_times_stop_time': '17:00'}
         self.widgets.set_widget_values_using_dict(widget_value_dict)
 
-    def _on_pushbutton_times_query_clicked(self):
-        pushbutton_name = self.sender().objectName()
+    def _on_pushbutton_times_run_query_clicked(self):
+        times_query_widget_value_dict = self._generate_times_query_widget_value_dict()
+        self.signals.pushbutton_times_run_query_clicked_signal.emit(times_query_widget_value_dict)
+
+    def _on_radiobutton_times_query_clicked(self):
+        radiobutton_name = self.sender().objectName()
+        times_query_widget_value_dict = self._generate_times_query_widget_value_dict()
+        self.signals.radiobutton_times_query_clicked_signal.emit(radiobutton_name, times_query_widget_value_dict)
+
+    def _generate_times_query_widget_value_dict(self):
         relevant_widget_name_list = ['comboBox_times_query_start_month', 'comboBox_times_query_start_year',
                                      'comboBox_times_query_stop_month', 'comboBox_times_query_stop_year',
                                      'comboBox_times_query_client']
         times_query_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
-        self.signals.pushbutton_times_query_clicked_signal.emit(pushbutton_name, times_query_widget_value_dict)
+        return times_query_widget_value_dict
 
     def display_times_query_df_in_tableview_slot(self, times_query_df):
         self.widgets.set_widget_value('tableView_times_query', times_query_df)
@@ -212,14 +233,21 @@ class ASAPApplication(QtWidgets.QMainWindow):
         current_row = self._get_current_row_of_tableview_times_query()
         tableview_times_query_widget = self.widgets.get_widget('tableView_times_query') # violates Law of Demeter, todo fix it
         row_dict = tableview_times_query_widget.get_df_row_as_dict(current_row)
-        UID = row_dict['UID']
+        UID_to_be_overwritten = row_dict['UID']
         relevant_widget_name_list = ['comboBox_times_client', 'lineEdit_times_date', 'info_label_day_of_week',
                                      'comboBox_times_start_time', 'comboBox_times_stop_time', 'info_label_times_hours']
         try:
             overwrite_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
-            self.signals.pushbutton_times_overwrite_clicked_signal.emit(overwrite_working_day_widget_value_dict, UID)
+            self.signals.pushbutton_times_overwrite_clicked_signal.emit(overwrite_working_day_widget_value_dict, UID_to_be_overwritten)
         except ValueError:
             print('Date was provided in an invalid format. It should be DD-MM-YYYY')
+
+    def _on_pushbutton_times_delete_clicked(self):
+        current_row = self._get_current_row_of_tableview_times_query()
+        tableview_times_query_widget = self.widgets.get_widget('tableView_times_query') # violates Law of Demeter, todo fix it
+        row_dict = tableview_times_query_widget.get_df_row_as_dict(current_row)
+        UID_to_be_deleted = row_dict['UID']
+        self.signals.pushbutton_times_delete_clicked_signal.emit(UID_to_be_deleted)
 
 
     def closeEvent(self, event):

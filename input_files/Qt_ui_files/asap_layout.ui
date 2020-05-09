@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_times">
      <attribute name="title">
@@ -94,7 +94,7 @@
          <x>70</x>
          <y>20</y>
          <width>160</width>
-         <height>126</height>
+         <height>136</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout">
@@ -153,9 +153,9 @@
       <widget class="QWidget" name="verticalLayoutWidget_2">
        <property name="geometry">
         <rect>
-         <x>370</x>
+         <x>450</x>
          <y>40</y>
-         <width>161</width>
+         <width>186</width>
          <height>80</height>
         </rect>
        </property>
@@ -183,45 +183,66 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="layoutWidget">
+      <widget class="QWidget" name="verticalLayoutWidget_5">
        <property name="geometry">
         <rect>
-         <x>650</x>
-         <y>20</y>
-         <width>119</width>
-         <height>138</height>
+         <x>260</x>
+         <y>40</y>
+         <width>161</width>
+         <height>80</height>
         </rect>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
-         <widget class="QPushButton" name="pushButton_times_query_dates_only">
+         <widget class="QRadioButton" name="radioButton_times_query_dates_only">
           <property name="text">
            <string>Query dates only</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_times_query_client_only">
+         <widget class="QRadioButton" name="radioButton_times_query_client_only">
           <property name="text">
            <string>Query client only</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_times_query_dates_and_client">
+         <widget class="QRadioButton" name="radioButton_times_query_dates_and_client">
           <property name="text">
            <string>Query dates and client</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_times_export_query_results">
-          <property name="text">
-           <string>Export query results</string>
-          </property>
-         </widget>
-        </item>
        </layout>
+      </widget>
+      <widget class="QPushButton" name="pushButton_times_run_query">
+       <property name="geometry">
+        <rect>
+         <x>660</x>
+         <y>40</y>
+         <width>75</width>
+         <height>75</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Run query</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_times_export_query_results">
+       <property name="geometry">
+        <rect>
+         <x>760</x>
+         <y>40</y>
+         <width>75</width>
+         <height>75</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Export 
+query 
+results</string>
+       </property>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_2">
@@ -240,14 +261,15 @@
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>250</y>
+         <y>260</y>
          <width>75</width>
          <height>75</height>
         </rect>
        </property>
        <property name="text">
         <string>Add 
-working day</string>
+working 
+day</string>
        </property>
       </widget>
       <widget class="QWidget" name="formLayoutWidget_2">
@@ -256,7 +278,7 @@ working day</string>
          <x>30</x>
          <y>40</y>
          <width>241</width>
-         <height>196</height>
+         <height>212</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout_2">
@@ -348,7 +370,7 @@ working day</string>
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>250</y>
+         <y>260</y>
          <width>75</width>
          <height>75</height>
         </rect>
@@ -394,7 +416,7 @@ working day</string>
          <x>30</x>
          <y>40</y>
          <width>241</width>
-         <height>196</height>
+         <height>212</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout_3">
@@ -560,7 +582,7 @@ working day</string>
          <x>70</x>
          <y>20</y>
          <width>160</width>
-         <height>126</height>
+         <height>136</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout_4">
@@ -621,7 +643,7 @@ working day</string>
         <rect>
          <x>370</x>
          <y>40</y>
-         <width>161</width>
+         <width>186</width>
          <height>80</height>
         </rect>
        </property>
@@ -654,7 +676,7 @@ working day</string>
         <rect>
          <x>650</x>
          <y>20</y>
-         <width>119</width>
+         <width>138</width>
          <height>138</height>
         </rect>
        </property>
