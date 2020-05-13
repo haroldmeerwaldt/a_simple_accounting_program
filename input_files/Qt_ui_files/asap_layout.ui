@@ -40,7 +40,7 @@
        </rect>
       </property>
       <property name="title">
-       <string>Query</string>
+       <string>Query working days</string>
       </property>
       <widget class="QWidget" name="verticalLayoutWidget">
        <property name="geometry">
@@ -188,29 +188,36 @@
         <rect>
          <x>260</x>
          <y>40</y>
-         <width>161</width>
-         <height>80</height>
+         <width>162</width>
+         <height>88</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_7">
         <item>
          <widget class="QRadioButton" name="radioButton_times_query_dates_only">
           <property name="text">
-           <string>Query dates only</string>
+           <string>Query using dates only</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QRadioButton" name="radioButton_times_query_client_only">
           <property name="text">
-           <string>Query client only</string>
+           <string>Query using client only</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QRadioButton" name="radioButton_times_query_dates_and_client">
           <property name="text">
-           <string>Query dates and client</string>
+           <string>Query using dates and client</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton">
+          <property name="text">
+           <string>Return all</string>
           </property>
          </widget>
         </item>
@@ -251,17 +258,17 @@ results</string>
         <x>20</x>
         <y>20</y>
         <width>311</width>
-        <height>351</height>
+        <height>381</height>
        </rect>
       </property>
       <property name="title">
-       <string>Add</string>
+       <string>Add working days</string>
       </property>
       <widget class="QPushButton" name="pushButton_add_working_day">
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>260</y>
+         <y>290</y>
          <width>75</width>
          <height>75</height>
         </rect>
@@ -278,18 +285,18 @@ day</string>
          <x>30</x>
          <y>40</y>
          <width>241</width>
-         <height>212</height>
+         <height>234</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout_2">
         <item row="0" column="0">
          <widget class="QLabel" name="label_times_client">
           <property name="text">
-           <string>Client</string>
+           <string>Client name</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
+        <item row="2" column="0">
          <widget class="QLabel" name="label_times_date">
           <property name="text">
            <string>Date</string>
@@ -299,68 +306,96 @@ day</string>
         <item row="0" column="1">
          <widget class="QComboBox" name="comboBox_times_client"/>
         </item>
-        <item row="5" column="0">
+        <item row="7" column="0">
          <widget class="QLabel" name="label_times_start_time">
           <property name="text">
            <string>Start time</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="0">
+        <item row="8" column="0">
          <widget class="QLabel" name="label_times_stop_time">
           <property name="text">
            <string>Stop time</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
+        <item row="7" column="1">
          <widget class="QComboBox" name="comboBox_times_start_time"/>
         </item>
-        <item row="6" column="1">
+        <item row="8" column="1">
          <widget class="QComboBox" name="comboBox_times_stop_time"/>
         </item>
-        <item row="1" column="1">
+        <item row="2" column="1">
          <widget class="QLineEdit" name="lineEdit_times_date"/>
         </item>
-        <item row="3" column="1">
+        <item row="4" column="1">
          <widget class="QPushButton" name="pushButton_times_fill_in_today">
           <property name="text">
            <string>Fill in today</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="0">
+        <item row="9" column="0">
          <widget class="QLabel" name="label_times_hours">
           <property name="text">
            <string>Hours</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="1">
+        <item row="9" column="1">
          <widget class="QLabel" name="info_label_times_hours">
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
+        <item row="5" column="1">
          <widget class="QPushButton" name="pushButton_times_increment_by_one_week">
           <property name="text">
            <string>Increment by one week</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="3" column="1">
          <widget class="QLabel" name="info_label_day_of_week">
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="3" column="0">
          <widget class="QLabel" name="label_day_of_week">
           <property name="text">
            <string>Day of week</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>Client code</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="info_label_times_client_code">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>Invoice number</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLabel" name="info_label_times_invoice_number">
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
@@ -370,7 +405,7 @@ day</string>
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>260</y>
+         <y>290</y>
          <width>75</width>
          <height>75</height>
         </rect>
@@ -391,17 +426,17 @@ day</string>
         <x>20</x>
         <y>20</y>
         <width>311</width>
-        <height>351</height>
+        <height>221</height>
        </rect>
       </property>
       <property name="title">
-       <string>Add</string>
+       <string>Add clients</string>
       </property>
       <widget class="QPushButton" name="pushButton_add_client">
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>250</y>
+         <y>130</y>
          <width>75</width>
          <height>75</height>
         </rect>
@@ -416,99 +451,51 @@ day</string>
          <x>30</x>
          <y>40</y>
          <width>241</width>
-         <height>212</height>
+         <height>71</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout_3">
         <item row="0" column="0">
          <widget class="QLabel" name="label_times_client_2">
           <property name="text">
-           <string>Client</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_times_date_2">
-          <property name="text">
-           <string>Date</string>
+           <string>Client name</string>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QComboBox" name="comboBox_times_client_2"/>
+         <widget class="QLineEdit" name="lineEdit_clients_client_name"/>
         </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_times_start_time_2">
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_times_date_2">
           <property name="text">
-           <string>Start time</string>
+           <string>First year</string>
           </property>
          </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="label_times_stop_time_2">
-          <property name="text">
-           <string>Stop time</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QComboBox" name="comboBox_times_start_time_2"/>
-        </item>
-        <item row="6" column="1">
-         <widget class="QComboBox" name="comboBox_times_stop_time_2"/>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="lineEdit_times_date_2"/>
-        </item>
-        <item row="3" column="1">
-         <widget class="QPushButton" name="pushButton_times_fill_in_today_2">
-          <property name="text">
-           <string>Fill in today</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="0">
-         <widget class="QLabel" name="label_times_hours_2">
-          <property name="text">
-           <string>Hours</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="1">
-         <widget class="QLabel" name="info_label_times_hours_2">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QPushButton" name="pushButton_times_increment_by_one_week_2">
-          <property name="text">
-           <string>Increment by one week</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLabel" name="info_label_day_of_week_2">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
+         <widget class="QComboBox" name="comboBox_clients_first_year"/>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="label_day_of_week_2">
           <property name="text">
-           <string>Day of week</string>
+           <string>Client code</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="info_label_clients_client_code">
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
        </layout>
       </widget>
-      <widget class="QPushButton" name="pushButton_times_clear_fields_2">
+      <widget class="QPushButton" name="pushButton_clients_clear_fields">
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>250</y>
+         <y>130</y>
          <width>75</width>
          <height>75</height>
         </rect>
@@ -528,7 +515,7 @@ day</string>
        </rect>
       </property>
       <property name="title">
-       <string>Query</string>
+       <string>Query clients</string>
       </property>
       <widget class="QWidget" name="verticalLayoutWidget_3">
        <property name="geometry">
@@ -543,14 +530,14 @@ day</string>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QPushButton" name="pushButton_times_overwrite_2">
+           <widget class="QPushButton" name="pushButton_clients_overwrite">
             <property name="text">
              <string>Overwrite</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_times_delete_2">
+           <widget class="QPushButton" name="pushButton_clients_delete">
             <property name="text">
              <string>Delete</string>
             </property>
@@ -572,7 +559,7 @@ day</string>
          </layout>
         </item>
         <item>
-         <widget class="QTableView" name="tableView_times_query_2"/>
+         <widget class="QTableView" name="tableView_clients_query"/>
         </item>
        </layout>
       </widget>
@@ -580,136 +567,87 @@ day</string>
        <property name="geometry">
         <rect>
          <x>70</x>
-         <y>20</y>
+         <y>50</y>
          <width>160</width>
-         <height>136</height>
+         <height>51</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout_4">
-        <item row="0" column="1">
-         <widget class="QComboBox" name="comboBox_times_query_start_month_2"/>
-        </item>
-        <item row="2" column="1">
-         <widget class="QComboBox" name="comboBox_times_query_stop_month_2"/>
-        </item>
         <item row="0" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Start month</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Stop month</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="comboBox_times_query_start_year_2"/>
-        </item>
-        <item row="1" column="0">
          <widget class="QLabel" name="label_8">
           <property name="text">
            <string>Start year</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
+        <item row="0" column="1">
+         <widget class="QComboBox" name="comboBox_clients_query_start_year"/>
+        </item>
+        <item row="1" column="0">
          <widget class="QLabel" name="label_9">
           <property name="text">
            <string>Stop year</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_10">
-          <property name="text">
-           <string>Client</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QComboBox" name="comboBox_times_query_stop_year_2"/>
-        </item>
-        <item row="4" column="1">
-         <widget class="QComboBox" name="comboBox_times_query_client_2"/>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="comboBox_clients_query_stop_year"/>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="verticalLayoutWidget_4">
+      <widget class="QWidget" name="verticalLayoutWidget_6">
        <property name="geometry">
         <rect>
-         <x>370</x>
+         <x>261</x>
+         <y>50</y>
+         <width>161</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="QRadioButton" name="radioButton_clients_query_using_years">
+          <property name="text">
+           <string>Query using years</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_clients_query_return_all">
+          <property name="text">
+           <string>Return all</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QPushButton" name="pushButton_clients_export_query_results">
+       <property name="geometry">
+        <rect>
+         <x>760</x>
          <y>40</y>
-         <width>186</width>
-         <height>80</height>
+         <width>75</width>
+         <height>75</height>
         </rect>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <item>
-         <widget class="QRadioButton" name="radioButton_times_sort_by_date_only_2">
-          <property name="text">
-           <string>Sort by date only</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="radioButton_times_sort_by_client_first_2">
-          <property name="text">
-           <string>Sort by client first</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="radioButton_times_sort_by_month_then_by_client_2">
-          <property name="text">
-           <string>Sort by month then by client</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <property name="text">
+        <string>Export 
+query 
+results</string>
+       </property>
       </widget>
-      <widget class="QWidget" name="layoutWidget_2">
+      <widget class="QPushButton" name="pushButton_clients_run_query">
        <property name="geometry">
         <rect>
-         <x>650</x>
-         <y>20</y>
-         <width>138</width>
-         <height>138</height>
+         <x>660</x>
+         <y>40</y>
+         <width>75</width>
+         <height>75</height>
         </rect>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
-        <item>
-         <widget class="QPushButton" name="pushButton_times_query_dates_only_2">
-          <property name="text">
-           <string>Query dates only</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_times_query_client_only_2">
-          <property name="text">
-           <string>Query client only</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_times_query_dates_and_client_2">
-          <property name="text">
-           <string>Query dates and client</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_times_export_query_results_2">
-          <property name="text">
-           <string>Export query results</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <property name="text">
+        <string>Run query</string>
+       </property>
       </widget>
      </widget>
     </widget>
