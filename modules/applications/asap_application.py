@@ -18,6 +18,8 @@ class Signals(QtCore.QObject):
 
     # times tab
     pushbutton_add_client_clicked_signal = QtCore.Signal(dict)
+    request_next_index_within_year_signal = QtCore.Signal(int)
+    deliver_next_index_within_year_signal = QtCore.Signal(int)
 
 
     def __init__(self):

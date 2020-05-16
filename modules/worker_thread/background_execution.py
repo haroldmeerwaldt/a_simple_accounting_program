@@ -1,3 +1,6 @@
+import sys
+import traceback
+
 from PySide2 import QtCore
 
 from modules.worker_thread import times, clients
@@ -55,8 +58,20 @@ class BackgroundExecution(QtCore.QObject):
 
 
     # clients tab
+    def request_next_index_within_year_slot(self, year):
+        print('in slot')
+        try:
+            next_index = self.clients.get_next_index_within_year(year)
+            self.signals.deliver_next_index_within_year_signal.emit(next_index)
+        except:
+            type, value, tb = sys.exc_info()
+            traceback.print_tb(tb)
+
+
     def pushbutton_add_client_clicked_slot(self, widget_value_dict):
         self.clients.add_client_from_dict(widget_value_dict)
+        year = widget_value_dict['comboBox_clients_first_year']
+        self.request_next_index_within_year_slot(year)
 
 
 

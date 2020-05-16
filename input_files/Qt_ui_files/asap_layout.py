@@ -280,13 +280,13 @@ class Ui_MainWindow(object):
         self.tab_clients.setObjectName(u"tab_clients")
         self.groupBox_3 = QGroupBox(self.tab_clients)
         self.groupBox_3.setObjectName(u"groupBox_3")
-        self.groupBox_3.setGeometry(QRect(20, 20, 311, 221))
+        self.groupBox_3.setGeometry(QRect(20, 20, 311, 241))
         self.pushButton_add_client = QPushButton(self.groupBox_3)
         self.pushButton_add_client.setObjectName(u"pushButton_add_client")
-        self.pushButton_add_client.setGeometry(QRect(180, 130, 75, 75))
+        self.pushButton_add_client.setGeometry(QRect(180, 150, 75, 75))
         self.formLayoutWidget_3 = QWidget(self.groupBox_3)
         self.formLayoutWidget_3.setObjectName(u"formLayoutWidget_3")
-        self.formLayoutWidget_3.setGeometry(QRect(30, 40, 241, 71))
+        self.formLayoutWidget_3.setGeometry(QRect(30, 40, 241, 100))
         self.formLayout_3 = QFormLayout(self.formLayoutWidget_3)
         self.formLayout_3.setObjectName(u"formLayout_3")
         self.formLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -313,16 +313,28 @@ class Ui_MainWindow(object):
         self.label_day_of_week_2 = QLabel(self.formLayoutWidget_3)
         self.label_day_of_week_2.setObjectName(u"label_day_of_week_2")
 
-        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.label_day_of_week_2)
+        self.formLayout_3.setWidget(3, QFormLayout.LabelRole, self.label_day_of_week_2)
 
         self.info_label_clients_client_code = QLabel(self.formLayoutWidget_3)
         self.info_label_clients_client_code.setObjectName(u"info_label_clients_client_code")
+        self.info_label_clients_client_code.setMinimumSize(QSize(0, 20))
 
-        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.info_label_clients_client_code)
+        self.formLayout_3.setWidget(3, QFormLayout.FieldRole, self.info_label_clients_client_code)
+
+        self.label_6 = QLabel(self.formLayoutWidget_3)
+        self.label_6.setObjectName(u"label_6")
+
+        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.label_6)
+
+        self.info_label_clients_index_within_year = QLabel(self.formLayoutWidget_3)
+        self.info_label_clients_index_within_year.setObjectName(u"info_label_clients_index_within_year")
+        self.info_label_clients_index_within_year.setMinimumSize(QSize(0, 20))
+
+        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.info_label_clients_index_within_year)
 
         self.pushButton_clients_clear_fields = QPushButton(self.groupBox_3)
         self.pushButton_clients_clear_fields.setObjectName(u"pushButton_clients_clear_fields")
-        self.pushButton_clients_clear_fields.setGeometry(QRect(60, 130, 75, 75))
+        self.pushButton_clients_clear_fields.setGeometry(QRect(60, 150, 75, 75))
         self.groupBox_4 = QGroupBox(self.tab_clients)
         self.groupBox_4.setObjectName(u"groupBox_4")
         self.groupBox_4.setGeometry(QRect(350, 20, 861, 511))
@@ -404,6 +416,22 @@ class Ui_MainWindow(object):
         self.pushButton_clients_run_query = QPushButton(self.groupBox_4)
         self.pushButton_clients_run_query.setObjectName(u"pushButton_clients_run_query")
         self.pushButton_clients_run_query.setGeometry(QRect(660, 40, 75, 75))
+        self.verticalLayoutWidget_4 = QWidget(self.groupBox_4)
+        self.verticalLayoutWidget_4.setObjectName(u"verticalLayoutWidget_4")
+        self.verticalLayoutWidget_4.setGeometry(QRect(450, 50, 186, 51))
+        self.verticalLayout_3 = QVBoxLayout(self.verticalLayoutWidget_4)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.radioButton_clients_sort_by_year_and_index = QRadioButton(self.verticalLayoutWidget_4)
+        self.radioButton_clients_sort_by_year_and_index.setObjectName(u"radioButton_clients_sort_by_year_and_index")
+
+        self.verticalLayout_3.addWidget(self.radioButton_clients_sort_by_year_and_index)
+
+        self.radioButton_clients_sort_by_client_name = QRadioButton(self.verticalLayoutWidget_4)
+        self.radioButton_clients_sort_by_client_name.setObjectName(u"radioButton_clients_sort_by_client_name")
+
+        self.verticalLayout_3.addWidget(self.radioButton_clients_sort_by_client_name)
+
         self.tabWidget.addTab(self.tab_clients, "")
         self.tab_invoices = QWidget()
         self.tab_invoices.setObjectName(u"tab_invoices")
@@ -478,6 +506,8 @@ class Ui_MainWindow(object):
         self.label_times_date_2.setText(QCoreApplication.translate("MainWindow", u"First year", None))
         self.label_day_of_week_2.setText(QCoreApplication.translate("MainWindow", u"Client code", None))
         self.info_label_clients_client_code.setText("")
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Index within year", None))
+        self.info_label_clients_index_within_year.setText("")
         self.pushButton_clients_clear_fields.setText(QCoreApplication.translate("MainWindow", u"Clear fields", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Query clients", None))
         self.pushButton_clients_overwrite.setText(QCoreApplication.translate("MainWindow", u"Overwrite", None))
@@ -490,6 +520,8 @@ class Ui_MainWindow(object):
 "query \n"
 "results", None))
         self.pushButton_clients_run_query.setText(QCoreApplication.translate("MainWindow", u"Run query", None))
+        self.radioButton_clients_sort_by_year_and_index.setText(QCoreApplication.translate("MainWindow", u"Sort by year and index", None))
+        self.radioButton_clients_sort_by_client_name.setText(QCoreApplication.translate("MainWindow", u"Sort by client name", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_clients), QCoreApplication.translate("MainWindow", u"Clients", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_invoices), QCoreApplication.translate("MainWindow", u"Invoices", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_configuration), QCoreApplication.translate("MainWindow", u"Configuration", None))
