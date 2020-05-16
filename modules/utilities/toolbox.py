@@ -73,3 +73,64 @@ def print_when_called_and_return_exception_inside_thread(decorated_function):
 
 
     return wrapper
+
+
+class SimpleTime:
+    def __init__(self, string=None, hours=None, minutes=None):
+        if hours is not None or minutes is not None:
+            carry_hours = 0
+
+            try:
+                self.minutes = int(minutes)
+            except TypeError:
+                self.minutes = 0
+
+            while self.minutes > 59:
+                self.minutes = self.minutes - 60
+                carry_hours = carry_hours + 1
+
+            try:
+                self.hours = int(hours + carry_hours)
+            except TypeError:
+                self.hours = carry_hours
+        elif string is not None:
+            hours_minutes_list = string.split(':')
+            if len(hours_minutes_list) != 2:
+                raise ValueError('if a string is provided, it should be in format HH:MM')
+            self.hours = int(hours_minutes_list[0])
+            self.minutes = int(hours_minutes_list[1])
+        else:
+            raise ValueError('Either a string in format HH:MM should be provided or hours and minutes as numbers')
+
+    def __add__(self, other):
+        carry_hours = 0
+
+        sum_minutes = self.minutes - other.minutes
+        while sum_minutes > 59:
+            sum_minutes = sum_minutes - 60
+            carry_hours = carry_hours + 1
+
+        sum_hours = self.hours + other.hours + carry_hours
+        while sum_hours > 23:
+            sum_hours = sum_hours - 24
+
+        return SimpleTime(hours=sum_hours, minutes=sum_minutes)
+
+
+    def __sub__(self, other):
+        delta_hours = self.hours - other.hours
+        if delta_hours < 0:
+            delta_hours = delta_hours + 24
+
+        delta_minutes = self.minutes - other.minutes
+        if delta_minutes < 0:
+            delta_minutes = delta_minutes + 60
+            delta_hours = delta_hours - 1
+
+        return SimpleTime(hours=delta_hours, minutes=delta_minutes)
+
+    def __str__(self):
+        return "{:02d}:{:02d}".format(self.hours, self.minutes)
+
+    def __float__(self):
+        return float(self.hours + self.minutes/60)

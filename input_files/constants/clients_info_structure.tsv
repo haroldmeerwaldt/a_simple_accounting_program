@@ -1,0 +1,4 @@
+info_name	widget_name
+UID	info_label_clients_client_code
+Client name	lineEdit_clients_client_name
+First year	comboBox_clients_first_year

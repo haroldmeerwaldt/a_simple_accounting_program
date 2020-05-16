@@ -140,7 +140,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayoutWidget_5 = QWidget(self.groupBox)
         self.verticalLayoutWidget_5.setObjectName(u"verticalLayoutWidget_5")
-        self.verticalLayoutWidget_5.setGeometry(QRect(260, 40, 161, 80))
+        self.verticalLayoutWidget_5.setGeometry(QRect(260, 40, 162, 88))
         self.verticalLayout_7 = QVBoxLayout(self.verticalLayoutWidget_5)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
@@ -159,6 +159,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_7.addWidget(self.radioButton_times_query_dates_and_client)
 
+        self.radioButton = QRadioButton(self.verticalLayoutWidget_5)
+        self.radioButton.setObjectName(u"radioButton")
+
+        self.verticalLayout_7.addWidget(self.radioButton)
+
         self.pushButton_times_run_query = QPushButton(self.groupBox)
         self.pushButton_times_run_query.setObjectName(u"pushButton_times_run_query")
         self.pushButton_times_run_query.setGeometry(QRect(660, 40, 75, 75))
@@ -167,13 +172,13 @@ class Ui_MainWindow(object):
         self.pushButton_times_export_query_results.setGeometry(QRect(760, 40, 75, 75))
         self.groupBox_2 = QGroupBox(self.tab_times)
         self.groupBox_2.setObjectName(u"groupBox_2")
-        self.groupBox_2.setGeometry(QRect(20, 20, 311, 351))
+        self.groupBox_2.setGeometry(QRect(20, 20, 311, 381))
         self.pushButton_add_working_day = QPushButton(self.groupBox_2)
         self.pushButton_add_working_day.setObjectName(u"pushButton_add_working_day")
-        self.pushButton_add_working_day.setGeometry(QRect(180, 260, 75, 75))
+        self.pushButton_add_working_day.setGeometry(QRect(180, 290, 75, 75))
         self.formLayoutWidget_2 = QWidget(self.groupBox_2)
         self.formLayoutWidget_2.setObjectName(u"formLayoutWidget_2")
-        self.formLayoutWidget_2.setGeometry(QRect(30, 40, 241, 212))
+        self.formLayoutWidget_2.setGeometry(QRect(30, 40, 241, 234))
         self.formLayout_2 = QFormLayout(self.formLayoutWidget_2)
         self.formLayout_2.setObjectName(u"formLayout_2")
         self.formLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -185,7 +190,7 @@ class Ui_MainWindow(object):
         self.label_times_date = QLabel(self.formLayoutWidget_2)
         self.label_times_date.setObjectName(u"label_times_date")
 
-        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.label_times_date)
+        self.formLayout_2.setWidget(2, QFormLayout.LabelRole, self.label_times_date)
 
         self.comboBox_times_client = QComboBox(self.formLayoutWidget_2)
         self.comboBox_times_client.setObjectName(u"comboBox_times_client")
@@ -195,73 +200,93 @@ class Ui_MainWindow(object):
         self.label_times_start_time = QLabel(self.formLayoutWidget_2)
         self.label_times_start_time.setObjectName(u"label_times_start_time")
 
-        self.formLayout_2.setWidget(5, QFormLayout.LabelRole, self.label_times_start_time)
+        self.formLayout_2.setWidget(7, QFormLayout.LabelRole, self.label_times_start_time)
 
         self.label_times_stop_time = QLabel(self.formLayoutWidget_2)
         self.label_times_stop_time.setObjectName(u"label_times_stop_time")
 
-        self.formLayout_2.setWidget(6, QFormLayout.LabelRole, self.label_times_stop_time)
+        self.formLayout_2.setWidget(8, QFormLayout.LabelRole, self.label_times_stop_time)
 
         self.comboBox_times_start_time = QComboBox(self.formLayoutWidget_2)
         self.comboBox_times_start_time.setObjectName(u"comboBox_times_start_time")
 
-        self.formLayout_2.setWidget(5, QFormLayout.FieldRole, self.comboBox_times_start_time)
+        self.formLayout_2.setWidget(7, QFormLayout.FieldRole, self.comboBox_times_start_time)
 
         self.comboBox_times_stop_time = QComboBox(self.formLayoutWidget_2)
         self.comboBox_times_stop_time.setObjectName(u"comboBox_times_stop_time")
 
-        self.formLayout_2.setWidget(6, QFormLayout.FieldRole, self.comboBox_times_stop_time)
+        self.formLayout_2.setWidget(8, QFormLayout.FieldRole, self.comboBox_times_stop_time)
 
         self.lineEdit_times_date = QLineEdit(self.formLayoutWidget_2)
         self.lineEdit_times_date.setObjectName(u"lineEdit_times_date")
 
-        self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.lineEdit_times_date)
+        self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.lineEdit_times_date)
 
         self.pushButton_times_fill_in_today = QPushButton(self.formLayoutWidget_2)
         self.pushButton_times_fill_in_today.setObjectName(u"pushButton_times_fill_in_today")
 
-        self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.pushButton_times_fill_in_today)
+        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.pushButton_times_fill_in_today)
 
         self.label_times_hours = QLabel(self.formLayoutWidget_2)
         self.label_times_hours.setObjectName(u"label_times_hours")
 
-        self.formLayout_2.setWidget(7, QFormLayout.LabelRole, self.label_times_hours)
+        self.formLayout_2.setWidget(9, QFormLayout.LabelRole, self.label_times_hours)
 
         self.info_label_times_hours = QLabel(self.formLayoutWidget_2)
         self.info_label_times_hours.setObjectName(u"info_label_times_hours")
 
-        self.formLayout_2.setWidget(7, QFormLayout.FieldRole, self.info_label_times_hours)
+        self.formLayout_2.setWidget(9, QFormLayout.FieldRole, self.info_label_times_hours)
 
         self.pushButton_times_increment_by_one_week = QPushButton(self.formLayoutWidget_2)
         self.pushButton_times_increment_by_one_week.setObjectName(u"pushButton_times_increment_by_one_week")
 
-        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.pushButton_times_increment_by_one_week)
+        self.formLayout_2.setWidget(5, QFormLayout.FieldRole, self.pushButton_times_increment_by_one_week)
 
         self.info_label_day_of_week = QLabel(self.formLayoutWidget_2)
         self.info_label_day_of_week.setObjectName(u"info_label_day_of_week")
 
-        self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.info_label_day_of_week)
+        self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.info_label_day_of_week)
 
         self.label_day_of_week = QLabel(self.formLayoutWidget_2)
         self.label_day_of_week.setObjectName(u"label_day_of_week")
 
-        self.formLayout_2.setWidget(2, QFormLayout.LabelRole, self.label_day_of_week)
+        self.formLayout_2.setWidget(3, QFormLayout.LabelRole, self.label_day_of_week)
+
+        self.label_11 = QLabel(self.formLayoutWidget_2)
+        self.label_11.setObjectName(u"label_11")
+
+        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.label_11)
+
+        self.info_label_times_client_code = QLabel(self.formLayoutWidget_2)
+        self.info_label_times_client_code.setObjectName(u"info_label_times_client_code")
+
+        self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.info_label_times_client_code)
+
+        self.label_12 = QLabel(self.formLayoutWidget_2)
+        self.label_12.setObjectName(u"label_12")
+
+        self.formLayout_2.setWidget(6, QFormLayout.LabelRole, self.label_12)
+
+        self.info_label_times_invoice_number = QLabel(self.formLayoutWidget_2)
+        self.info_label_times_invoice_number.setObjectName(u"info_label_times_invoice_number")
+
+        self.formLayout_2.setWidget(6, QFormLayout.FieldRole, self.info_label_times_invoice_number)
 
         self.pushButton_times_clear_fields = QPushButton(self.groupBox_2)
         self.pushButton_times_clear_fields.setObjectName(u"pushButton_times_clear_fields")
-        self.pushButton_times_clear_fields.setGeometry(QRect(60, 260, 75, 75))
+        self.pushButton_times_clear_fields.setGeometry(QRect(60, 290, 75, 75))
         self.tabWidget.addTab(self.tab_times, "")
         self.tab_clients = QWidget()
         self.tab_clients.setObjectName(u"tab_clients")
         self.groupBox_3 = QGroupBox(self.tab_clients)
         self.groupBox_3.setObjectName(u"groupBox_3")
-        self.groupBox_3.setGeometry(QRect(20, 20, 311, 351))
+        self.groupBox_3.setGeometry(QRect(20, 20, 311, 221))
         self.pushButton_add_client = QPushButton(self.groupBox_3)
         self.pushButton_add_client.setObjectName(u"pushButton_add_client")
-        self.pushButton_add_client.setGeometry(QRect(180, 250, 75, 75))
+        self.pushButton_add_client.setGeometry(QRect(180, 130, 75, 75))
         self.formLayoutWidget_3 = QWidget(self.groupBox_3)
         self.formLayoutWidget_3.setObjectName(u"formLayoutWidget_3")
-        self.formLayoutWidget_3.setGeometry(QRect(30, 40, 241, 212))
+        self.formLayoutWidget_3.setGeometry(QRect(30, 40, 241, 71))
         self.formLayout_3 = QFormLayout(self.formLayoutWidget_3)
         self.formLayout_3.setObjectName(u"formLayout_3")
         self.formLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -270,74 +295,34 @@ class Ui_MainWindow(object):
 
         self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.label_times_client_2)
 
+        self.lineEdit_clients_client_name = QLineEdit(self.formLayoutWidget_3)
+        self.lineEdit_clients_client_name.setObjectName(u"lineEdit_clients_client_name")
+
+        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.lineEdit_clients_client_name)
+
         self.label_times_date_2 = QLabel(self.formLayoutWidget_3)
         self.label_times_date_2.setObjectName(u"label_times_date_2")
 
         self.formLayout_3.setWidget(1, QFormLayout.LabelRole, self.label_times_date_2)
 
-        self.comboBox_times_client_2 = QComboBox(self.formLayoutWidget_3)
-        self.comboBox_times_client_2.setObjectName(u"comboBox_times_client_2")
+        self.comboBox_clients_first_year = QComboBox(self.formLayoutWidget_3)
+        self.comboBox_clients_first_year.setObjectName(u"comboBox_clients_first_year")
 
-        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.comboBox_times_client_2)
-
-        self.label_times_start_time_2 = QLabel(self.formLayoutWidget_3)
-        self.label_times_start_time_2.setObjectName(u"label_times_start_time_2")
-
-        self.formLayout_3.setWidget(5, QFormLayout.LabelRole, self.label_times_start_time_2)
-
-        self.label_times_stop_time_2 = QLabel(self.formLayoutWidget_3)
-        self.label_times_stop_time_2.setObjectName(u"label_times_stop_time_2")
-
-        self.formLayout_3.setWidget(6, QFormLayout.LabelRole, self.label_times_stop_time_2)
-
-        self.comboBox_times_start_time_2 = QComboBox(self.formLayoutWidget_3)
-        self.comboBox_times_start_time_2.setObjectName(u"comboBox_times_start_time_2")
-
-        self.formLayout_3.setWidget(5, QFormLayout.FieldRole, self.comboBox_times_start_time_2)
-
-        self.comboBox_times_stop_time_2 = QComboBox(self.formLayoutWidget_3)
-        self.comboBox_times_stop_time_2.setObjectName(u"comboBox_times_stop_time_2")
-
-        self.formLayout_3.setWidget(6, QFormLayout.FieldRole, self.comboBox_times_stop_time_2)
-
-        self.lineEdit_times_date_2 = QLineEdit(self.formLayoutWidget_3)
-        self.lineEdit_times_date_2.setObjectName(u"lineEdit_times_date_2")
-
-        self.formLayout_3.setWidget(1, QFormLayout.FieldRole, self.lineEdit_times_date_2)
-
-        self.pushButton_times_fill_in_today_2 = QPushButton(self.formLayoutWidget_3)
-        self.pushButton_times_fill_in_today_2.setObjectName(u"pushButton_times_fill_in_today_2")
-
-        self.formLayout_3.setWidget(3, QFormLayout.FieldRole, self.pushButton_times_fill_in_today_2)
-
-        self.label_times_hours_2 = QLabel(self.formLayoutWidget_3)
-        self.label_times_hours_2.setObjectName(u"label_times_hours_2")
-
-        self.formLayout_3.setWidget(7, QFormLayout.LabelRole, self.label_times_hours_2)
-
-        self.info_label_times_hours_2 = QLabel(self.formLayoutWidget_3)
-        self.info_label_times_hours_2.setObjectName(u"info_label_times_hours_2")
-
-        self.formLayout_3.setWidget(7, QFormLayout.FieldRole, self.info_label_times_hours_2)
-
-        self.pushButton_times_increment_by_one_week_2 = QPushButton(self.formLayoutWidget_3)
-        self.pushButton_times_increment_by_one_week_2.setObjectName(u"pushButton_times_increment_by_one_week_2")
-
-        self.formLayout_3.setWidget(4, QFormLayout.FieldRole, self.pushButton_times_increment_by_one_week_2)
-
-        self.info_label_day_of_week_2 = QLabel(self.formLayoutWidget_3)
-        self.info_label_day_of_week_2.setObjectName(u"info_label_day_of_week_2")
-
-        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.info_label_day_of_week_2)
+        self.formLayout_3.setWidget(1, QFormLayout.FieldRole, self.comboBox_clients_first_year)
 
         self.label_day_of_week_2 = QLabel(self.formLayoutWidget_3)
         self.label_day_of_week_2.setObjectName(u"label_day_of_week_2")
 
         self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.label_day_of_week_2)
 
-        self.pushButton_times_clear_fields_2 = QPushButton(self.groupBox_3)
-        self.pushButton_times_clear_fields_2.setObjectName(u"pushButton_times_clear_fields_2")
-        self.pushButton_times_clear_fields_2.setGeometry(QRect(60, 250, 75, 75))
+        self.info_label_clients_client_code = QLabel(self.formLayoutWidget_3)
+        self.info_label_clients_client_code.setObjectName(u"info_label_clients_client_code")
+
+        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.info_label_clients_client_code)
+
+        self.pushButton_clients_clear_fields = QPushButton(self.groupBox_3)
+        self.pushButton_clients_clear_fields.setObjectName(u"pushButton_clients_clear_fields")
+        self.pushButton_clients_clear_fields.setGeometry(QRect(60, 130, 75, 75))
         self.groupBox_4 = QGroupBox(self.tab_clients)
         self.groupBox_4.setObjectName(u"groupBox_4")
         self.groupBox_4.setGeometry(QRect(350, 20, 861, 511))
@@ -349,15 +334,15 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.pushButton_times_overwrite_2 = QPushButton(self.verticalLayoutWidget_3)
-        self.pushButton_times_overwrite_2.setObjectName(u"pushButton_times_overwrite_2")
+        self.pushButton_clients_overwrite = QPushButton(self.verticalLayoutWidget_3)
+        self.pushButton_clients_overwrite.setObjectName(u"pushButton_clients_overwrite")
 
-        self.horizontalLayout_3.addWidget(self.pushButton_times_overwrite_2)
+        self.horizontalLayout_3.addWidget(self.pushButton_clients_overwrite)
 
-        self.pushButton_times_delete_2 = QPushButton(self.verticalLayoutWidget_3)
-        self.pushButton_times_delete_2.setObjectName(u"pushButton_times_delete_2")
+        self.pushButton_clients_delete = QPushButton(self.verticalLayoutWidget_3)
+        self.pushButton_clients_delete.setObjectName(u"pushButton_clients_delete")
 
-        self.horizontalLayout_3.addWidget(self.pushButton_times_delete_2)
+        self.horizontalLayout_3.addWidget(self.pushButton_clients_delete)
 
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -366,114 +351,59 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_3)
 
-        self.tableView_times_query_2 = QTableView(self.verticalLayoutWidget_3)
-        self.tableView_times_query_2.setObjectName(u"tableView_times_query_2")
+        self.tableView_clients_query = QTableView(self.verticalLayoutWidget_3)
+        self.tableView_clients_query.setObjectName(u"tableView_clients_query")
 
-        self.verticalLayout_4.addWidget(self.tableView_times_query_2)
+        self.verticalLayout_4.addWidget(self.tableView_clients_query)
 
         self.formLayoutWidget_4 = QWidget(self.groupBox_4)
         self.formLayoutWidget_4.setObjectName(u"formLayoutWidget_4")
-        self.formLayoutWidget_4.setGeometry(QRect(70, 20, 160, 136))
+        self.formLayoutWidget_4.setGeometry(QRect(70, 50, 160, 51))
         self.formLayout_4 = QFormLayout(self.formLayoutWidget_4)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.comboBox_times_query_start_month_2 = QComboBox(self.formLayoutWidget_4)
-        self.comboBox_times_query_start_month_2.setObjectName(u"comboBox_times_query_start_month_2")
-
-        self.formLayout_4.setWidget(0, QFormLayout.FieldRole, self.comboBox_times_query_start_month_2)
-
-        self.comboBox_times_query_stop_month_2 = QComboBox(self.formLayoutWidget_4)
-        self.comboBox_times_query_stop_month_2.setObjectName(u"comboBox_times_query_stop_month_2")
-
-        self.formLayout_4.setWidget(2, QFormLayout.FieldRole, self.comboBox_times_query_stop_month_2)
-
-        self.label_6 = QLabel(self.formLayoutWidget_4)
-        self.label_6.setObjectName(u"label_6")
-
-        self.formLayout_4.setWidget(0, QFormLayout.LabelRole, self.label_6)
-
-        self.label_7 = QLabel(self.formLayoutWidget_4)
-        self.label_7.setObjectName(u"label_7")
-
-        self.formLayout_4.setWidget(2, QFormLayout.LabelRole, self.label_7)
-
-        self.comboBox_times_query_start_year_2 = QComboBox(self.formLayoutWidget_4)
-        self.comboBox_times_query_start_year_2.setObjectName(u"comboBox_times_query_start_year_2")
-
-        self.formLayout_4.setWidget(1, QFormLayout.FieldRole, self.comboBox_times_query_start_year_2)
-
         self.label_8 = QLabel(self.formLayoutWidget_4)
         self.label_8.setObjectName(u"label_8")
 
-        self.formLayout_4.setWidget(1, QFormLayout.LabelRole, self.label_8)
+        self.formLayout_4.setWidget(0, QFormLayout.LabelRole, self.label_8)
+
+        self.comboBox_clients_query_start_year = QComboBox(self.formLayoutWidget_4)
+        self.comboBox_clients_query_start_year.setObjectName(u"comboBox_clients_query_start_year")
+
+        self.formLayout_4.setWidget(0, QFormLayout.FieldRole, self.comboBox_clients_query_start_year)
 
         self.label_9 = QLabel(self.formLayoutWidget_4)
         self.label_9.setObjectName(u"label_9")
 
-        self.formLayout_4.setWidget(3, QFormLayout.LabelRole, self.label_9)
+        self.formLayout_4.setWidget(1, QFormLayout.LabelRole, self.label_9)
 
-        self.label_10 = QLabel(self.formLayoutWidget_4)
-        self.label_10.setObjectName(u"label_10")
+        self.comboBox_clients_query_stop_year = QComboBox(self.formLayoutWidget_4)
+        self.comboBox_clients_query_stop_year.setObjectName(u"comboBox_clients_query_stop_year")
 
-        self.formLayout_4.setWidget(4, QFormLayout.LabelRole, self.label_10)
+        self.formLayout_4.setWidget(1, QFormLayout.FieldRole, self.comboBox_clients_query_stop_year)
 
-        self.comboBox_times_query_stop_year_2 = QComboBox(self.formLayoutWidget_4)
-        self.comboBox_times_query_stop_year_2.setObjectName(u"comboBox_times_query_stop_year_2")
+        self.verticalLayoutWidget_6 = QWidget(self.groupBox_4)
+        self.verticalLayoutWidget_6.setObjectName(u"verticalLayoutWidget_6")
+        self.verticalLayoutWidget_6.setGeometry(QRect(261, 50, 161, 51))
+        self.verticalLayout_8 = QVBoxLayout(self.verticalLayoutWidget_6)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.radioButton_clients_query_using_years = QRadioButton(self.verticalLayoutWidget_6)
+        self.radioButton_clients_query_using_years.setObjectName(u"radioButton_clients_query_using_years")
 
-        self.formLayout_4.setWidget(3, QFormLayout.FieldRole, self.comboBox_times_query_stop_year_2)
+        self.verticalLayout_8.addWidget(self.radioButton_clients_query_using_years)
 
-        self.comboBox_times_query_client_2 = QComboBox(self.formLayoutWidget_4)
-        self.comboBox_times_query_client_2.setObjectName(u"comboBox_times_query_client_2")
+        self.radioButton_clients_query_return_all = QRadioButton(self.verticalLayoutWidget_6)
+        self.radioButton_clients_query_return_all.setObjectName(u"radioButton_clients_query_return_all")
 
-        self.formLayout_4.setWidget(4, QFormLayout.FieldRole, self.comboBox_times_query_client_2)
+        self.verticalLayout_8.addWidget(self.radioButton_clients_query_return_all)
 
-        self.verticalLayoutWidget_4 = QWidget(self.groupBox_4)
-        self.verticalLayoutWidget_4.setObjectName(u"verticalLayoutWidget_4")
-        self.verticalLayoutWidget_4.setGeometry(QRect(370, 40, 186, 80))
-        self.verticalLayout_5 = QVBoxLayout(self.verticalLayoutWidget_4)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.radioButton_times_sort_by_date_only_2 = QRadioButton(self.verticalLayoutWidget_4)
-        self.radioButton_times_sort_by_date_only_2.setObjectName(u"radioButton_times_sort_by_date_only_2")
-
-        self.verticalLayout_5.addWidget(self.radioButton_times_sort_by_date_only_2)
-
-        self.radioButton_times_sort_by_client_first_2 = QRadioButton(self.verticalLayoutWidget_4)
-        self.radioButton_times_sort_by_client_first_2.setObjectName(u"radioButton_times_sort_by_client_first_2")
-
-        self.verticalLayout_5.addWidget(self.radioButton_times_sort_by_client_first_2)
-
-        self.radioButton_times_sort_by_month_then_by_client_2 = QRadioButton(self.verticalLayoutWidget_4)
-        self.radioButton_times_sort_by_month_then_by_client_2.setObjectName(u"radioButton_times_sort_by_month_then_by_client_2")
-
-        self.verticalLayout_5.addWidget(self.radioButton_times_sort_by_month_then_by_client_2)
-
-        self.layoutWidget_2 = QWidget(self.groupBox_4)
-        self.layoutWidget_2.setObjectName(u"layoutWidget_2")
-        self.layoutWidget_2.setGeometry(QRect(650, 20, 138, 138))
-        self.verticalLayout_6 = QVBoxLayout(self.layoutWidget_2)
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
-        self.pushButton_times_query_dates_only_2 = QPushButton(self.layoutWidget_2)
-        self.pushButton_times_query_dates_only_2.setObjectName(u"pushButton_times_query_dates_only_2")
-
-        self.verticalLayout_6.addWidget(self.pushButton_times_query_dates_only_2)
-
-        self.pushButton_times_query_client_only_2 = QPushButton(self.layoutWidget_2)
-        self.pushButton_times_query_client_only_2.setObjectName(u"pushButton_times_query_client_only_2")
-
-        self.verticalLayout_6.addWidget(self.pushButton_times_query_client_only_2)
-
-        self.pushButton_times_query_dates_and_client_2 = QPushButton(self.layoutWidget_2)
-        self.pushButton_times_query_dates_and_client_2.setObjectName(u"pushButton_times_query_dates_and_client_2")
-
-        self.verticalLayout_6.addWidget(self.pushButton_times_query_dates_and_client_2)
-
-        self.pushButton_times_export_query_results_2 = QPushButton(self.layoutWidget_2)
-        self.pushButton_times_export_query_results_2.setObjectName(u"pushButton_times_export_query_results_2")
-
-        self.verticalLayout_6.addWidget(self.pushButton_times_export_query_results_2)
-
+        self.pushButton_clients_export_query_results = QPushButton(self.groupBox_4)
+        self.pushButton_clients_export_query_results.setObjectName(u"pushButton_clients_export_query_results")
+        self.pushButton_clients_export_query_results.setGeometry(QRect(760, 40, 75, 75))
+        self.pushButton_clients_run_query = QPushButton(self.groupBox_4)
+        self.pushButton_clients_run_query.setObjectName(u"pushButton_clients_run_query")
+        self.pushButton_clients_run_query.setGeometry(QRect(660, 40, 75, 75))
         self.tabWidget.addTab(self.tab_clients, "")
         self.tab_invoices = QWidget()
         self.tab_invoices.setObjectName(u"tab_invoices")
@@ -495,7 +425,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -503,7 +433,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Query", None))
+        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Query working days", None))
         self.pushButton_times_overwrite.setText(QCoreApplication.translate("MainWindow", u"Overwrite", None))
         self.pushButton_times_delete.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Start month", None))
@@ -514,17 +444,19 @@ class Ui_MainWindow(object):
         self.radioButton_times_sort_by_date_only.setText(QCoreApplication.translate("MainWindow", u"Sort by date only", None))
         self.radioButton_times_sort_by_client_first.setText(QCoreApplication.translate("MainWindow", u"Sort by client first", None))
         self.radioButton_times_sort_by_month_then_by_client.setText(QCoreApplication.translate("MainWindow", u"Sort by month then by client", None))
-        self.radioButton_times_query_dates_only.setText(QCoreApplication.translate("MainWindow", u"Query dates only", None))
-        self.radioButton_times_query_client_only.setText(QCoreApplication.translate("MainWindow", u"Query client only", None))
-        self.radioButton_times_query_dates_and_client.setText(QCoreApplication.translate("MainWindow", u"Query dates and client", None))
+        self.radioButton_times_query_dates_only.setText(QCoreApplication.translate("MainWindow", u"Query using dates only", None))
+        self.radioButton_times_query_client_only.setText(QCoreApplication.translate("MainWindow", u"Query using client only", None))
+        self.radioButton_times_query_dates_and_client.setText(QCoreApplication.translate("MainWindow", u"Query using dates and client", None))
+        self.radioButton.setText(QCoreApplication.translate("MainWindow", u"Return all", None))
         self.pushButton_times_run_query.setText(QCoreApplication.translate("MainWindow", u"Run query", None))
         self.pushButton_times_export_query_results.setText(QCoreApplication.translate("MainWindow", u"Export \n"
 "query \n"
 "results", None))
-        self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Add", None))
+        self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Add working days", None))
         self.pushButton_add_working_day.setText(QCoreApplication.translate("MainWindow", u"Add \n"
-"working day", None))
-        self.label_times_client.setText(QCoreApplication.translate("MainWindow", u"Client", None))
+"working \n"
+"day", None))
+        self.label_times_client.setText(QCoreApplication.translate("MainWindow", u"Client name", None))
         self.label_times_date.setText(QCoreApplication.translate("MainWindow", u"Date", None))
         self.label_times_start_time.setText(QCoreApplication.translate("MainWindow", u"Start time", None))
         self.label_times_stop_time.setText(QCoreApplication.translate("MainWindow", u"Stop time", None))
@@ -534,36 +466,30 @@ class Ui_MainWindow(object):
         self.pushButton_times_increment_by_one_week.setText(QCoreApplication.translate("MainWindow", u"Increment by one week", None))
         self.info_label_day_of_week.setText("")
         self.label_day_of_week.setText(QCoreApplication.translate("MainWindow", u"Day of week", None))
+        self.label_11.setText(QCoreApplication.translate("MainWindow", u"Client code", None))
+        self.info_label_times_client_code.setText("")
+        self.label_12.setText(QCoreApplication.translate("MainWindow", u"Invoice number", None))
+        self.info_label_times_invoice_number.setText("")
         self.pushButton_times_clear_fields.setText(QCoreApplication.translate("MainWindow", u"Clear fields", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_times), QCoreApplication.translate("MainWindow", u"Times", None))
-        self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"Add", None))
+        self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"Add clients", None))
         self.pushButton_add_client.setText(QCoreApplication.translate("MainWindow", u"Add client", None))
-        self.label_times_client_2.setText(QCoreApplication.translate("MainWindow", u"Client", None))
-        self.label_times_date_2.setText(QCoreApplication.translate("MainWindow", u"Date", None))
-        self.label_times_start_time_2.setText(QCoreApplication.translate("MainWindow", u"Start time", None))
-        self.label_times_stop_time_2.setText(QCoreApplication.translate("MainWindow", u"Stop time", None))
-        self.pushButton_times_fill_in_today_2.setText(QCoreApplication.translate("MainWindow", u"Fill in today", None))
-        self.label_times_hours_2.setText(QCoreApplication.translate("MainWindow", u"Hours", None))
-        self.info_label_times_hours_2.setText("")
-        self.pushButton_times_increment_by_one_week_2.setText(QCoreApplication.translate("MainWindow", u"Increment by one week", None))
-        self.info_label_day_of_week_2.setText("")
-        self.label_day_of_week_2.setText(QCoreApplication.translate("MainWindow", u"Day of week", None))
-        self.pushButton_times_clear_fields_2.setText(QCoreApplication.translate("MainWindow", u"Clear fields", None))
-        self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Query", None))
-        self.pushButton_times_overwrite_2.setText(QCoreApplication.translate("MainWindow", u"Overwrite", None))
-        self.pushButton_times_delete_2.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Start month", None))
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Stop month", None))
+        self.label_times_client_2.setText(QCoreApplication.translate("MainWindow", u"Client name", None))
+        self.label_times_date_2.setText(QCoreApplication.translate("MainWindow", u"First year", None))
+        self.label_day_of_week_2.setText(QCoreApplication.translate("MainWindow", u"Client code", None))
+        self.info_label_clients_client_code.setText("")
+        self.pushButton_clients_clear_fields.setText(QCoreApplication.translate("MainWindow", u"Clear fields", None))
+        self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"Query clients", None))
+        self.pushButton_clients_overwrite.setText(QCoreApplication.translate("MainWindow", u"Overwrite", None))
+        self.pushButton_clients_delete.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Start year", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Stop year", None))
-        self.label_10.setText(QCoreApplication.translate("MainWindow", u"Client", None))
-        self.radioButton_times_sort_by_date_only_2.setText(QCoreApplication.translate("MainWindow", u"Sort by date only", None))
-        self.radioButton_times_sort_by_client_first_2.setText(QCoreApplication.translate("MainWindow", u"Sort by client first", None))
-        self.radioButton_times_sort_by_month_then_by_client_2.setText(QCoreApplication.translate("MainWindow", u"Sort by month then by client", None))
-        self.pushButton_times_query_dates_only_2.setText(QCoreApplication.translate("MainWindow", u"Query dates only", None))
-        self.pushButton_times_query_client_only_2.setText(QCoreApplication.translate("MainWindow", u"Query client only", None))
-        self.pushButton_times_query_dates_and_client_2.setText(QCoreApplication.translate("MainWindow", u"Query dates and client", None))
-        self.pushButton_times_export_query_results_2.setText(QCoreApplication.translate("MainWindow", u"Export query results", None))
+        self.radioButton_clients_query_using_years.setText(QCoreApplication.translate("MainWindow", u"Query using years", None))
+        self.radioButton_clients_query_return_all.setText(QCoreApplication.translate("MainWindow", u"Return all", None))
+        self.pushButton_clients_export_query_results.setText(QCoreApplication.translate("MainWindow", u"Export \n"
+"query \n"
+"results", None))
+        self.pushButton_clients_run_query.setText(QCoreApplication.translate("MainWindow", u"Run query", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_clients), QCoreApplication.translate("MainWindow", u"Clients", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_invoices), QCoreApplication.translate("MainWindow", u"Invoices", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_configuration), QCoreApplication.translate("MainWindow", u"Configuration", None))
