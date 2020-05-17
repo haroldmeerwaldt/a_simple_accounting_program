@@ -20,6 +20,13 @@ class Signals(QtCore.QObject):
     pushbutton_add_client_clicked_signal = QtCore.Signal(dict)
     request_next_index_within_year_signal = QtCore.Signal(int)
     deliver_next_index_within_year_signal = QtCore.Signal(int)
+    radiobutton_clients_query_clicked_signal = QtCore.Signal(str, dict)
+    pushbutton_clients_run_query_clicked_signal = QtCore.Signal(dict)
+    radiobutton_clients_sort_clicked_signal = QtCore.Signal(str)
+    display_clients_query_df_in_tableview_signal = QtCore.Signal(pd.DataFrame)
+    pushbutton_clients_export_query_results_clicked_signal = QtCore.Signal()
+    pushbutton_clients_overwrite_clicked_signal = QtCore.Signal(dict, str)
+    pushbutton_clients_delete_clicked_signal = QtCore.Signal(str)
 
 
     def __init__(self):
@@ -42,6 +49,7 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         print(vars(self.ui))
         self.ui.tableView_times_query.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ui.tableView_clients_query.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.widgets = widgets.Widgets(self.ui, self.DATE_FORMAT)
 
     def _initialize_background_execution_thread(self):

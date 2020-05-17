@@ -182,7 +182,7 @@ class TimesQuery:
             self.query_result_df = query_result_df_copy.copy()
 
     def export_query_result(self):
-        export_filename = 'export_query_results_{}.tsv'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
+        export_filename = 'export_times_query_results_{}.tsv'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
         user_directory = self.params.user_directory
         export_path = os.path.join(user_directory, export_filename)
         self.query_result_df.to_csv(export_path, sep='\t', index=False, date_format=self.DATE_FORMAT)

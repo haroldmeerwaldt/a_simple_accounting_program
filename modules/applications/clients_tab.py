@@ -29,36 +29,49 @@ class ClientsTab(QtWidgets.QMainWindow):
         self.widgets.set_widget_value('comboBox_clients_first_year', year_list[-1])
         self._on_combobox_clients_first_year_currentindexchanged()
 
+        self.widgets.add_values_to_widget('comboBox_clients_query_start_year', year_list)
+        self.widgets.set_widget_value('comboBox_clients_query_start_year', year_list[0])
+        self.widgets.add_values_to_widget('comboBox_clients_query_stop_year', year_list)
+        self.widgets.set_widget_value('comboBox_clients_query_stop_year', year_list[-1])
+
+
     def _initialize_radiobuttons(self):
         self.widgets.set_widget_value('radioButton_clients_query_using_years', True)
+        self.widgets.set_widget_value('radioButton_clients_sort_by_year_and_index', True)
 
     def _connect_buttons_to_slots(self):
         self.ui.pushButton_add_client.clicked.connect(self._on_pushbutton_add_client_clicked)
         self.ui.comboBox_clients_first_year.currentIndexChanged.connect(self._on_combobox_clients_first_year_currentindexchanged)
         self.ui.pushButton_clients_clear_fields.clicked.connect(self._on_pushbutton_clear_fields_clicked)
-        # self.ui.pushButton_times_run_query.clicked.connect(self._on_pushbutton_times_run_query_clicked)
-        #
-        # self.ui.radioButton_times_query_dates_only.clicked.connect(self._on_radiobutton_times_query_clicked)
-        # self.ui.radioButton_times_query_client_only.clicked.connect(self._on_radiobutton_times_query_clicked)
-        #
-        # self.ui.pushButton_times_export_query_results.clicked.connect(self._on_pushButton_times_export_query_results_clicked)
-        #
-        # self.ui.tableView_times_query.clicked.connect(self._on_tableview_times_query_clicked)
-        #
-        # self.ui.pushButton_times_overwrite.clicked.connect(self._on_pushbutton_times_overwrite_clicked)
-        # self.ui.pushButton_times_delete.clicked.connect(self._on_pushbutton_times_delete_clicked)
+
+        self.ui.pushButton_clients_run_query.clicked.connect(self._on_pushbutton_clients_run_query_clicked)
+
+        self.ui.radioButton_clients_query_using_years.clicked.connect(self._on_radiobutton_clients_query_clicked)
+        self.ui.radioButton_clients_query_return_all.clicked.connect(self._on_radiobutton_clients_query_clicked)
+
+        self.ui.radioButton_clients_sort_by_year_and_index.clicked.connect(self._on_radiobutton_clients_sort_clicked)
+        self.ui.radioButton_clients_sort_by_client_name.clicked.connect(self._on_radiobutton_clients_sort_clicked)
+
+        
+        self.ui.pushButton_clients_export_query_results.clicked.connect(self._on_pushButton_clients_export_query_results_clicked)
+        
+        self.ui.tableView_clients_query.clicked.connect(self._on_tableview_clients_query_clicked)
+        
+        self.ui.pushButton_clients_overwrite.clicked.connect(self._on_pushbutton_clients_overwrite_clicked)
+        self.ui.pushButton_clients_delete.clicked.connect(self._on_pushbutton_clients_delete_clicked)
 
     def _connect_signals_to_slots(self):
         self.signals.request_next_index_within_year_signal.connect(self.background_execution.request_next_index_within_year_slot)
         self.signals.deliver_next_index_within_year_signal.connect(self._update_index_within_year_and_client_code)
         self.signals.pushbutton_add_client_clicked_signal.connect(self.background_execution.pushbutton_add_client_clicked_slot)
-        # self.signals.radiobutton_times_query_clicked_signal.connect(self.background_execution.radiobutton_times_query_clicked_slot)
-        # self.signals.pushbutton_times_run_query_clicked_signal.connect(self.background_execution.pushbutton_times_run_query_clicked_slot)
-        # self.signals.radiobutton_times_sort_clicked_signal.connect(self.background_execution.radiobutton_times_sort_clicked_slot)
-        # self.signals.display_times_query_df_in_tableview_signal.connect(self.display_times_query_df_in_tableview_slot)
-        # self.signals.pushbutton_times_export_query_results_clicked_signal.connect(self.background_execution.pushbutton_times_export_query_results_clicked_slot)
-        # self.signals.pushbutton_times_overwrite_clicked_signal.connect(self.background_execution.pushbutton_times_overwrite_clicked_slot)
-        # self.signals.pushbutton_times_delete_clicked_signal.connect(self.background_execution.pushbutton_times_delete_clicked_slot)
+        self.signals.radiobutton_clients_query_clicked_signal.connect(self.background_execution.radiobutton_clients_query_clicked_slot)
+        self.signals.pushbutton_clients_run_query_clicked_signal.connect(self.background_execution.pushbutton_clients_run_query_clicked_slot)
+        self.signals.pushbutton_clients_run_query_clicked_signal.connect(self.background_execution.pushbutton_clients_run_query_clicked_slot)
+        self.signals.radiobutton_clients_sort_clicked_signal.connect(self.background_execution.radiobutton_clients_sort_clicked_slot)
+        self.signals.display_clients_query_df_in_tableview_signal.connect(self.display_clients_query_df_in_tableview_slot)
+        self.signals.pushbutton_clients_export_query_results_clicked_signal.connect(self.background_execution.pushbutton_clients_export_query_results_clicked_slot)
+        self.signals.pushbutton_clients_overwrite_clicked_signal.connect(self.background_execution.pushbutton_clients_overwrite_clicked_slot)
+        self.signals.pushbutton_clients_delete_clicked_signal.connect(self.background_execution.pushbutton_clients_delete_clicked_slot)
 
     def _on_pushbutton_add_client_clicked(self):
         relevant_widget_name_list = ['lineEdit_clients_client_name', 'comboBox_clients_first_year', 'info_label_clients_index_within_year', 'info_label_clients_client_code']
@@ -84,3 +97,64 @@ class ClientsTab(QtWidgets.QMainWindow):
         current_year = int(datetime.datetime.now().strftime('%Y'))
         widget_value_dict = {'lineEdit_clients_client_name': '', 'comboBox_clients_first_year': current_year}
         self.widgets.set_widget_values_using_dict(widget_value_dict)
+
+    def _on_pushbutton_clients_run_query_clicked(self):
+        clients_query_widget_value_dict = self._generate_clients_query_widget_value_dict()
+        self.signals.pushbutton_clients_run_query_clicked_signal.emit(clients_query_widget_value_dict)
+        
+    def _on_radiobutton_clients_query_clicked(self):
+        radiobutton_name = self.sender().objectName()
+        clients_query_widget_value_dict = self._generate_clients_query_widget_value_dict()
+        self.signals.radiobutton_clients_query_clicked_signal.emit(radiobutton_name, clients_query_widget_value_dict)
+
+    def _generate_clients_query_widget_value_dict(self):
+        relevant_widget_name_list = ['comboBox_clients_query_start_year', 'comboBox_clients_query_stop_year']
+        clients_query_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
+        return clients_query_widget_value_dict
+
+    def display_clients_query_df_in_tableview_slot(self, clients_query_df):
+        self.widgets.set_widget_value('tableView_clients_query', clients_query_df)
+
+    def _on_radiobutton_clients_sort_clicked(self):
+        radiobutton_name = self.sender().objectName()
+        self.signals.radiobutton_clients_sort_clicked_signal.emit(radiobutton_name)
+
+    def _on_pushButton_clients_export_query_results_clicked(self):
+        self.signals.pushbutton_clients_export_query_results_clicked_signal.emit()
+
+    def _on_tableview_clients_query_clicked(self):
+        current_row = self._get_current_row_of_tableview_clients_query()
+        tableview_clients_query_widget = self.widgets.get_widget('tableView_clients_query') # violates Law of Demeter, todo fix it
+        row_dict = tableview_clients_query_widget.get_df_row_as_dict(current_row)
+        widget_value_dict = self._generate_widget_value_dict_from_row_dict(row_dict)
+        self.widgets.set_widget_values_using_dict(widget_value_dict)
+
+    def _get_current_row_of_tableview_clients_query(self):
+        selected_indices = self.ui.tableView_clients_query.selectedIndexes()
+        current_row = selected_indices[0].row()
+        return current_row
+
+    def _generate_widget_value_dict_from_row_dict(self, row_dict):
+        widget_value_dict = dict()
+        for row in self.params.get_clients_info_structure_df_itertuples():
+            info_name = row.info_name
+            widget_name = row.widget_name
+            widget_value_dict[widget_name] = row_dict[info_name]
+        return widget_value_dict
+
+    def _on_pushbutton_clients_overwrite_clicked(self):
+        current_row = self._get_current_row_of_tableview_clients_query()
+        tableview_clients_query_widget = self.widgets.get_widget('tableView_clients_query') # violates Law of Demeter, todo fix it
+        row_dict = tableview_clients_query_widget.get_df_row_as_dict(current_row)
+        UID_to_be_overwritten = row_dict['UID']
+        relevant_widget_name_list = ['lineEdit_clients_client_name', 'comboBox_clients_first_year', 'info_label_clients_index_within_year', 'info_label_clients_client_code']
+
+        overwrite_client_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
+        self.signals.pushbutton_clients_overwrite_clicked_signal.emit(overwrite_client_widget_value_dict, UID_to_be_overwritten)
+
+    def _on_pushbutton_clients_delete_clicked(self):
+        current_row = self._get_current_row_of_tableview_clients_query()
+        tableview_clients_query_widget = self.widgets.get_widget('tableView_clients_query') # violates Law of Demeter, todo fix it
+        row_dict = tableview_clients_query_widget.get_df_row_as_dict(current_row)
+        UID_to_be_deleted = row_dict['UID']
+        self.signals.pushbutton_clients_delete_clicked_signal.emit(UID_to_be_deleted)

@@ -15,6 +15,7 @@ class BackgroundExecution(QtCore.QObject):
         self.times = times.Times(self.signals, self.params)
         self.times_query = times.TimesQuery(self.signals, self.params, self.times)
         self.clients = clients.Clients(self.signals, self.params)
+        self.clients_query = clients.ClientsQuery(self.signals, self.params, self.clients)
 
 
     # times tab
@@ -73,6 +74,33 @@ class BackgroundExecution(QtCore.QObject):
         year = widget_value_dict['comboBox_clients_first_year']
         self.request_next_index_within_year_slot(year)
 
+    def pushbutton_clients_overwrite_clicked_slot(self, widget_value_dict, UID_to_be_overwritten):
+        self.clients.overwrite_client_from_dict(widget_value_dict, UID_to_be_overwritten)
 
+    def pushbutton_clients_delete_clicked_slot(self, UID_to_be_removed):
+        self.clients.delete_client(UID_to_be_removed)
 
+    def radiobutton_clients_query_clicked_slot(self, radiobutton_name, widget_value_dict):
+        if radiobutton_name == 'radioButton_clients_query_using_years':
+            self.clients_query.set_query_selection('using_years')
+        elif radiobutton_name == 'radioButton_clients_query_return_all':
+            self.clients_query.set_query_selection('return_all')
 
+        if self.clients_query.query_has_been_run_before():
+            self.pushbutton_clients_run_query_clicked_slot(widget_value_dict)
+
+    def pushbutton_clients_run_query_clicked_slot(self, widget_value_dict):
+        self.clients_query.run_query(widget_value_dict)
+        self.clients_query.sort_query_result()
+        self.clients_query.display_query_result_in_tableview()
+
+    def radiobutton_clients_sort_clicked_slot(self, radiobutton_name):
+        if radiobutton_name == 'radioButton_clients_sort_by_year_and_index':
+            self.clients_query.sort_query_result_by_year_and_index()
+        elif radiobutton_name == 'radioButton_clients_sort_by_client_name':
+            self.clients_query.sort_query_result_by_client_name()
+
+        self.clients_query.display_query_result_in_tableview()
+
+    def pushbutton_clients_export_query_results_clicked_slot(self):
+        self.clients_query.export_query_result()
