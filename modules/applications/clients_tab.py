@@ -1,4 +1,5 @@
 import datetime
+import time
 
 from PySide2 import QtWidgets
 
@@ -83,7 +84,6 @@ class ClientsTab(QtWidgets.QMainWindow):
             self.signals.pushbutton_add_client_clicked_signal.emit(add_client_widget_value_dict)
 
     def _on_combobox_clients_first_year_currentindexchanged(self):
-        print('in on combobox')
         first_year = self.widgets.get_widget_value('comboBox_clients_first_year')
         self.signals.request_next_index_within_year_signal.emit(first_year)
 

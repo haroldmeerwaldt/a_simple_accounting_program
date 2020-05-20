@@ -78,6 +78,7 @@ class BackgroundExecution(QtCore.QObject):
         self.clients.overwrite_client_from_dict(widget_value_dict, UID_to_be_overwritten)
 
     def pushbutton_clients_delete_clicked_slot(self, UID_to_be_removed):
+        print('UID_to_be_removed', UID_to_be_removed)
         self.clients.delete_client(UID_to_be_removed)
 
     def radiobutton_clients_query_clicked_slot(self, radiobutton_name, widget_value_dict):

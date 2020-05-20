@@ -2,6 +2,8 @@ import datetime
 
 from modules.utilities import toolbox
 
+from PySide2 import QtCore
+
 
 class Widgets:
 
@@ -76,12 +78,20 @@ class ComboboxWidget(Widget):
         return self.qt_widget.currentData()
 
     def set_value(self, value):
-        current_index = self.qt_widget.findData(value)
+        current_index = self._find_data(value)
+        print(self.name, 'current_index', current_index)
         self.qt_widget.setCurrentIndex(current_index)
+
+    def _find_data(self, data): # the findData method belonging to QComboBox does not work as expected: https://stackoverflow.com/questions/34024525/why-doesnt-qcombobox-finddata-accept-an-object-as-input
+        for index in range(self.qt_widget.count()):
+            if self.qt_widget.itemData(index) == data:
+                return index
+        return -1
 
     def add_values(self, value_list):
         for value in value_list:
             self.qt_widget.addItem(str(value), value)
+
 
 
 class LineeditTimesDateWidget(Widget):

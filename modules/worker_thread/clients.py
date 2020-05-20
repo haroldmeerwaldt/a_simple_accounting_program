@@ -18,9 +18,6 @@ class Clients:
     def get_next_index_within_year(self, year):
         valid_row_indices = self.clients_df['First year'] == year
         year_df = self.clients_df.loc[valid_row_indices]
-        print(year_df)
-        print(year_df['Index within year'])
-        print(year_df['Index within year'].max())
         highest_index = year_df['Index within year'].max()
         if np.isnan(highest_index):
             highest_index = 0
@@ -36,6 +33,8 @@ class Clients:
         except FileNotFoundError:
             column_list = self.params.clients_info_structure_df['info_name'].tolist()
             self.clients_df = pd.DataFrame(columns=column_list)
+        self.clients_df = self.clients_df.astype({'UID': str, 'Client name': str, 'First year': int})
+
 
     @toolbox.print_when_called_and_return_exception_inside_thread
     def add_client_from_dict(self, widget_value_dict):
@@ -74,7 +73,6 @@ class Clients:
         self.clients_df = self.clients_df.append(dict_to_be_overwritten_with, ignore_index=True)
 
     def delete_client(self, UID_of_dropped_row):
-        print('UID_of_dropped_row', UID_of_dropped_row)
         self._drop_rows_from_clients_df_based_on_UID(UID_of_dropped_row)
         self._save_clients_df_to_tsv_file()
 
