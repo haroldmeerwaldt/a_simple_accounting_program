@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab_times">
      <attribute name="title">
@@ -215,7 +215,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton">
+         <widget class="QRadioButton" name="radioButton_times_query_return_all">
           <property name="text">
            <string>Return all</string>
           </property>
@@ -285,7 +285,7 @@ day</string>
          <x>30</x>
          <y>40</y>
          <width>241</width>
-         <height>294</height>
+         <height>320</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout_2">
@@ -363,34 +363,34 @@ day</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="0">
+        <item row="7" column="0">
          <widget class="QLabel" name="label_times_start_time">
           <property name="text">
            <string>Start time</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
+        <item row="7" column="1">
          <widget class="QComboBox" name="comboBox_times_start_time"/>
         </item>
-        <item row="7" column="0">
+        <item row="8" column="0">
          <widget class="QLabel" name="label_times_stop_time">
           <property name="text">
            <string>Stop time</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="1">
+        <item row="8" column="1">
          <widget class="QComboBox" name="comboBox_times_stop_time"/>
         </item>
-        <item row="8" column="0">
+        <item row="9" column="0">
          <widget class="QLabel" name="label_times_hours">
           <property name="text">
            <string>Hours</string>
           </property>
          </widget>
         </item>
-        <item row="8" column="1">
+        <item row="9" column="1">
          <widget class="QLabel" name="info_label_times_hours">
           <property name="minimumSize">
            <size>
@@ -403,17 +403,17 @@ day</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="0">
+        <item row="10" column="0">
          <widget class="QLabel" name="label_12">
           <property name="text">
            <string>Commute (km)</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="1">
+        <item row="10" column="1">
          <widget class="QLineEdit" name="lineEdit_commute_km"/>
         </item>
-        <item row="10" column="0">
+        <item row="11" column="0">
          <widget class="QLabel" name="label_18">
           <property name="text">
            <string>Distance driven
@@ -421,8 +421,18 @@ during work (km)</string>
           </property>
          </widget>
         </item>
-        <item row="10" column="1">
+        <item row="11" column="1">
          <widget class="QLineEdit" name="lineEdit_distance_during_work_km"/>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_32">
+          <property name="text">
+           <string>Type of hours</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QComboBox" name="comboBox_times_type_of_hours"/>
         </item>
        </layout>
       </widget>
@@ -1044,14 +1054,14 @@ during work
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QPushButton" name="pushButton_times_overwrite_2">
+           <widget class="QPushButton" name="pushButton_invoices_overwrite">
             <property name="text">
              <string>Overwrite</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_times_delete_2">
+           <widget class="QPushButton" name="pushButton_invoices_delete">
             <property name="text">
              <string>Delete</string>
             </property>
@@ -1073,7 +1083,7 @@ during work
          </layout>
         </item>
         <item>
-         <widget class="QTableView" name="tableView_times_query_2"/>
+         <widget class="QTableView" name="tableView_invoices_query"/>
         </item>
        </layout>
       </widget>
@@ -1088,10 +1098,10 @@ during work
        </property>
        <layout class="QFormLayout" name="formLayout_6">
         <item row="0" column="1">
-         <widget class="QComboBox" name="comboBox_times_query_start_month_2"/>
+         <widget class="QComboBox" name="comboBox_invoices_query_start_month"/>
         </item>
         <item row="2" column="1">
-         <widget class="QComboBox" name="comboBox_times_query_stop_month_2"/>
+         <widget class="QComboBox" name="comboBox_invoices_query_stop_month"/>
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_7">
@@ -1108,7 +1118,7 @@ during work
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QComboBox" name="comboBox_times_query_start_year_2"/>
+         <widget class="QComboBox" name="comboBox_invoices_query_start_year"/>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="label_15">
@@ -1132,10 +1142,10 @@ during work
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QComboBox" name="comboBox_times_query_stop_year_2"/>
+         <widget class="QComboBox" name="comboBox_invoices_query_stop_year"/>
         </item>
         <item row="4" column="1">
-         <widget class="QComboBox" name="comboBox_times_query_client_name_2"/>
+         <widget class="QComboBox" name="comboBox_invoices_query_client_name"/>
         </item>
        </layout>
       </widget>
@@ -1150,21 +1160,21 @@ during work
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <widget class="QRadioButton" name="radioButton_times_sort_by_date_only_2">
+         <widget class="QRadioButton" name="radioButton_invoices_sort_by_date_only">
           <property name="text">
            <string>Sort by date only</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_times_sort_by_client_first_2">
+         <widget class="QRadioButton" name="radioButton_invoices_sort_by_client_first">
           <property name="text">
            <string>Sort by client first</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_times_sort_by_month_then_by_client_2">
+         <widget class="QRadioButton" name="radioButton_invoices_sort_by_month_then_by_client">
           <property name="text">
            <string>Sort by month then by client</string>
           </property>
@@ -1183,28 +1193,28 @@ during work
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_9">
         <item>
-         <widget class="QRadioButton" name="radioButton_times_query_dates_only_2">
+         <widget class="QRadioButton" name="radioButton_invoices_query_dates_only">
           <property name="text">
            <string>Query using dates only</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_times_query_client_only_2">
+         <widget class="QRadioButton" name="radioButton_invoices_query_client_only">
           <property name="text">
            <string>Query using client only</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_times_query_dates_and_client_2">
+         <widget class="QRadioButton" name="radioButton_invoices_query_dates_and_client">
           <property name="text">
            <string>Query using dates and client</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_2">
+         <widget class="QRadioButton" name="radioButton_invoices_query_return_all">
           <property name="text">
            <string>Return all</string>
           </property>
@@ -1212,7 +1222,7 @@ during work
         </item>
        </layout>
       </widget>
-      <widget class="QPushButton" name="pushButton_times_run_query_2">
+      <widget class="QPushButton" name="pushButton_invoices_run_query">
        <property name="geometry">
         <rect>
          <x>660</x>

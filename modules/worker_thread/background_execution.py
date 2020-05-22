@@ -18,12 +18,12 @@ class BackgroundExecution(QtCore.QObject):
 
 
     # times tab
-    def request_client_name_list_slot(self):
+    def times_request_client_name_list_slot(self):
         clients_df = self.clients.get_clients_df()
         client_name_list = list(clients_df['Client name'])
         self.signals.deliver_client_name_list_signal.emit(client_name_list)
 
-    def request_client_code_slot(self, client_name):
+    def times_request_client_code_slot(self, client_name):
         client_code = self.clients.get_client_code_based_on_client_name(client_name)
         self.signals.deliver_client_code_signal.emit(client_code)
 
@@ -116,3 +116,51 @@ class BackgroundExecution(QtCore.QObject):
 
     def pushbutton_clients_export_query_results_clicked_slot(self):
         self.clients_query.export_query_result()
+        
+    # invoices tab
+    def invoices_request_client_name_list_slot(self):
+        clients_df = self.clients.get_clients_df()
+        client_name_list = list(clients_df['Client name'])
+        self.signals.deliver_client_name_list_signal.emit(client_name_list)
+
+    def invoices_request_client_code_slot(self, client_name):
+        client_code = self.clients.get_client_code_based_on_client_name(client_name)
+        self.signals.deliver_client_code_signal.emit(client_code)
+
+    def pushbutton_add_working_day_clicked_slot(self, widget_value_dict):
+        self.invoices.add_working_day_from_dict(widget_value_dict)
+
+    def pushbutton_invoices_overwrite_clicked_slot(self, widget_value_dict, UID_to_be_overwritten):
+        self.invoices.overwrite_working_day_from_dict(widget_value_dict, UID_to_be_overwritten)
+
+    def pushbutton_invoices_delete_clicked_slot(self, UID_to_be_removed):
+        self.invoices.delete_working_day(UID_to_be_removed)
+
+    def radiobutton_invoices_query_clicked_slot(self, radiobutton_name, widget_value_dict):
+        if radiobutton_name == 'radioButton_invoices_query_dates_only':
+            self.invoices_query.set_query_selection('dates_only')
+        elif radiobutton_name == 'radioButton_invoices_query_client_only':
+            self.invoices_query.set_query_selection('client_only')
+        elif radiobutton_name == 'radioButton_invoices_query_dates_and_client':
+            self.invoices_query.set_query_selection('dates_and_client')
+
+        if self.invoices_query.query_has_been_run_before():
+            self.pushbutton_invoices_run_query_clicked_slot(widget_value_dict)
+
+    def pushbutton_invoices_run_query_clicked_slot(self, widget_value_dict):
+        self.invoices_query.run_query(widget_value_dict)
+        self.invoices_query.sort_query_result()
+        self.invoices_query.display_query_result_in_tableview()
+
+    def radiobutton_invoices_sort_clicked_slot(self, radiobutton_name):
+        if radiobutton_name == 'radioButton_invoices_sort_by_date_only':
+            self.invoices_query.sort_query_result_by_date_only()
+        elif radiobutton_name == 'radioButton_invoices_sort_by_client_first':
+            self.invoices_query.sort_query_result_by_client_first()
+        elif radiobutton_name == 'radioButton_invoices_sort_by_month_then_by_client':
+            self.invoices_query.sort_query_result_by_month_then_by_client()
+
+        self.invoices_query.display_query_result_in_tableview()
+
+    def pushbutton_invoices_export_query_results_clicked_slot(self):
+        self.invoices_query.export_query_result()

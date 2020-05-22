@@ -1,17 +1,17 @@
 from PySide2 import QtWidgets, QtCore
 from modules.GUI_layouts import asap_layout
-from modules.applications import widgets, times_tab, clients_tab
+from modules.applications import widgets, times_tab, clients_tab, invoices_tab
 from modules.worker_thread import background_execution
 import pandas as pd
 
 
 class Signals(QtCore.QObject):
     # times tab
-    request_client_name_list_signal = QtCore.Signal()
-    deliver_client_name_list_signal = QtCore.Signal(list)
-    update_client_name_combobox_signal = QtCore.Signal(list)
-    request_client_code_signal = QtCore.Signal(str)
-    deliver_client_code_signal = QtCore.Signal(str)
+    times_request_client_name_list_signal = QtCore.Signal()
+    times_deliver_client_name_list_signal = QtCore.Signal(list)
+    times_update_client_name_combobox_signal = QtCore.Signal(list)
+    times_request_client_code_signal = QtCore.Signal(str)
+    times_deliver_client_code_signal = QtCore.Signal(str)
     pushbutton_add_working_day_clicked_signal = QtCore.Signal(dict)
     radiobutton_times_query_clicked_signal = QtCore.Signal(str, dict)
     pushbutton_times_run_query_clicked_signal = QtCore.Signal(dict)
@@ -32,6 +32,22 @@ class Signals(QtCore.QObject):
     pushbutton_clients_export_query_results_clicked_signal = QtCore.Signal()
     pushbutton_clients_overwrite_clicked_signal = QtCore.Signal(dict, str)
     pushbutton_clients_delete_clicked_signal = QtCore.Signal(str)
+   
+    # invoices tab
+    invoices_request_client_name_list_signal = QtCore.Signal()
+    invoices_deliver_client_name_list_signal = QtCore.Signal(list)
+    invoices_update_client_name_combobox_signal = QtCore.Signal(list)
+    invoices_request_client_code_signal = QtCore.Signal(str)
+    invoices_deliver_client_code_signal = QtCore.Signal(str)
+    pushbutton_generate_invoice_clicked_signal = QtCore.Signal(dict)
+    radiobutton_invoices_query_clicked_signal = QtCore.Signal(str, dict)
+    pushbutton_invoices_run_query_clicked_signal = QtCore.Signal(dict)
+    radiobutton_invoices_sort_clicked_signal = QtCore.Signal(str)
+    display_invoices_query_df_in_tableview_signal = QtCore.Signal(pd.DataFrame)
+    pushbutton_invoices_export_query_results_clicked_signal = QtCore.Signal()
+    pushbutton_invoices_overwrite_clicked_signal = QtCore.Signal(dict, str)
+    pushbutton_invoices_delete_clicked_signal = QtCore.Signal(str)
+    
 
 
     def __init__(self):
@@ -65,8 +81,13 @@ class ASAPApplication(QtWidgets.QMainWindow):
     def _initialize_tabs(self):
         self.times_tab = times_tab.TimesTab(self.ui, self.widgets, self.signals, self.background_execution, self.params)
         self.clients_tab = clients_tab.ClientsTab(self.ui, self.widgets, self.signals, self.background_execution, self.params)
+        self.invoices_tab = invoices_tab.InvoicesTab(self.ui, self.widgets, self.signals, self.background_execution, self.params)
         self.times_tab.set_initial_values()
         self.times_tab.connect_buttons_to_slots()
+        self.invoices_tab.set_initial_values()
+        self.invoices_tab.connect_buttons_to_slots()
+        
+        
 
 
     def closeEvent(self, event):

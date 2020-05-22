@@ -18,11 +18,11 @@ class TimesTab(QtWidgets.QMainWindow):
         self._connect_signals_to_slots()
 
     def _connect_signals_to_slots(self):
-        self.signals.request_client_name_list_signal.connect(self.background_execution.request_client_name_list_slot)
-        self.signals.deliver_client_name_list_signal.connect(self._initialize_client_combobox_lists)
-        self.signals.update_client_name_combobox_signal.connect(self._update_client_combobox_lists)
-        self.signals.request_client_code_signal.connect(self.background_execution.request_client_code_slot)
-        self.signals.deliver_client_code_signal.connect(self._update_client_code)
+        self.signals.times_request_client_name_list_signal.connect(self.background_execution.times_request_client_name_list_slot)
+        self.signals.times_deliver_client_name_list_signal.connect(self._initialize_client_combobox_lists)
+        self.signals.times_update_client_name_combobox_signal.connect(self._update_client_combobox_lists)
+        self.signals.times_request_client_code_signal.connect(self.background_execution.times_request_client_code_slot)
+        self.signals.times_deliver_client_code_signal.connect(self._update_client_code)
         self.signals.pushbutton_add_working_day_clicked_signal.connect(self.background_execution.pushbutton_add_working_day_clicked_slot)
         self.signals.radiobutton_times_query_clicked_signal.connect(self.background_execution.radiobutton_times_query_clicked_slot)
         self.signals.pushbutton_times_run_query_clicked_signal.connect(self.background_execution.pushbutton_times_run_query_clicked_slot)
@@ -38,7 +38,7 @@ class TimesTab(QtWidgets.QMainWindow):
         self._initialize_radiobuttons()
 
     def _initialize_combobox_lists(self):
-        self.signals.request_client_name_list_signal.emit()
+        self.signals.times_request_client_name_list_signal.emit()
 
         time_list = [str(toolbox.SimpleTime(minutes=15*i)) for i in range(96)]
 
@@ -67,7 +67,7 @@ class TimesTab(QtWidgets.QMainWindow):
         self._update_client_combobox_lists(client_name_list)
 
         first_client_name = self.widgets.get_widget_value('comboBox_times_client_name')
-        self.signals.request_client_code_signal.emit(first_client_name)
+        self.signals.times_request_client_code_signal.emit(first_client_name)
 
     def _update_client_combobox_lists(self, client_name_list):
         sorted_client_name_list = sorted(client_name_list)
@@ -121,7 +121,7 @@ class TimesTab(QtWidgets.QMainWindow):
 
     def _on_combobox_times_client_name_currentindexchanged(self):
         client_name = self.widgets.get_widget_value('comboBox_times_client_name')
-        self.signals.request_client_code_signal.emit(client_name)
+        self.signals.times_request_client_code_signal.emit(client_name)
 
     def _on_pushbutton_add_working_day_clicked(self):
         relevant_widget_name_list = ['comboBox_times_client_name', 'info_label_times_client_code', 'lineEdit_times_date', 'info_label_day_of_week',
