@@ -1,3 +1,6 @@
+import sys
+import traceback
+
 import datetime
 import os
 import numpy as np
@@ -26,6 +29,19 @@ class Clients:
 
     def get_clients_df(self):
         return self.clients_df
+
+    def get_client_code_based_on_client_name(self, client_name):
+        valid_row_indices = self.clients_df['Client name'] == client_name
+        client_code_list = self.clients_df.loc[valid_row_indices, 'UID'].tolist()
+        print('client_code_list', client_code_list)
+
+        if len(client_code_list) == 0:
+            print('client code was not found')
+        elif len(client_code_list) == 1:
+            client_code = client_code_list[0]
+            return client_code
+        elif len(client_code_list) > 1:
+            print('multiple client codes were found')
 
     def _generate_clients_df_from_input_file(self):
         try:

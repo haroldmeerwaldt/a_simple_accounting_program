@@ -6,7 +6,12 @@ import pandas as pd
 
 
 class Signals(QtCore.QObject):
-    # clients tab
+    # times tab
+    request_client_name_list_signal = QtCore.Signal()
+    deliver_client_name_list_signal = QtCore.Signal(list)
+    update_client_name_combobox_signal = QtCore.Signal(list)
+    request_client_code_signal = QtCore.Signal(str)
+    deliver_client_code_signal = QtCore.Signal(str)
     pushbutton_add_working_day_clicked_signal = QtCore.Signal(dict)
     radiobutton_times_query_clicked_signal = QtCore.Signal(str, dict)
     pushbutton_times_run_query_clicked_signal = QtCore.Signal(dict)
@@ -16,7 +21,7 @@ class Signals(QtCore.QObject):
     pushbutton_times_overwrite_clicked_signal = QtCore.Signal(dict, str)
     pushbutton_times_delete_clicked_signal = QtCore.Signal(str)
 
-    # times tab
+    # clients tab
     pushbutton_add_client_clicked_signal = QtCore.Signal(dict)
     request_next_index_within_year_signal = QtCore.Signal(int)
     deliver_next_index_within_year_signal = QtCore.Signal(int)
@@ -47,7 +52,6 @@ class ASAPApplication(QtWidgets.QMainWindow):
     def _initialize_user_interface(self):
         self.ui = asap_layout.Ui_MainWindow()
         self.ui.setupUi(self)
-        print(vars(self.ui))
         self.ui.tableView_times_query.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.ui.tableView_clients_query.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.widgets = widgets.Widgets(self.ui, self.DATE_FORMAT)
@@ -61,6 +65,8 @@ class ASAPApplication(QtWidgets.QMainWindow):
     def _initialize_tabs(self):
         self.times_tab = times_tab.TimesTab(self.ui, self.widgets, self.signals, self.background_execution, self.params)
         self.clients_tab = clients_tab.ClientsTab(self.ui, self.widgets, self.signals, self.background_execution, self.params)
+        self.times_tab.set_initial_values()
+        self.times_tab.connect_buttons_to_slots()
 
 
     def closeEvent(self, event):

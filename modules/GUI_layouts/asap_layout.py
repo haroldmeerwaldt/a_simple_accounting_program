@@ -112,10 +112,10 @@ class Ui_MainWindow(object):
 
         self.formLayout.setWidget(3, QFormLayout.FieldRole, self.comboBox_times_query_stop_year)
 
-        self.comboBox_times_query_client = QComboBox(self.formLayoutWidget)
-        self.comboBox_times_query_client.setObjectName(u"comboBox_times_query_client")
+        self.comboBox_times_query_client_name = QComboBox(self.formLayoutWidget)
+        self.comboBox_times_query_client_name.setObjectName(u"comboBox_times_query_client_name")
 
-        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.comboBox_times_query_client)
+        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.comboBox_times_query_client_name)
 
         self.verticalLayoutWidget_2 = QWidget(self.groupBox)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
@@ -192,10 +192,10 @@ class Ui_MainWindow(object):
 
         self.formLayout_2.setWidget(2, QFormLayout.LabelRole, self.label_times_date)
 
-        self.comboBox_times_client = QComboBox(self.formLayoutWidget_2)
-        self.comboBox_times_client.setObjectName(u"comboBox_times_client")
+        self.comboBox_times_client_name = QComboBox(self.formLayoutWidget_2)
+        self.comboBox_times_client_name.setObjectName(u"comboBox_times_client_name")
 
-        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.comboBox_times_client)
+        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.comboBox_times_client_name)
 
         self.label_times_start_time = QLabel(self.formLayoutWidget_2)
         self.label_times_start_time.setObjectName(u"label_times_start_time")
@@ -453,7 +453,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -468,7 +468,7 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"Stop month", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Start year", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Stop year", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Client", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Client name", None))
         self.radioButton_times_sort_by_date_only.setText(QCoreApplication.translate("MainWindow", u"Sort by date only", None))
         self.radioButton_times_sort_by_client_first.setText(QCoreApplication.translate("MainWindow", u"Sort by client first", None))
         self.radioButton_times_sort_by_month_then_by_client.setText(QCoreApplication.translate("MainWindow", u"Sort by month then by client", None))

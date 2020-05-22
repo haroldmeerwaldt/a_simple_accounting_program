@@ -42,11 +42,11 @@ class Times:
         return dict_to_be_added
 
     def _generate_UID(self, dict_to_be_added):
-        client = dict_to_be_added['Client']
+        client_name = dict_to_be_added['Client name']
         date = dict_to_be_added['Date']
         date_string = date.strftime(self.DATE_FORMAT)
         start_time = dict_to_be_added['Start time']
-        list_of_info_in_UID = [client, date_string, start_time]
+        list_of_info_in_UID = [client_name, date_string, start_time]
         UID = '_'.join(list_of_info_in_UID)
         return UID
 
@@ -117,18 +117,18 @@ class TimesQuery:
         self.query_result_df = times_df.loc[valid_row_indices]
 
     def query_client_only(self, snapshot_dict):
-        client = snapshot_dict['comboBox_times_query_client']
+        client_name = snapshot_dict['comboBox_times_query_client_name']
         times_df = self.times.get_times_df()
 
-        valid_row_indices = times_df['Client'] == client
+        valid_row_indices = times_df['Client name'] == client_name
         self.query_result_df = times_df.loc[valid_row_indices]
 
     def query_dates_and_client(self, snapshot_dict):
         start_date, stop_date = self._extract_start_and_stop_date_from_snapshot_dict(snapshot_dict)
-        client = snapshot_dict['comboBox_times_query_client']
+        client_name = snapshot_dict['comboBox_times_query_client_name']
         times_df = self.times.get_times_df()
 
-        valid_row_indices = (start_date <= times_df['Date']) & (times_df['Date'] < stop_date) & (times_df['Client'] == client)
+        valid_row_indices = (start_date <= times_df['Date']) & (times_df['Date'] < stop_date) & (times_df['Client name'] == client_name)
         self.query_result_df = times_df.loc[valid_row_indices]
 
     def _extract_start_and_stop_date_from_snapshot_dict(self, snapshot_dict):
@@ -168,7 +168,7 @@ class TimesQuery:
     def sort_query_result_by_client_first(self):
         self.query_sort_method = 'by_client_first'
         if self.query_result_df is not None:
-            self.query_result_df = self.query_result_df.sort_values(by=['Client', 'Date'])
+            self.query_result_df = self.query_result_df.sort_values(by=['Client name', 'Date'])
 
     @toolbox.print_when_called_and_return_exception_inside_thread
     def sort_query_result_by_month_then_by_client(self):
@@ -177,7 +177,7 @@ class TimesQuery:
             query_result_df_copy = self.query_result_df.copy() # making a copy first and working on it prevents pandas SettingWithCopyWarning
             date_series = query_result_df_copy['Date']
             query_result_df_copy['Month'] = [date.month for date in date_series]
-            query_result_df_copy = query_result_df_copy.sort_values(by=['Month', 'Client'])
+            query_result_df_copy = query_result_df_copy.sort_values(by=['Month', 'Client name'])
             query_result_df_copy = query_result_df_copy.drop(labels='Month', axis='columns')
             self.query_result_df = query_result_df_copy.copy()
 

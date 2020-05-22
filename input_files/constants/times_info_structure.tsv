@@ -1,5 +1,6 @@
 info_name	widget_name
-Client	comboBox_times_client
+Client name	comboBox_times_client_name
+Client code	info_label_times_client_code
 Date	lineEdit_times_date
 Day of the week	info_label_day_of_week
 Start time	comboBox_times_start_time

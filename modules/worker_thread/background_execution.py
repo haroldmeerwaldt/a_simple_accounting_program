@@ -9,7 +9,6 @@ from modules.worker_thread import times, clients
 class BackgroundExecution(QtCore.QObject):
     def __init__(self, signals, params):
         super().__init__()
-        print('in background execution')
         self.signals = signals
         self.params = params
         self.times = times.Times(self.signals, self.params)
@@ -19,6 +18,15 @@ class BackgroundExecution(QtCore.QObject):
 
 
     # times tab
+    def request_client_name_list_slot(self):
+        clients_df = self.clients.get_clients_df()
+        client_name_list = list(clients_df['Client name'])
+        self.signals.deliver_client_name_list_signal.emit(client_name_list)
+
+    def request_client_code_slot(self, client_name):
+        client_code = self.clients.get_client_code_based_on_client_name(client_name)
+        self.signals.deliver_client_code_signal.emit(client_code)
+
     def pushbutton_add_working_day_clicked_slot(self, widget_value_dict):
         self.times.add_working_day_from_dict(widget_value_dict)
 
@@ -60,7 +68,6 @@ class BackgroundExecution(QtCore.QObject):
 
     # clients tab
     def request_next_index_within_year_slot(self, year):
-        print('in slot')
         try:
             next_index = self.clients.get_next_index_within_year(year)
             self.signals.deliver_next_index_within_year_signal.emit(next_index)
@@ -73,6 +80,10 @@ class BackgroundExecution(QtCore.QObject):
         self.clients.add_client_from_dict(widget_value_dict)
         year = widget_value_dict['comboBox_clients_first_year']
         self.request_next_index_within_year_slot(year)
+
+        clients_df = self.clients.get_clients_df()
+        client_name_list = list(clients_df['Client name'])
+        self.signals.update_client_name_combobox_signal.emit(client_name_list)
 
     def pushbutton_clients_overwrite_clicked_slot(self, widget_value_dict, UID_to_be_overwritten):
         self.clients.overwrite_client_from_dict(widget_value_dict, UID_to_be_overwritten)

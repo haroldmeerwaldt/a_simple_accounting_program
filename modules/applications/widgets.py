@@ -49,9 +49,9 @@ class Widgets:
         widget = self.get_widget(widget_name)
         widget.set_value(value)
 
-    def add_values_to_widget(self, widget_name, value_list):
+    def set_allowed_widget_values(self, widget_name, value_list):
         widget = self.get_widget(widget_name)
-        widget.add_values(value_list)
+        widget.set_allowed_values(value_list)
 
     def get_times_date_as_object(self):
         date = self.get_widget_value('lineEdit_times_date')
@@ -79,7 +79,6 @@ class ComboboxWidget(Widget):
 
     def set_value(self, value):
         current_index = self._find_data(value)
-        print(self.name, 'current_index', current_index)
         self.qt_widget.setCurrentIndex(current_index)
 
     def _find_data(self, data): # the findData method belonging to QComboBox does not work as expected: https://stackoverflow.com/questions/34024525/why-doesnt-qcombobox-finddata-accept-an-object-as-input
@@ -88,9 +87,10 @@ class ComboboxWidget(Widget):
                 return index
         return -1
 
-    def add_values(self, value_list):
+    def set_allowed_values(self, value_list):
         for value in value_list:
-            self.qt_widget.addItem(str(value), value)
+            if self._find_data(value) == -1:
+                self.qt_widget.addItem(str(value), value)
 
 
 

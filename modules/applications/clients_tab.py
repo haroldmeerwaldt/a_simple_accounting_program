@@ -26,13 +26,13 @@ class ClientsTab(QtWidgets.QMainWindow):
     def _initialize_combobox_lists(self):
         current_year = int(datetime.datetime.now().strftime('%Y'))
         year_list = list(range(current_year-10, current_year + 1))
-        self.widgets.add_values_to_widget('comboBox_clients_first_year', year_list)
+        self.widgets.set_allowed_widget_values('comboBox_clients_first_year', year_list)
         self.widgets.set_widget_value('comboBox_clients_first_year', year_list[-1])
         self._on_combobox_clients_first_year_currentindexchanged()
 
-        self.widgets.add_values_to_widget('comboBox_clients_query_start_year', year_list)
+        self.widgets.set_allowed_widget_values('comboBox_clients_query_start_year', year_list)
         self.widgets.set_widget_value('comboBox_clients_query_start_year', year_list[0])
-        self.widgets.add_values_to_widget('comboBox_clients_query_stop_year', year_list)
+        self.widgets.set_allowed_widget_values('comboBox_clients_query_stop_year', year_list)
         self.widgets.set_widget_value('comboBox_clients_query_stop_year', year_list[-1])
 
 
@@ -82,6 +82,7 @@ class ClientsTab(QtWidgets.QMainWindow):
         else:
             add_client_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
             self.signals.pushbutton_add_client_clicked_signal.emit(add_client_widget_value_dict)
+
 
     def _on_combobox_clients_first_year_currentindexchanged(self):
         first_year = self.widgets.get_widget_value('comboBox_clients_first_year')

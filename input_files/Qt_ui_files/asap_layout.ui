@@ -138,7 +138,7 @@
         <item row="4" column="0">
          <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>Client</string>
+           <string>Client name</string>
           </property>
          </widget>
         </item>
@@ -146,7 +146,7 @@
          <widget class="QComboBox" name="comboBox_times_query_stop_year"/>
         </item>
         <item row="4" column="1">
-         <widget class="QComboBox" name="comboBox_times_query_client"/>
+         <widget class="QComboBox" name="comboBox_times_query_client_name"/>
         </item>
        </layout>
       </widget>
@@ -258,7 +258,7 @@ results</string>
         <x>20</x>
         <y>20</y>
         <width>311</width>
-        <height>381</height>
+        <height>491</height>
        </rect>
       </property>
       <property name="title">
@@ -268,7 +268,7 @@ results</string>
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>290</y>
+         <y>390</y>
          <width>75</width>
          <height>75</height>
         </rect>
@@ -285,7 +285,7 @@ day</string>
          <x>30</x>
          <y>40</y>
          <width>241</width>
-         <height>234</height>
+         <height>294</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout_2">
@@ -296,80 +296,8 @@ day</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_times_date">
-          <property name="text">
-           <string>Date</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="1">
-         <widget class="QComboBox" name="comboBox_times_client"/>
-        </item>
-        <item row="7" column="0">
-         <widget class="QLabel" name="label_times_start_time">
-          <property name="text">
-           <string>Start time</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="label_times_stop_time">
-          <property name="text">
-           <string>Stop time</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="1">
-         <widget class="QComboBox" name="comboBox_times_start_time"/>
-        </item>
-        <item row="8" column="1">
-         <widget class="QComboBox" name="comboBox_times_stop_time"/>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="lineEdit_times_date"/>
-        </item>
-        <item row="4" column="1">
-         <widget class="QPushButton" name="pushButton_times_fill_in_today">
-          <property name="text">
-           <string>Fill in today</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="0">
-         <widget class="QLabel" name="label_times_hours">
-          <property name="text">
-           <string>Hours</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="1">
-         <widget class="QLabel" name="info_label_times_hours">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QPushButton" name="pushButton_times_increment_by_one_week">
-          <property name="text">
-           <string>Increment by one week</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="info_label_day_of_week">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_day_of_week">
-          <property name="text">
-           <string>Day of week</string>
-          </property>
-         </widget>
+         <widget class="QComboBox" name="comboBox_times_client_name"/>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="label_11">
@@ -380,24 +308,121 @@ day</string>
         </item>
         <item row="1" column="1">
          <widget class="QLabel" name="info_label_times_client_code">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
           <property name="text">
            <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_times_date">
+          <property name="text">
+           <string>Date</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="lineEdit_times_date"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_day_of_week">
+          <property name="text">
+           <string>Day of week</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="info_label_day_of_week">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QPushButton" name="pushButton_times_fill_in_today">
+          <property name="text">
+           <string>Fill in today</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QPushButton" name="pushButton_times_increment_by_one_week">
+          <property name="text">
+           <string>Increment by one week</string>
           </property>
          </widget>
         </item>
         <item row="6" column="0">
-         <widget class="QLabel" name="label_12">
+         <widget class="QLabel" name="label_times_start_time">
           <property name="text">
-           <string>Invoice number</string>
+           <string>Start time</string>
           </property>
          </widget>
         </item>
         <item row="6" column="1">
-         <widget class="QLabel" name="info_label_times_invoice_number">
+         <widget class="QComboBox" name="comboBox_times_start_time"/>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="label_times_stop_time">
+          <property name="text">
+           <string>Stop time</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QComboBox" name="comboBox_times_stop_time"/>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_times_hours">
+          <property name="text">
+           <string>Hours</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QLabel" name="info_label_times_hours">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
           <property name="text">
            <string/>
           </property>
          </widget>
+        </item>
+        <item row="9" column="0">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>Commute (km)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QLineEdit" name="lineEdit_commute_km"/>
+        </item>
+        <item row="10" column="0">
+         <widget class="QLabel" name="label_18">
+          <property name="text">
+           <string>Distance driven
+during work (km)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="1">
+         <widget class="QLineEdit" name="lineEdit_distance_during_work_km"/>
         </item>
        </layout>
       </widget>
@@ -405,7 +430,7 @@ day</string>
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>290</y>
+         <y>390</y>
          <width>75</width>
          <height>75</height>
         </rect>
@@ -426,7 +451,7 @@ day</string>
         <x>20</x>
         <y>20</y>
         <width>311</width>
-        <height>241</height>
+        <height>511</height>
        </rect>
       </property>
       <property name="title">
@@ -436,7 +461,7 @@ day</string>
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>150</y>
+         <y>430</y>
          <width>75</width>
          <height>75</height>
         </rect>
@@ -445,26 +470,29 @@ day</string>
         <string>Add client</string>
        </property>
       </widget>
-      <widget class="QWidget" name="formLayoutWidget_3">
+      <widget class="QPushButton" name="pushButton_clients_clear_fields">
        <property name="geometry">
         <rect>
-         <x>30</x>
-         <y>40</y>
-         <width>241</width>
-         <height>100</height>
+         <x>60</x>
+         <y>430</y>
+         <width>75</width>
+         <height>75</height>
         </rect>
        </property>
-       <layout class="QFormLayout" name="formLayout_3">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_times_client_2">
-          <property name="text">
-           <string>Client name</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="lineEdit_clients_client_name"/>
-        </item>
+       <property name="text">
+        <string>Clear fields</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="gridLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>20</y>
+         <width>231</width>
+         <height>403</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
         <item row="1" column="0">
          <widget class="QLabel" name="label_times_date_2">
           <property name="text">
@@ -472,33 +500,21 @@ day</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="comboBox_clients_first_year"/>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_day_of_week_2">
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_30">
           <property name="text">
-           <string>Client code</string>
+           <string>Address</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="info_label_clients_client_code">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
+        <item row="10" column="0">
+         <widget class="QLabel" name="label_23">
           <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Index within year</string>
+           <string>Standard
+compensation
+for driving
+during work
+(euro/km)</string>
           </property>
          </widget>
         </item>
@@ -515,20 +531,111 @@ day</string>
           </property>
          </widget>
         </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_day_of_week_2">
+          <property name="text">
+           <string>Client code</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="label_19">
+          <property name="text">
+           <string>Standard rate
+during day
+(euro/h)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_20">
+          <property name="text">
+           <string>Standard rate
+for shifts
+(euro/h)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_standard_rate_for_shifts"/>
+        </item>
+        <item row="9" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_standard_compensation_for_commute"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_times_client_2">
+          <property name="text">
+           <string>Client name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_29">
+          <property name="text">
+           <string>Person name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_standard_rate_during_day"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="comboBox_clients_first_year"/>
+        </item>
+        <item row="10" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_standard_compensation_for_driving_during_work"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Index within year</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="info_label_clients_client_code">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0">
+         <widget class="QLabel" name="label_22">
+          <property name="text">
+           <string>Standard
+compensation
+for commute
+(euro/km)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_client_name"/>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_31">
+          <property name="text">
+           <string>Postal code
+and city</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_person_name"/>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_address"/>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_postal_code_and_city"/>
+        </item>
        </layout>
-      </widget>
-      <widget class="QPushButton" name="pushButton_clients_clear_fields">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>150</y>
-         <width>75</width>
-         <height>75</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Clear fields</string>
-       </property>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_4">
@@ -707,6 +814,433 @@ results</string>
      <attribute name="title">
       <string>Invoices</string>
      </attribute>
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>311</width>
+        <height>501</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Generate invoices</string>
+      </property>
+      <widget class="QPushButton" name="pushButton_generate_invoice">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>390</y>
+         <width>75</width>
+         <height>75</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Generate
+invoice</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_invoices_clear_fields">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>390</y>
+         <width>75</width>
+         <height>75</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Clear fields</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="gridLayoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>30</y>
+         <width>241</width>
+         <height>351</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_day_of_week_3">
+          <property name="text">
+           <string>Year</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_times_date_3">
+          <property name="text">
+           <string>Month</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>Invoice number</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="lineEdit_invoices_invoice_date"/>
+        </item>
+        <item row="7" column="1">
+         <widget class="QLineEdit" name="lineEdit_invoices_rate_during_day"/>
+        </item>
+        <item row="8" column="1">
+         <widget class="QLineEdit" name="lineEdit_invoices_rate_for_shifts"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>Client code</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_21">
+          <property name="text">
+           <string>Invoice date</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_times_client_3">
+          <property name="text">
+           <string>Client name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="comboBox_invoices_year"/>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="label_27">
+          <property name="text">
+           <string>Rate during
+day (euro/h)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="comboBox_invoices_client_name"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="info_label_invoices_client_code">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLabel" name="info_label_invoices_invoice_number">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_28">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_24">
+          <property name="text">
+           <string>Rate for
+shifts (euro/h)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QComboBox" name="comboBox_invoices_month"/>
+        </item>
+        <item row="9" column="0">
+         <widget class="QLabel" name="label_25">
+          <property name="text">
+           <string>Compensation
+for commute
+(euro/km)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QPushButton" name="pushButton_invoices_fill_in_today">
+          <property name="text">
+           <string>Fill in today</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QLineEdit" name="lineEdit_invoices_compensation_for_commute"/>
+        </item>
+        <item row="10" column="0">
+         <widget class="QLabel" name="label_26">
+          <property name="text">
+           <string>Compensation
+for driving
+during work
+(euro/km)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="1">
+         <widget class="QLineEdit" name="lineEdit_invoices_compensation_for_driving_during_work"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_6">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>20</y>
+        <width>861</width>
+        <height>511</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Query invoices</string>
+      </property>
+      <widget class="QWidget" name="verticalLayoutWidget_7">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>170</y>
+         <width>831</width>
+         <height>331</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QPushButton" name="pushButton_times_overwrite_2">
+            <property name="text">
+             <string>Overwrite</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_times_delete_2">
+            <property name="text">
+             <string>Delete</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableView" name="tableView_times_query_2"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="formLayoutWidget_6">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>20</y>
+         <width>160</width>
+         <height>136</height>
+        </rect>
+       </property>
+       <layout class="QFormLayout" name="formLayout_6">
+        <item row="0" column="1">
+         <widget class="QComboBox" name="comboBox_times_query_start_month_2"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QComboBox" name="comboBox_times_query_stop_month_2"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Start month</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Stop month</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="comboBox_times_query_start_year_2"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_15">
+          <property name="text">
+           <string>Start year</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>Stop year</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_17">
+          <property name="text">
+           <string>Client name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="comboBox_times_query_stop_year_2"/>
+        </item>
+        <item row="4" column="1">
+         <widget class="QComboBox" name="comboBox_times_query_client_name_2"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_8">
+       <property name="geometry">
+        <rect>
+         <x>450</x>
+         <y>40</y>
+         <width>186</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QRadioButton" name="radioButton_times_sort_by_date_only_2">
+          <property name="text">
+           <string>Sort by date only</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_times_sort_by_client_first_2">
+          <property name="text">
+           <string>Sort by client first</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_times_sort_by_month_then_by_client_2">
+          <property name="text">
+           <string>Sort by month then by client</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_9">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>40</y>
+         <width>162</width>
+         <height>88</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_9">
+        <item>
+         <widget class="QRadioButton" name="radioButton_times_query_dates_only_2">
+          <property name="text">
+           <string>Query using dates only</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_times_query_client_only_2">
+          <property name="text">
+           <string>Query using client only</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_times_query_dates_and_client_2">
+          <property name="text">
+           <string>Query using dates and client</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_2">
+          <property name="text">
+           <string>Return all</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QPushButton" name="pushButton_times_run_query_2">
+       <property name="geometry">
+        <rect>
+         <x>660</x>
+         <y>40</y>
+         <width>75</width>
+         <height>75</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Run query</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_times_export_query_results_2">
+       <property name="geometry">
+        <rect>
+         <x>760</x>
+         <y>40</y>
+         <width>75</width>
+         <height>75</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Export 
+query 
+results</string>
+       </property>
+      </widget>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_configuration">
      <attribute name="title">
