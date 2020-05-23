@@ -59,6 +59,8 @@ class Widgets:
         return date
 
 
+
+
 class Widget:
     def __init__(self, qt_widget):
         self.qt_widget = qt_widget

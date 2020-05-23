@@ -1235,7 +1235,7 @@ during work
         <string>Run query</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_times_export_query_results_2">
+      <widget class="QPushButton" name="pushButton_invoices_export_query_results">
        <property name="geometry">
         <rect>
          <x>760</x>

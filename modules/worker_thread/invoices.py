@@ -27,7 +27,7 @@ class Invoices:
         return self.invoices_df
 
     @toolbox.print_when_called_and_return_exception_inside_thread
-    def add_working_day_from_dict(self, widget_value_dict):
+    def generate_invoice_from_dict(self, widget_value_dict):
         dict_to_be_added = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
         dict_to_be_added['UID'] = self._generate_UID(dict_to_be_added)
         self._add_working_day_in_memory(dict_to_be_added)

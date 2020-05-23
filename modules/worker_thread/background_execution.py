@@ -121,14 +121,14 @@ class BackgroundExecution(QtCore.QObject):
     def invoices_request_client_name_list_slot(self):
         clients_df = self.clients.get_clients_df()
         client_name_list = list(clients_df['Client name'])
-        self.signals.deliver_client_name_list_signal.emit(client_name_list)
+        self.signals.invoices_deliver_client_name_list_signal.emit(client_name_list)
 
     def invoices_request_client_code_slot(self, client_name):
         client_code = self.clients.get_client_code_based_on_client_name(client_name)
-        self.signals.deliver_client_code_signal.emit(client_code)
+        self.signals.invoices_deliver_client_code_signal.emit(client_code)
 
-    def pushbutton_add_working_day_clicked_slot(self, widget_value_dict):
-        self.invoices.add_working_day_from_dict(widget_value_dict)
+    def pushbutton_generate_invoice_clicked_slot(self, widget_value_dict):
+        self.invoices.generate_invoice_from_dict(widget_value_dict)
 
     def pushbutton_invoices_overwrite_clicked_slot(self, widget_value_dict, UID_to_be_overwritten):
         self.invoices.overwrite_working_day_from_dict(widget_value_dict, UID_to_be_overwritten)

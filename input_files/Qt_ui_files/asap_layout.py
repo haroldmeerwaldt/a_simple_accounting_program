@@ -801,9 +801,9 @@ class Ui_MainWindow(object):
         self.pushButton_invoices_run_query = QPushButton(self.groupBox_6)
         self.pushButton_invoices_run_query.setObjectName(u"pushButton_invoices_run_query")
         self.pushButton_invoices_run_query.setGeometry(QRect(660, 40, 75, 75))
-        self.pushButton_times_export_query_results_2 = QPushButton(self.groupBox_6)
-        self.pushButton_times_export_query_results_2.setObjectName(u"pushButton_times_export_query_results_2")
-        self.pushButton_times_export_query_results_2.setGeometry(QRect(760, 40, 75, 75))
+        self.pushButton_invoices_export_query_results = QPushButton(self.groupBox_6)
+        self.pushButton_invoices_export_query_results.setObjectName(u"pushButton_invoices_export_query_results")
+        self.pushButton_invoices_export_query_results.setGeometry(QRect(760, 40, 75, 75))
         self.tabWidget.addTab(self.tab_invoices, "")
         self.tab_configuration = QWidget()
         self.tab_configuration.setObjectName(u"tab_configuration")
@@ -954,7 +954,7 @@ class Ui_MainWindow(object):
         self.radioButton_invoices_query_dates_and_client.setText(QCoreApplication.translate("MainWindow", u"Query using dates and client", None))
         self.radioButton_invoices_query_return_all.setText(QCoreApplication.translate("MainWindow", u"Return all", None))
         self.pushButton_invoices_run_query.setText(QCoreApplication.translate("MainWindow", u"Run query", None))
-        self.pushButton_times_export_query_results_2.setText(QCoreApplication.translate("MainWindow", u"Export \n"
+        self.pushButton_invoices_export_query_results.setText(QCoreApplication.translate("MainWindow", u"Export \n"
 "query \n"
 "results", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_invoices), QCoreApplication.translate("MainWindow", u"Invoices", None))
