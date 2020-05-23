@@ -1,9 +1,10 @@
 info_name	widget_name
+UID	info_label_invoices_invoice_number
 Client name	comboBox_invoices_client_name
 Client code	info_label_invoices_client_code
+Invoice index at client	info_label_invoices_invoice_index_at_client
 Month	comboBox_invoices_month
 Year	comboBox_invoices_year
-Invoice number	info_label_invoices_invoice_number
 Invoice date	lineEdit_invoices_invoice_date
 Rate during day (euro/h)	lineEdit_invoices_rate_during_day
 Rate for shifts (euro/h)	lineEdit_invoices_rate_for_shifts

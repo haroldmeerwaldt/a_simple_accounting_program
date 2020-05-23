@@ -21,8 +21,11 @@ class InvoicesTab(QtWidgets.QMainWindow):
         self.signals.invoices_request_client_name_list_signal.connect(self.background_execution.invoices_request_client_name_list_slot)
         self.signals.invoices_deliver_client_name_list_signal.connect(self._initialize_client_combobox_lists)
         self.signals.invoices_update_client_name_combobox_signal.connect(self._update_client_combobox_lists)
-        self.signals.invoices_request_client_code_signal.connect(self.background_execution.invoices_request_client_code_slot)
-        self.signals.invoices_deliver_client_code_signal.connect(self._update_client_code)
+        self.signals.invoices_request_client_code_and_next_invoice_index_at_client_signal.connect(self.background_execution.invoices_request_client_code_and_next_invoice_index_at_client_slot)
+        self.signals.invoices_deliver_client_code_and_next_invoice_index_at_client_signal.connect(self._update_client_code_invoice_index_at_client_and_invoice_number)
+        # self.signals.invoices_request_invoice_number_signal.connect(self.background_execution.invoices_request_invoice_number_slot)
+        # self.signals.invoices_deliver_invoice_number_signal.connect(self._update_invoice_number)
+
         self.signals.pushbutton_generate_invoice_clicked_signal.connect(self.background_execution.pushbutton_generate_invoice_clicked_slot)
         self.signals.radiobutton_invoices_query_clicked_signal.connect(self.background_execution.radiobutton_invoices_query_clicked_slot)
         self.signals.pushbutton_invoices_run_query_clicked_signal.connect(self.background_execution.pushbutton_invoices_run_query_clicked_slot)
@@ -64,7 +67,7 @@ class InvoicesTab(QtWidgets.QMainWindow):
         self._update_client_combobox_lists(client_name_list)
 
         first_client_name = self.widgets.get_widget_value('comboBox_invoices_client_name')
-        self.signals.invoices_request_client_code_signal.emit(first_client_name)
+        self.signals.invoices_request_client_code_and_next_invoice_index_at_client_signal.emit(first_client_name)
 
     def _update_client_combobox_lists(self, client_name_list):
         sorted_client_name_list = sorted(client_name_list)
@@ -75,8 +78,12 @@ class InvoicesTab(QtWidgets.QMainWindow):
         self.widgets.set_widget_value('comboBox_invoices_client_name', first_client_name)
         self.widgets.set_widget_value('comboBox_invoices_query_client_name', first_client_name)
 
-    def _update_client_code(self, client_code):
+    def _update_client_code_invoice_index_at_client_and_invoice_number(self, client_code, invoice_index_at_client):
         self.widgets.set_widget_value('info_label_invoices_client_code', client_code)
+        self.widgets.set_widget_value('info_label_invoices_invoice_index_at_client', invoice_index_at_client)
+        invoice_number = '{}.{:03d}'.format(client_code, invoice_index_at_client)
+        self.widgets.set_widget_value('info_label_invoices_invoice_number', invoice_number)
+
 
     def _initialize_radiobuttons(self):
         self.widgets.set_widget_value('radioButton_invoices_sort_by_date_only', True)
@@ -109,11 +116,12 @@ class InvoicesTab(QtWidgets.QMainWindow):
 
     def _on_combobox_invoices_client_name_currentindexchanged(self):
         client_name = self.widgets.get_widget_value('comboBox_invoices_client_name')
-        self.signals.invoices_request_client_code_signal.emit(client_name)
+        self.signals.invoices_request_client_code_and_next_invoice_index_at_client_signal.emit(client_name)
 
     def _on_pushbutton_generate_invoice_clicked(self):
-        relevant_widget_name_list = ['comboBox_invoices_client_name', 'info_label_invoices_client_code', 'comboBox_invoices_month', 'comboBox_invoices_year',
-                                     'info_label_invoices_invoice_number', 'lineEdit_invoices_invoice_date', 'lineEdit_invoices_rate_during_day',
+        relevant_widget_name_list = ['comboBox_invoices_client_name', 'info_label_invoices_client_code', 'info_label_invoices_invoice_index_at_client',
+                                     'info_label_invoices_invoice_number', 'comboBox_invoices_month', 'comboBox_invoices_year',
+                                     'lineEdit_invoices_invoice_date', 'lineEdit_invoices_rate_during_day',
                                      'lineEdit_invoices_rate_for_shifts', 'lineEdit_invoices_compensation_for_commute', 'lineEdit_invoices_compensation_for_driving_during_work']
         try:
             add_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
@@ -181,9 +189,11 @@ class InvoicesTab(QtWidgets.QMainWindow):
         tableview_invoices_query_widget = self.widgets.get_widget('tableView_invoices_query') # violates Law of Demeter, todo fix it
         row_dict = tableview_invoices_query_widget.get_df_row_as_dict(current_row)
         UID_to_be_overwritten = row_dict['UID']
-        relevant_widget_name_list = ['comboBox_invoices_client_name', 'info_label_invoices_client_code', 'comboBox_invoices_month', 'comboBox_invoices_year',
-                                     'info_label_invoices_invoice_number', 'lineEdit_invoices_invoice_date', 'lineEdit_invoices_rate_during_day',
+        relevant_widget_name_list = ['comboBox_invoices_client_name', 'info_label_invoices_client_code', 'info_label_invoices_invoice_index_at_client',
+                                     'info_label_invoices_invoice_number', 'comboBox_invoices_month', 'comboBox_invoices_year',
+                                     'lineEdit_invoices_invoice_date', 'lineEdit_invoices_rate_during_day',
                                      'lineEdit_invoices_rate_for_shifts', 'lineEdit_invoices_compensation_for_commute', 'lineEdit_invoices_compensation_for_driving_during_work']
+
         try:
             overwrite_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
             self.signals.pushbutton_invoices_overwrite_clicked_signal.emit(overwrite_working_day_widget_value_dict, UID_to_be_overwritten)

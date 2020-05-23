@@ -39,16 +39,21 @@ class Parameters:
     def _generate_info_structure_dfs(self):
         self.times_info_structure_df = pd.read_csv(self.times_info_structure_path, sep='\t')
         self.clients_info_structure_df = pd.read_csv(self.clients_info_structure_path, sep='\t')
+        self.invoices_info_structure_df = pd.read_csv(self.invoices_info_structure_path, sep='\t')
 
     def _generate_data_filenames(self):
         self.times_filename = os.path.join(self.user_directory, 'times.tsv')
         self.clients_filename = os.path.join(self.user_directory, 'clients.tsv')
+        self.invoices_filename = os.path.join(self.user_directory, 'invoices.tsv')
 
     def get_times_info_structure_df_itertuples(self):
         return self.times_info_structure_df.itertuples()
 
     def get_clients_info_structure_df_itertuples(self):
         return self.clients_info_structure_df.itertuples()
+
+    def get_invoices_info_structure_df_itertuples(self):
+        return self.invoices_info_structure_df.itertuples()
 
 
 def main():

@@ -1,6 +1,9 @@
 import datetime
 import os
+import sys
+import traceback
 
+import numpy as np
 import pandas as pd
 
 from modules.utilities import toolbox
@@ -14,14 +17,30 @@ class Invoices:
         self.invoices_filename = params.invoices_filename
         self._generate_invoices_df_from_input_file()
 
+    @toolbox.print_when_called_and_return_exception_inside_thread
+    def get_next_invoice_index_at_client(self, client_code):
+        print('in get next invoice index')
+        try:
+            valid_row_indices = self.invoices_df['Client code'] == client_code
+            client_df = self.invoices_df.loc[valid_row_indices]
+            highest_index = client_df['Invoice index at client'].max()
+            if np.isnan(highest_index):
+                highest_index = 0
+            next_index = highest_index + 1
+        except:
+            type, value, tb = sys.exc_info()
+            traceback.print_tb(tb)
+
+        print('next_index', next_index)
+        return next_index
+
     def _generate_invoices_df_from_input_file(self):
         try:
             self.invoices_df = pd.read_csv(self.invoices_filename, sep='\t')
         except FileNotFoundError:
-            column_list = ['UID'] + self.params.invoices_info_structure_df['info_name'].tolist()
+            column_list = self.params.invoices_info_structure_df['info_name'].tolist()
             self.invoices_df = pd.DataFrame(columns=column_list)
 
-        self.invoices_df['Date'] = pd.to_datetime(self.invoices_df['Date'], format=self.DATE_FORMAT)
 
     def get_invoices_df(self):
         return self.invoices_df
@@ -29,7 +48,6 @@ class Invoices:
     @toolbox.print_when_called_and_return_exception_inside_thread
     def generate_invoice_from_dict(self, widget_value_dict):
         dict_to_be_added = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
-        dict_to_be_added['UID'] = self._generate_UID(dict_to_be_added)
         self._add_working_day_in_memory(dict_to_be_added)
         self._add_working_day_to_file(dict_to_be_added)
 
@@ -40,15 +58,6 @@ class Invoices:
             widget_name = row.widget_name
             dict_to_be_added[info_name] = widget_value_dict[widget_name]
         return dict_to_be_added
-
-    def _generate_UID(self, dict_to_be_added):
-        client_name = dict_to_be_added['Client name']
-        date = dict_to_be_added['Date']
-        date_string = date.strftime(self.DATE_FORMAT)
-        start_time = dict_to_be_added['Start time']
-        list_of_info_in_UID = [client_name, date_string, start_time]
-        UID = '_'.join(list_of_info_in_UID)
-        return UID
 
     def _add_working_day_in_memory(self, dict_to_be_added):
         self.invoices_df = self.invoices_df.append(dict_to_be_added, ignore_index=True)

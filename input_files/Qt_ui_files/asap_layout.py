@@ -530,79 +530,19 @@ class Ui_MainWindow(object):
         self.tab_invoices.setObjectName(u"tab_invoices")
         self.groupBox_5 = QGroupBox(self.tab_invoices)
         self.groupBox_5.setObjectName(u"groupBox_5")
-        self.groupBox_5.setGeometry(QRect(20, 20, 311, 501))
+        self.groupBox_5.setGeometry(QRect(20, 20, 311, 511))
         self.pushButton_generate_invoice = QPushButton(self.groupBox_5)
         self.pushButton_generate_invoice.setObjectName(u"pushButton_generate_invoice")
-        self.pushButton_generate_invoice.setGeometry(QRect(180, 390, 75, 75))
+        self.pushButton_generate_invoice.setGeometry(QRect(180, 430, 75, 75))
         self.pushButton_invoices_clear_fields = QPushButton(self.groupBox_5)
         self.pushButton_invoices_clear_fields.setObjectName(u"pushButton_invoices_clear_fields")
-        self.pushButton_invoices_clear_fields.setGeometry(QRect(60, 390, 75, 75))
+        self.pushButton_invoices_clear_fields.setGeometry(QRect(60, 430, 75, 75))
         self.gridLayoutWidget_2 = QWidget(self.groupBox_5)
         self.gridLayoutWidget_2.setObjectName(u"gridLayoutWidget_2")
-        self.gridLayoutWidget_2.setGeometry(QRect(30, 30, 241, 351))
+        self.gridLayoutWidget_2.setGeometry(QRect(30, 20, 241, 399))
         self.gridLayout_2 = QGridLayout(self.gridLayoutWidget_2)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.label_day_of_week_3 = QLabel(self.gridLayoutWidget_2)
-        self.label_day_of_week_3.setObjectName(u"label_day_of_week_3")
-
-        self.gridLayout_2.addWidget(self.label_day_of_week_3, 3, 0, 1, 1)
-
-        self.label_times_date_3 = QLabel(self.gridLayoutWidget_2)
-        self.label_times_date_3.setObjectName(u"label_times_date_3")
-
-        self.gridLayout_2.addWidget(self.label_times_date_3, 2, 0, 1, 1)
-
-        self.label_14 = QLabel(self.gridLayoutWidget_2)
-        self.label_14.setObjectName(u"label_14")
-
-        self.gridLayout_2.addWidget(self.label_14, 4, 0, 1, 1)
-
-        self.lineEdit_invoices_invoice_date = QLineEdit(self.gridLayoutWidget_2)
-        self.lineEdit_invoices_invoice_date.setObjectName(u"lineEdit_invoices_invoice_date")
-
-        self.gridLayout_2.addWidget(self.lineEdit_invoices_invoice_date, 5, 1, 1, 1)
-
-        self.lineEdit_invoices_rate_during_day = QLineEdit(self.gridLayoutWidget_2)
-        self.lineEdit_invoices_rate_during_day.setObjectName(u"lineEdit_invoices_rate_during_day")
-
-        self.gridLayout_2.addWidget(self.lineEdit_invoices_rate_during_day, 7, 1, 1, 1)
-
-        self.lineEdit_invoices_rate_for_shifts = QLineEdit(self.gridLayoutWidget_2)
-        self.lineEdit_invoices_rate_for_shifts.setObjectName(u"lineEdit_invoices_rate_for_shifts")
-
-        self.gridLayout_2.addWidget(self.lineEdit_invoices_rate_for_shifts, 8, 1, 1, 1)
-
-        self.label_13 = QLabel(self.gridLayoutWidget_2)
-        self.label_13.setObjectName(u"label_13")
-
-        self.gridLayout_2.addWidget(self.label_13, 1, 0, 1, 1)
-
-        self.label_21 = QLabel(self.gridLayoutWidget_2)
-        self.label_21.setObjectName(u"label_21")
-
-        self.gridLayout_2.addWidget(self.label_21, 5, 0, 1, 1)
-
-        self.label_times_client_3 = QLabel(self.gridLayoutWidget_2)
-        self.label_times_client_3.setObjectName(u"label_times_client_3")
-
-        self.gridLayout_2.addWidget(self.label_times_client_3, 0, 0, 1, 1)
-
-        self.comboBox_invoices_year = QComboBox(self.gridLayoutWidget_2)
-        self.comboBox_invoices_year.setObjectName(u"comboBox_invoices_year")
-
-        self.gridLayout_2.addWidget(self.comboBox_invoices_year, 3, 1, 1, 1)
-
-        self.label_27 = QLabel(self.gridLayoutWidget_2)
-        self.label_27.setObjectName(u"label_27")
-
-        self.gridLayout_2.addWidget(self.label_27, 7, 0, 1, 1)
-
-        self.comboBox_invoices_client_name = QComboBox(self.gridLayoutWidget_2)
-        self.comboBox_invoices_client_name.setObjectName(u"comboBox_invoices_client_name")
-
-        self.gridLayout_2.addWidget(self.comboBox_invoices_client_name, 0, 1, 1, 1)
-
         self.info_label_invoices_client_code = QLabel(self.gridLayoutWidget_2)
         self.info_label_invoices_client_code.setObjectName(u"info_label_invoices_client_code")
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
@@ -614,53 +554,127 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.info_label_invoices_client_code, 1, 1, 1, 1)
 
+        self.label_25 = QLabel(self.gridLayoutWidget_2)
+        self.label_25.setObjectName(u"label_25")
+
+        self.gridLayout_2.addWidget(self.label_25, 10, 0, 1, 1)
+
+        self.label_times_client_3 = QLabel(self.gridLayoutWidget_2)
+        self.label_times_client_3.setObjectName(u"label_times_client_3")
+
+        self.gridLayout_2.addWidget(self.label_times_client_3, 0, 0, 1, 1)
+
+        self.pushButton_invoices_fill_in_today = QPushButton(self.gridLayoutWidget_2)
+        self.pushButton_invoices_fill_in_today.setObjectName(u"pushButton_invoices_fill_in_today")
+
+        self.gridLayout_2.addWidget(self.pushButton_invoices_fill_in_today, 7, 1, 1, 1)
+
+        self.lineEdit_invoices_rate_during_day = QLineEdit(self.gridLayoutWidget_2)
+        self.lineEdit_invoices_rate_during_day.setObjectName(u"lineEdit_invoices_rate_during_day")
+
+        self.gridLayout_2.addWidget(self.lineEdit_invoices_rate_during_day, 8, 1, 1, 1)
+
+        self.lineEdit_invoices_rate_for_shifts = QLineEdit(self.gridLayoutWidget_2)
+        self.lineEdit_invoices_rate_for_shifts.setObjectName(u"lineEdit_invoices_rate_for_shifts")
+
+        self.gridLayout_2.addWidget(self.lineEdit_invoices_rate_for_shifts, 9, 1, 1, 1)
+
+        self.label_21 = QLabel(self.gridLayoutWidget_2)
+        self.label_21.setObjectName(u"label_21")
+
+        self.gridLayout_2.addWidget(self.label_21, 6, 0, 1, 1)
+
+        self.label_24 = QLabel(self.gridLayoutWidget_2)
+        self.label_24.setObjectName(u"label_24")
+
+        self.gridLayout_2.addWidget(self.label_24, 9, 0, 1, 1)
+
+        self.comboBox_invoices_client_name = QComboBox(self.gridLayoutWidget_2)
+        self.comboBox_invoices_client_name.setObjectName(u"comboBox_invoices_client_name")
+
+        self.gridLayout_2.addWidget(self.comboBox_invoices_client_name, 0, 1, 1, 1)
+
+        self.label_13 = QLabel(self.gridLayoutWidget_2)
+        self.label_13.setObjectName(u"label_13")
+
+        self.gridLayout_2.addWidget(self.label_13, 1, 0, 1, 1)
+
+        self.label_day_of_week_3 = QLabel(self.gridLayoutWidget_2)
+        self.label_day_of_week_3.setObjectName(u"label_day_of_week_3")
+
+        self.gridLayout_2.addWidget(self.label_day_of_week_3, 5, 0, 1, 1)
+
+        self.label_27 = QLabel(self.gridLayoutWidget_2)
+        self.label_27.setObjectName(u"label_27")
+
+        self.gridLayout_2.addWidget(self.label_27, 8, 0, 1, 1)
+
+        self.lineEdit_invoices_invoice_date = QLineEdit(self.gridLayoutWidget_2)
+        self.lineEdit_invoices_invoice_date.setObjectName(u"lineEdit_invoices_invoice_date")
+
+        self.gridLayout_2.addWidget(self.lineEdit_invoices_invoice_date, 6, 1, 1, 1)
+
+        self.lineEdit_invoices_compensation_for_commute = QLineEdit(self.gridLayoutWidget_2)
+        self.lineEdit_invoices_compensation_for_commute.setObjectName(u"lineEdit_invoices_compensation_for_commute")
+
+        self.gridLayout_2.addWidget(self.lineEdit_invoices_compensation_for_commute, 10, 1, 1, 1)
+
+        self.label_26 = QLabel(self.gridLayoutWidget_2)
+        self.label_26.setObjectName(u"label_26")
+
+        self.gridLayout_2.addWidget(self.label_26, 11, 0, 1, 1)
+
+        self.lineEdit_invoices_compensation_for_driving_during_work = QLineEdit(self.gridLayoutWidget_2)
+        self.lineEdit_invoices_compensation_for_driving_during_work.setObjectName(u"lineEdit_invoices_compensation_for_driving_during_work")
+
+        self.gridLayout_2.addWidget(self.lineEdit_invoices_compensation_for_driving_during_work, 11, 1, 1, 1)
+
+        self.label_28 = QLabel(self.gridLayoutWidget_2)
+        self.label_28.setObjectName(u"label_28")
+
+        self.gridLayout_2.addWidget(self.label_28, 7, 0, 1, 1)
+
+        self.label_33 = QLabel(self.gridLayoutWidget_2)
+        self.label_33.setObjectName(u"label_33")
+        sizePolicy.setHeightForWidth(self.label_33.sizePolicy().hasHeightForWidth())
+        self.label_33.setSizePolicy(sizePolicy)
+        self.label_33.setMinimumSize(QSize(0, 20))
+
+        self.gridLayout_2.addWidget(self.label_33, 2, 0, 1, 1)
+
+        self.label_times_date_3 = QLabel(self.gridLayoutWidget_2)
+        self.label_times_date_3.setObjectName(u"label_times_date_3")
+
+        self.gridLayout_2.addWidget(self.label_times_date_3, 4, 0, 1, 1)
+
+        self.label_14 = QLabel(self.gridLayoutWidget_2)
+        self.label_14.setObjectName(u"label_14")
+
+        self.gridLayout_2.addWidget(self.label_14, 3, 0, 1, 1)
+
+        self.comboBox_invoices_year = QComboBox(self.gridLayoutWidget_2)
+        self.comboBox_invoices_year.setObjectName(u"comboBox_invoices_year")
+
+        self.gridLayout_2.addWidget(self.comboBox_invoices_year, 5, 1, 1, 1)
+
+        self.comboBox_invoices_month = QComboBox(self.gridLayoutWidget_2)
+        self.comboBox_invoices_month.setObjectName(u"comboBox_invoices_month")
+
+        self.gridLayout_2.addWidget(self.comboBox_invoices_month, 4, 1, 1, 1)
+
         self.info_label_invoices_invoice_number = QLabel(self.gridLayoutWidget_2)
         self.info_label_invoices_invoice_number.setObjectName(u"info_label_invoices_invoice_number")
         sizePolicy.setHeightForWidth(self.info_label_invoices_invoice_number.sizePolicy().hasHeightForWidth())
         self.info_label_invoices_invoice_number.setSizePolicy(sizePolicy)
         self.info_label_invoices_invoice_number.setMinimumSize(QSize(0, 20))
 
-        self.gridLayout_2.addWidget(self.info_label_invoices_invoice_number, 4, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.info_label_invoices_invoice_number, 3, 1, 1, 1)
 
-        self.label_28 = QLabel(self.gridLayoutWidget_2)
-        self.label_28.setObjectName(u"label_28")
+        self.info_label_invoices_invoice_index_at_client = QLabel(self.gridLayoutWidget_2)
+        self.info_label_invoices_invoice_index_at_client.setObjectName(u"info_label_invoices_invoice_index_at_client")
+        self.info_label_invoices_invoice_index_at_client.setMinimumSize(QSize(0, 20))
 
-        self.gridLayout_2.addWidget(self.label_28, 6, 0, 1, 1)
-
-        self.label_24 = QLabel(self.gridLayoutWidget_2)
-        self.label_24.setObjectName(u"label_24")
-
-        self.gridLayout_2.addWidget(self.label_24, 8, 0, 1, 1)
-
-        self.comboBox_invoices_month = QComboBox(self.gridLayoutWidget_2)
-        self.comboBox_invoices_month.setObjectName(u"comboBox_invoices_month")
-
-        self.gridLayout_2.addWidget(self.comboBox_invoices_month, 2, 1, 1, 1)
-
-        self.label_25 = QLabel(self.gridLayoutWidget_2)
-        self.label_25.setObjectName(u"label_25")
-
-        self.gridLayout_2.addWidget(self.label_25, 9, 0, 1, 1)
-
-        self.pushButton_invoices_fill_in_today = QPushButton(self.gridLayoutWidget_2)
-        self.pushButton_invoices_fill_in_today.setObjectName(u"pushButton_invoices_fill_in_today")
-
-        self.gridLayout_2.addWidget(self.pushButton_invoices_fill_in_today, 6, 1, 1, 1)
-
-        self.lineEdit_invoices_compensation_for_commute = QLineEdit(self.gridLayoutWidget_2)
-        self.lineEdit_invoices_compensation_for_commute.setObjectName(u"lineEdit_invoices_compensation_for_commute")
-
-        self.gridLayout_2.addWidget(self.lineEdit_invoices_compensation_for_commute, 9, 1, 1, 1)
-
-        self.label_26 = QLabel(self.gridLayoutWidget_2)
-        self.label_26.setObjectName(u"label_26")
-
-        self.gridLayout_2.addWidget(self.label_26, 10, 0, 1, 1)
-
-        self.lineEdit_invoices_compensation_for_driving_during_work = QLineEdit(self.gridLayoutWidget_2)
-        self.lineEdit_invoices_compensation_for_driving_during_work.setObjectName(u"lineEdit_invoices_compensation_for_driving_during_work")
-
-        self.gridLayout_2.addWidget(self.lineEdit_invoices_compensation_for_driving_during_work, 10, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.info_label_invoices_invoice_index_at_client, 2, 1, 1, 1)
 
         self.groupBox_6 = QGroupBox(self.tab_invoices)
         self.groupBox_6.setObjectName(u"groupBox_6")
@@ -917,27 +931,30 @@ class Ui_MainWindow(object):
         self.pushButton_generate_invoice.setText(QCoreApplication.translate("MainWindow", u"Generate\n"
 "invoice", None))
         self.pushButton_invoices_clear_fields.setText(QCoreApplication.translate("MainWindow", u"Clear fields", None))
-        self.label_day_of_week_3.setText(QCoreApplication.translate("MainWindow", u"Year", None))
-        self.label_times_date_3.setText(QCoreApplication.translate("MainWindow", u"Month", None))
-        self.label_14.setText(QCoreApplication.translate("MainWindow", u"Invoice number", None))
-        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Client code", None))
-        self.label_21.setText(QCoreApplication.translate("MainWindow", u"Invoice date", None))
-        self.label_times_client_3.setText(QCoreApplication.translate("MainWindow", u"Client name", None))
-        self.label_27.setText(QCoreApplication.translate("MainWindow", u"Rate during\n"
-"day (euro/h)", None))
         self.info_label_invoices_client_code.setText("")
-        self.info_label_invoices_invoice_number.setText("")
-        self.label_28.setText("")
-        self.label_24.setText(QCoreApplication.translate("MainWindow", u"Rate for\n"
-"shifts (euro/h)", None))
         self.label_25.setText(QCoreApplication.translate("MainWindow", u"Compensation\n"
 "for commute\n"
 "(euro/km)", None))
+        self.label_times_client_3.setText(QCoreApplication.translate("MainWindow", u"Client name", None))
         self.pushButton_invoices_fill_in_today.setText(QCoreApplication.translate("MainWindow", u"Fill in today", None))
+        self.label_21.setText(QCoreApplication.translate("MainWindow", u"Invoice date", None))
+        self.label_24.setText(QCoreApplication.translate("MainWindow", u"Rate for\n"
+"shifts (euro/h)", None))
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Client code", None))
+        self.label_day_of_week_3.setText(QCoreApplication.translate("MainWindow", u"Year", None))
+        self.label_27.setText(QCoreApplication.translate("MainWindow", u"Rate during\n"
+"day (euro/h)", None))
         self.label_26.setText(QCoreApplication.translate("MainWindow", u"Compensation\n"
 "for driving\n"
 "during work\n"
 "(euro/km)", None))
+        self.label_28.setText("")
+        self.label_33.setText(QCoreApplication.translate("MainWindow", u"Invoice index\n"
+"at client", None))
+        self.label_times_date_3.setText(QCoreApplication.translate("MainWindow", u"Month", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"Invoice number", None))
+        self.info_label_invoices_invoice_number.setText("")
+        self.info_label_invoices_invoice_index_at_client.setText("")
         self.groupBox_6.setTitle(QCoreApplication.translate("MainWindow", u"Query invoices", None))
         self.pushButton_invoices_overwrite.setText(QCoreApplication.translate("MainWindow", u"Overwrite", None))
         self.pushButton_invoices_delete.setText(QCoreApplication.translate("MainWindow", u"Delete", None))

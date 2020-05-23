@@ -3,7 +3,7 @@ import traceback
 
 from PySide2 import QtCore
 
-from modules.worker_thread import times, clients
+from modules.worker_thread import times, clients, invoices
 
 
 class BackgroundExecution(QtCore.QObject):
@@ -15,6 +15,8 @@ class BackgroundExecution(QtCore.QObject):
         self.times_query = times.TimesQuery(self.signals, self.params, self.times)
         self.clients = clients.Clients(self.signals, self.params)
         self.clients_query = clients.ClientsQuery(self.signals, self.params, self.clients)
+        self.invoices = invoices.Invoices(self.signals, self.params)
+        self.invoices_query = clients.ClientsQuery(self.signals, self.params, self.invoices)
 
 
     # times tab
@@ -68,13 +70,8 @@ class BackgroundExecution(QtCore.QObject):
 
     # clients tab
     def request_next_index_within_year_slot(self, year):
-        try:
-            next_index = self.clients.get_next_index_within_year(year)
-            self.signals.deliver_next_index_within_year_signal.emit(next_index)
-        except:
-            type, value, tb = sys.exc_info()
-            traceback.print_tb(tb)
-
+        next_index = self.clients.get_next_index_within_year(year)
+        self.signals.deliver_next_index_within_year_signal.emit(next_index)
 
     def pushbutton_add_client_clicked_slot(self, widget_value_dict):
         self.clients.add_client_from_dict(widget_value_dict)
@@ -123,9 +120,16 @@ class BackgroundExecution(QtCore.QObject):
         client_name_list = list(clients_df['Client name'])
         self.signals.invoices_deliver_client_name_list_signal.emit(client_name_list)
 
-    def invoices_request_client_code_slot(self, client_name):
+    def invoices_request_client_code_and_next_invoice_index_at_client_slot(self, client_name):
+        print('in slot invoices_request_client_code_and_next_invoice_index_at_client_slot')
+        # try:
         client_code = self.clients.get_client_code_based_on_client_name(client_name)
-        self.signals.invoices_deliver_client_code_signal.emit(client_code)
+        next_invoice_index_at_client = self.invoices.get_next_invoice_index_at_client(client_code)
+        print(next_invoice_index_at_client)
+        self.signals.invoices_deliver_client_code_and_next_invoice_index_at_client_signal.emit(client_code, next_invoice_index_at_client)
+        # except:
+        #     type, value, tb = sys.exc_info()
+        #     traceback.print_tb(tb)
 
     def pushbutton_generate_invoice_clicked_slot(self, widget_value_dict):
         self.invoices.generate_invoice_from_dict(widget_value_dict)
