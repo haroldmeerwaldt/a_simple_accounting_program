@@ -75,7 +75,10 @@ class ClientsTab(QtWidgets.QMainWindow):
         self.signals.pushbutton_clients_delete_clicked_signal.connect(self.background_execution.pushbutton_clients_delete_clicked_slot)
 
     def _on_pushbutton_add_client_clicked(self):
-        relevant_widget_name_list = ['lineEdit_clients_client_name', 'comboBox_clients_first_year', 'info_label_clients_index_within_year', 'info_label_clients_client_code']
+        relevant_widget_name_list = ['lineEdit_clients_client_name', 'comboBox_clients_first_year', 'info_label_clients_index_within_year', 'info_label_clients_client_code',
+                                     'lineEdit_clients_person_name', 'lineEdit_clients_address', 'lineEdit_clients_postal_code_and_city',
+                                     'lineEdit_clients_standard_rate_during_day', 'lineEdit_clients_standard_rate_for_shifts', 'lineEdit_clients_standard_compensation_for_commute',
+                                     'lineEdit_clients_standard_compensation_for_driving_during_work']
         client_name = self.widgets.get_widget_value('lineEdit_clients_client_name')
         if client_name == '':
             print('The client name is left empty. Please fill in a client name')  # todo move to logger
@@ -148,7 +151,10 @@ class ClientsTab(QtWidgets.QMainWindow):
         tableview_clients_query_widget = self.widgets.get_widget('tableView_clients_query') # violates Law of Demeter, todo fix it
         row_dict = tableview_clients_query_widget.get_df_row_as_dict(current_row)
         UID_to_be_overwritten = row_dict['UID']
-        relevant_widget_name_list = ['lineEdit_clients_client_name', 'comboBox_clients_first_year', 'info_label_clients_index_within_year', 'info_label_clients_client_code']
+        relevant_widget_name_list = ['lineEdit_clients_client_name', 'comboBox_clients_first_year', 'info_label_clients_index_within_year', 'info_label_clients_client_code',
+                                     'lineEdit_clients_person_name', 'lineEdit_clients_address', 'lineEdit_clients_postal_code_and_city',
+                                     'lineEdit_clients_standard_rate_during_day', 'lineEdit_clients_standard_rate_for_shifts', 'lineEdit_clients_standard_compensation_for_commute',
+                                     'lineEdit_clients_standard_compensation_for_driving_during_work']
 
         overwrite_client_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
         self.signals.pushbutton_clients_overwrite_clicked_signal.emit(overwrite_client_widget_value_dict, UID_to_be_overwritten)

@@ -120,16 +120,27 @@ class BackgroundExecution(QtCore.QObject):
         client_name_list = list(clients_df['Client name'])
         self.signals.invoices_deliver_client_name_list_signal.emit(client_name_list)
 
-    def invoices_request_client_code_and_next_invoice_index_at_client_slot(self, client_name):
+    def invoices_request_client_code_next_invoice_index_at_client_rates_and_compensations_slot(self, client_name):
         print('in slot invoices_request_client_code_and_next_invoice_index_at_client_slot')
-        # try:
-        client_code = self.clients.get_client_code_based_on_client_name(client_name)
-        next_invoice_index_at_client = self.invoices.get_next_invoice_index_at_client(client_code)
-        print(next_invoice_index_at_client)
-        self.signals.invoices_deliver_client_code_and_next_invoice_index_at_client_signal.emit(client_code, next_invoice_index_at_client)
-        # except:
-        #     type, value, tb = sys.exc_info()
-        #     traceback.print_tb(tb)
+        try:
+            client_info_dict = self.clients.get_client_info_dict_based_on_client_name(client_name)
+            client_code = client_info_dict['UID']
+            next_invoice_index_at_client = self.invoices.get_next_invoice_index_at_client(client_code)
+            print(next_invoice_index_at_client)
+            row_dict = dict()
+            row_dict['Invoice index at client'] = next_invoice_index_at_client
+            row_dict['UID'] = client_info_dict['UID']
+            row_dict['Rate during day (euro/h)'] = client_info_dict['Standard rate during day (euro/h)']
+            row_dict['Rate for shifts (euro/h)'] = client_info_dict['Standard rate for shifts (euro/h)']
+            row_dict['Compensation for commute (euro/km)'] = client_info_dict['Standard compensation for commute (euro/km)']
+            row_dict['Compensation for driving during work (euro/km)'] = client_info_dict['Standard compensation for driving during work (euro/km)']
+            self.signals.invoices_deliver_client_code_next_invoice_index_at_client_rates_and_compensations_signal.emit(row_dict)
+        except TypeError:
+            pass
+        except Exception as e:
+            print(e)
+            type, value, tb = sys.exc_info()
+            traceback.print_tb(tb)
 
     def pushbutton_generate_invoice_clicked_slot(self, widget_value_dict):
         self.invoices.generate_invoice_from_dict(widget_value_dict)

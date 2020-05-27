@@ -21,8 +21,8 @@ class InvoicesTab(QtWidgets.QMainWindow):
         self.signals.invoices_request_client_name_list_signal.connect(self.background_execution.invoices_request_client_name_list_slot)
         self.signals.invoices_deliver_client_name_list_signal.connect(self._initialize_client_combobox_lists)
         self.signals.invoices_update_client_name_combobox_signal.connect(self._update_client_combobox_lists)
-        self.signals.invoices_request_client_code_and_next_invoice_index_at_client_signal.connect(self.background_execution.invoices_request_client_code_and_next_invoice_index_at_client_slot)
-        self.signals.invoices_deliver_client_code_and_next_invoice_index_at_client_signal.connect(self._update_client_code_invoice_index_at_client_and_invoice_number)
+        self.signals.invoices_request_client_code_next_invoice_index_at_client_rates_and_compensations_signal.connect(self.background_execution.invoices_request_client_code_next_invoice_index_at_client_rates_and_compensations_slot)
+        self.signals.invoices_deliver_client_code_next_invoice_index_at_client_rates_and_compensations_signal.connect(self._update_client_code_invoice_index_at_client_and_invoice_number)
         # self.signals.invoices_request_invoice_number_signal.connect(self.background_execution.invoices_request_invoice_number_slot)
         # self.signals.invoices_deliver_invoice_number_signal.connect(self._update_invoice_number)
 
@@ -67,20 +67,29 @@ class InvoicesTab(QtWidgets.QMainWindow):
         self._update_client_combobox_lists(client_name_list)
 
         first_client_name = self.widgets.get_widget_value('comboBox_invoices_client_name')
-        self.signals.invoices_request_client_code_and_next_invoice_index_at_client_signal.emit(first_client_name)
+        self.signals.invoices_request_client_code_next_invoice_index_at_client_rates_and_compensations_signal.emit(first_client_name)
 
     def _update_client_combobox_lists(self, client_name_list):
         sorted_client_name_list = sorted(client_name_list)
         self.widgets.set_allowed_widget_values('comboBox_invoices_client_name', sorted_client_name_list)
         self.widgets.set_allowed_widget_values('comboBox_invoices_query_client_name', sorted_client_name_list)
 
-        first_client_name = sorted_client_name_list[0]
-        self.widgets.set_widget_value('comboBox_invoices_client_name', first_client_name)
-        self.widgets.set_widget_value('comboBox_invoices_query_client_name', first_client_name)
+        try:
+            first_client_name = sorted_client_name_list[0]
+            self.widgets.set_widget_value('comboBox_invoices_client_name', first_client_name)
+            self.widgets.set_widget_value('comboBox_invoices_query_client_name', first_client_name)
+        except IndexError:
+            print('No clients found')
 
-    def _update_client_code_invoice_index_at_client_and_invoice_number(self, client_code, invoice_index_at_client):
-        self.widgets.set_widget_value('info_label_invoices_client_code', client_code)
-        self.widgets.set_widget_value('info_label_invoices_invoice_index_at_client', invoice_index_at_client)
+    def _update_client_code_invoice_index_at_client_and_invoice_number(self, client_info_dict):
+        widget_value_dict = self._generate_widget_value_dict_from_row_dict(client_info_dict)
+        self.widgets.set_widget_values_using_dict(widget_value_dict)
+
+
+        # self.widgets.set_widget_value('info_label_invoices_client_code', client_code)
+        # self.widgets.set_widget_value('info_label_invoices_invoice_index_at_client', invoice_index_at_client)
+        client_code = client_info_dict['UID']
+        invoice_index_at_client = client_info_dict['Invoice index at client']
         invoice_number = '{}.{:03d}'.format(client_code, invoice_index_at_client)
         self.widgets.set_widget_value('info_label_invoices_invoice_number', invoice_number)
 
@@ -116,7 +125,7 @@ class InvoicesTab(QtWidgets.QMainWindow):
 
     def _on_combobox_invoices_client_name_currentindexchanged(self):
         client_name = self.widgets.get_widget_value('comboBox_invoices_client_name')
-        self.signals.invoices_request_client_code_and_next_invoice_index_at_client_signal.emit(client_name)
+        self.signals.invoices_request_client_code_next_invoice_index_at_client_rates_and_compensations_signal.emit(client_name)
 
     def _on_pushbutton_generate_invoice_clicked(self):
         relevant_widget_name_list = ['comboBox_invoices_client_name', 'info_label_invoices_client_code', 'info_label_invoices_invoice_index_at_client',

@@ -3,3 +3,10 @@ UID	info_label_clients_client_code
 Client name	lineEdit_clients_client_name
 First year	comboBox_clients_first_year
 Index within year	info_label_clients_index_within_year
+Person name	lineEdit_clients_person_name
+Address	lineEdit_clients_address
+Postal code and city	lineEdit_clients_postal_code_and_city
+Standard rate during day (euro/h)	lineEdit_clients_standard_rate_during_day
+Standard rate for shifts (euro/h)	lineEdit_clients_standard_rate_for_shifts
+Standard compensation for commute (euro/km)	lineEdit_clients_standard_compensation_for_commute
+Standard compensation for driving during work (euro/km)	lineEdit_clients_standard_compensation_for_driving_during_work

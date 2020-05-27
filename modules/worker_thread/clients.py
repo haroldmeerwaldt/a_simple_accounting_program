@@ -36,12 +36,27 @@ class Clients:
         print('client_code_list', client_code_list)
 
         if len(client_code_list) == 0:
-            print('client code was not found')
+            print('client info was not found')
         elif len(client_code_list) == 1:
             client_code = client_code_list[0]
             return client_code
         elif len(client_code_list) > 1:
-            print('multiple client codes were found')
+            print('multiple client names were found')
+
+    def get_client_info_dict_based_on_client_name(self, client_name):
+        valid_row_indices = self.clients_df['Client name'] == client_name
+        required_column_names = ['UID', 'Standard rate during day (euro/h)', 'Standard rate for shifts (euro/h)', 'Standard compensation for commute (euro/km)', 'Standard compensation for driving during work (euro/km)']
+        client_info_df = self.clients_df.loc[valid_row_indices, required_column_names]
+
+        print('client_info_df', client_info_df)
+
+        if len(client_info_df) == 0:
+            print('client info was not found')
+        elif len(client_info_df) == 1:
+            client_info_dict = client_info_df.iloc[0, :].to_dict(orient='records')
+            return client_info_dict
+        elif len(client_info_df) > 1:
+            print('multiple client names were found')
 
     def _generate_clients_df_from_input_file(self):
         try:
