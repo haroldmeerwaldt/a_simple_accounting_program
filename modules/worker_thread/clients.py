@@ -53,7 +53,9 @@ class Clients:
         if len(client_info_df) == 0:
             print('client info was not found')
         elif len(client_info_df) == 1:
-            client_info_dict = client_info_df.iloc[0, :].to_dict(orient='records')
+            print('one row')
+            print(client_info_df.iloc[0, :], type(client_info_df.iloc[0, :]))
+            client_info_dict = client_info_df.iloc[0, :].to_dict()
             return client_info_dict
         elif len(client_info_df) > 1:
             print('multiple client names were found')

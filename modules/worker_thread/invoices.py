@@ -1,3 +1,4 @@
+import inspect
 import datetime
 import os
 import sys
@@ -41,15 +42,19 @@ class Invoices:
             column_list = self.params.invoices_info_structure_df['info_name'].tolist()
             self.invoices_df = pd.DataFrame(columns=column_list)
 
+        self.invoices_df['Invoice date'] = pd.to_datetime(self.invoices_df['Invoice date'], format=self.DATE_FORMAT)
+
 
     def get_invoices_df(self):
         return self.invoices_df
 
     @toolbox.print_when_called_and_return_exception_inside_thread
     def generate_invoice_from_dict(self, widget_value_dict):
+        print(inspect.currentframe().f_code.co_name)
         dict_to_be_added = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
-        self._add_working_day_in_memory(dict_to_be_added)
-        self._add_working_day_to_file(dict_to_be_added)
+        print(dict_to_be_added)
+        self._add_invoice_in_memory(dict_to_be_added)
+        self._add_invoice_to_file(dict_to_be_added)
 
     def _generate_dict_to_be_added_from_widget_value_dict(self, widget_value_dict):
         dict_to_be_added = dict()
@@ -59,16 +64,16 @@ class Invoices:
             dict_to_be_added[info_name] = widget_value_dict[widget_name]
         return dict_to_be_added
 
-    def _add_working_day_in_memory(self, dict_to_be_added):
+    def _add_invoice_in_memory(self, dict_to_be_added):
         self.invoices_df = self.invoices_df.append(dict_to_be_added, ignore_index=True)
 
-    def _add_working_day_to_file(self, dict_to_be_added):
+    def _add_invoice_to_file(self, dict_to_be_added):
         df_to_be_added = pd.DataFrame([dict_to_be_added], columns=self.invoices_df.columns)
         use_header = not os.path.exists(self.invoices_filename)
         df_to_be_added.to_csv(self.invoices_filename, sep='\t', mode='a', index=False, header=use_header, date_format=self.DATE_FORMAT)
 
     @toolbox.print_when_called_and_return_exception_inside_thread
-    def overwrite_working_day_from_dict(self, widget_value_dict, UID_of_dropped_row):
+    def overwrite_invoice_from_dict(self, widget_value_dict, UID_of_dropped_row):
         self._drop_rows_from_invoices_df_based_on_UID(UID_of_dropped_row)
         self._append_row_to_invoices_df_using_widget_value_dict(widget_value_dict)
         self._save_invoices_df_to_tsv_file()
@@ -78,7 +83,7 @@ class Invoices:
         dict_to_be_overwritten_with['UID'] = self._generate_UID(dict_to_be_overwritten_with)
         self.invoices_df = self.invoices_df.append(dict_to_be_overwritten_with, ignore_index=True)
 
-    def delete_working_day(self, UID_of_dropped_row):
+    def delete_invoice(self, UID_of_dropped_row):
         self._drop_rows_from_invoices_df_based_on_UID(UID_of_dropped_row)
         self._save_invoices_df_to_tsv_file()
 
@@ -117,13 +122,17 @@ class InvoicesQuery:
             self.query_client_only(widget_value_dict)
         elif self._is_query_selection('dates_and_client'):
             self.query_dates_and_client(widget_value_dict)
+        elif self._is_query_selection('return_all'):
+            self.query_return_all(widget_value_dict)
 
     def query_dates_only(self, snapshot_dict):
         start_date, stop_date = self._extract_start_and_stop_date_from_snapshot_dict(snapshot_dict)
         invoices_df = self.invoices.get_invoices_df()
-
-        valid_row_indices = (start_date <= invoices_df['Date']) & (invoices_df['Date'] < stop_date)
+        print('invoices_df', invoices_df.columns)
+        print(invoices_df['Invoice date'].dtype)
+        valid_row_indices = (start_date <= invoices_df['Invoice date']) & (invoices_df['Invoice date'] < stop_date)
         self.query_result_df = invoices_df.loc[valid_row_indices]
+
 
     def query_client_only(self, snapshot_dict):
         client_name = snapshot_dict['comboBox_invoices_query_client_name']
@@ -139,6 +148,10 @@ class InvoicesQuery:
 
         valid_row_indices = (start_date <= invoices_df['Date']) & (invoices_df['Date'] < stop_date) & (invoices_df['Client name'] == client_name)
         self.query_result_df = invoices_df.loc[valid_row_indices]
+
+    def query_return_all(self):
+        invoices_df = self.invoices.get_invoices_df()
+        self.query_result_df = invoices_df.copy()
 
     def _extract_start_and_stop_date_from_snapshot_dict(self, snapshot_dict):
         start_date_string = snapshot_dict['comboBox_invoices_query_start_month'] + ' ' + str(snapshot_dict['comboBox_invoices_query_start_year'])
@@ -158,7 +171,7 @@ class InvoicesQuery:
 
     def display_query_result_in_tableview(self):
         displayed_query_result_df = self.query_result_df.copy()
-        displayed_query_result_df['Date'] = displayed_query_result_df['Date'].dt.strftime(self.DATE_FORMAT)
+        displayed_query_result_df['Invoice date'] = displayed_query_result_df['Invoice date'].dt.strftime(self.DATE_FORMAT)
         self.signals.display_invoices_query_df_in_tableview_signal.emit(displayed_query_result_df)
 
     def sort_query_result(self):
@@ -172,7 +185,7 @@ class InvoicesQuery:
     def sort_query_result_by_date_only(self):
         self.query_sort_method = 'by_date_only'
         if self.query_result_df is not None:
-            self.query_result_df = self.query_result_df.sort_values(by=['Date'])
+            self.query_result_df = self.query_result_df.sort_values(by=['Invoice date'])
 
     def sort_query_result_by_client_first(self):
         self.query_sort_method = 'by_client_first'

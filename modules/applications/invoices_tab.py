@@ -82,13 +82,17 @@ class InvoicesTab(QtWidgets.QMainWindow):
             print('No clients found')
 
     def _update_client_code_invoice_index_at_client_and_invoice_number(self, client_info_dict):
+        print('in update')
         widget_value_dict = self._generate_widget_value_dict_from_row_dict(client_info_dict)
+        print(client_info_dict)
+        print(widget_value_dict)
+
         self.widgets.set_widget_values_using_dict(widget_value_dict)
 
 
         # self.widgets.set_widget_value('info_label_invoices_client_code', client_code)
         # self.widgets.set_widget_value('info_label_invoices_invoice_index_at_client', invoice_index_at_client)
-        client_code = client_info_dict['UID']
+        client_code = client_info_dict['Client code']
         invoice_index_at_client = client_info_dict['Invoice index at client']
         invoice_number = '{}.{:03d}'.format(client_code, invoice_index_at_client)
         self.widgets.set_widget_value('info_label_invoices_invoice_number', invoice_number)
@@ -133,8 +137,8 @@ class InvoicesTab(QtWidgets.QMainWindow):
                                      'lineEdit_invoices_invoice_date', 'lineEdit_invoices_rate_during_day',
                                      'lineEdit_invoices_rate_for_shifts', 'lineEdit_invoices_compensation_for_commute', 'lineEdit_invoices_compensation_for_driving_during_work']
         try:
-            add_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
-            self.signals.pushbutton_add_working_day_clicked_signal.emit(add_working_day_widget_value_dict)
+            widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
+            self.signals.pushbutton_generate_invoice_clicked_signal.emit(widget_value_dict)
         except ValueError:
             print('Date was provided in an invalid format. It should be DD-MM-YYYY')
 
@@ -188,9 +192,12 @@ class InvoicesTab(QtWidgets.QMainWindow):
     def _generate_widget_value_dict_from_row_dict(self, row_dict):
         widget_value_dict = dict()
         for row in self.params.get_invoices_info_structure_df_itertuples():
-            info_name = row.info_name
-            widget_name = row.widget_name
-            widget_value_dict[widget_name] = row_dict[info_name]
+            try:
+                info_name = row.info_name
+                widget_name = row.widget_name
+                widget_value_dict[widget_name] = row_dict[info_name]
+            except KeyError:
+                pass
         return widget_value_dict
 
     def _on_pushbutton_invoices_overwrite_clicked(self):

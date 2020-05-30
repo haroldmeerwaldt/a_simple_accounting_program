@@ -72,6 +72,7 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.ui.tableView_times_query.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.ui.tableView_clients_query.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.ui.tableView_invoices_query.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.widgets = widgets.Widgets(self.ui, self.DATE_FORMAT)
 
     def _initialize_background_execution_thread(self):

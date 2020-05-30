@@ -1,3 +1,4 @@
+import inspect
 import sys
 import traceback
 
@@ -16,7 +17,7 @@ class BackgroundExecution(QtCore.QObject):
         self.clients = clients.Clients(self.signals, self.params)
         self.clients_query = clients.ClientsQuery(self.signals, self.params, self.clients)
         self.invoices = invoices.Invoices(self.signals, self.params)
-        self.invoices_query = clients.ClientsQuery(self.signals, self.params, self.invoices)
+        self.invoices_query = invoices.InvoicesQuery(self.signals, self.params, self.invoices)
 
 
     # times tab
@@ -129,43 +130,51 @@ class BackgroundExecution(QtCore.QObject):
             print(next_invoice_index_at_client)
             row_dict = dict()
             row_dict['Invoice index at client'] = next_invoice_index_at_client
-            row_dict['UID'] = client_info_dict['UID']
-            row_dict['Rate during day (euro/h)'] = client_info_dict['Standard rate during day (euro/h)']
-            row_dict['Rate for shifts (euro/h)'] = client_info_dict['Standard rate for shifts (euro/h)']
-            row_dict['Compensation for commute (euro/km)'] = client_info_dict['Standard compensation for commute (euro/km)']
-            row_dict['Compensation for driving during work (euro/km)'] = client_info_dict['Standard compensation for driving during work (euro/km)']
+            client_to_invoice_dict = {'UID': 'Client code',
+                                      'Standard rate during day (euro/h)': 'Rate during day (euro/h)',
+                                      'Standard rate for shifts (euro/h)': 'Rate for shifts (euro/h)',
+                                      'Standard compensation for commute (euro/km)': 'Compensation for commute (euro/km)',
+                                      'Standard compensation for driving during work (euro/km)': 'Compensation for driving during work (euro/km)'}
+            for key_client, key_invoice in client_to_invoice_dict.items():
+                row_dict[key_invoice] = client_info_dict[key_client]
             self.signals.invoices_deliver_client_code_next_invoice_index_at_client_rates_and_compensations_signal.emit(row_dict)
-        except TypeError:
-            pass
         except Exception as e:
             print(e)
             type, value, tb = sys.exc_info()
             traceback.print_tb(tb)
 
     def pushbutton_generate_invoice_clicked_slot(self, widget_value_dict):
+        print(inspect.currentframe().f_code.co_name)
         self.invoices.generate_invoice_from_dict(widget_value_dict)
 
     def pushbutton_invoices_overwrite_clicked_slot(self, widget_value_dict, UID_to_be_overwritten):
-        self.invoices.overwrite_working_day_from_dict(widget_value_dict, UID_to_be_overwritten)
+        self.invoices.overwrite_invoice_from_dict(widget_value_dict, UID_to_be_overwritten)
 
     def pushbutton_invoices_delete_clicked_slot(self, UID_to_be_removed):
-        self.invoices.delete_working_day(UID_to_be_removed)
+        self.invoices.delete_invoice(UID_to_be_removed)
 
     def radiobutton_invoices_query_clicked_slot(self, radiobutton_name, widget_value_dict):
-        if radiobutton_name == 'radioButton_invoices_query_dates_only':
-            self.invoices_query.set_query_selection('dates_only')
-        elif radiobutton_name == 'radioButton_invoices_query_client_only':
-            self.invoices_query.set_query_selection('client_only')
-        elif radiobutton_name == 'radioButton_invoices_query_dates_and_client':
-            self.invoices_query.set_query_selection('dates_and_client')
+        if radiobutton_name == 'radioButton_invoices_sort_by_date_only':
+            self.invoices_query.set_query_selection('by_date_only')
+        elif radiobutton_name == 'radioButton_invoices_sort_by_client_first':
+            self.invoices_query.set_query_selection('by_client_first')
+        elif radiobutton_name == 'radioButton_invoices_sort_by_month_then_by_client':
+            self.invoices_query.set_query_selection('by_month_then_by_client')
 
         if self.invoices_query.query_has_been_run_before():
             self.pushbutton_invoices_run_query_clicked_slot(widget_value_dict)
 
     def pushbutton_invoices_run_query_clicked_slot(self, widget_value_dict):
-        self.invoices_query.run_query(widget_value_dict)
-        self.invoices_query.sort_query_result()
-        self.invoices_query.display_query_result_in_tableview()
+        print(inspect.currentframe().f_code.co_name)
+        print(widget_value_dict)
+        try:
+            self.invoices_query.run_query(widget_value_dict)
+            self.invoices_query.sort_query_result()
+            self.invoices_query.display_query_result_in_tableview()
+        except:
+            type, value, tb = sys.exc_info()
+            traceback.print_tb(tb)
+        print('finished slot successfully')
 
     def radiobutton_invoices_sort_clicked_slot(self, radiobutton_name):
         if radiobutton_name == 'radioButton_invoices_sort_by_date_only':
