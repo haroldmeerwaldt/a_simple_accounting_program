@@ -1,12 +1,12 @@
-info_name	widget_name
-UID	info_label_invoices_invoice_number
-Client name	comboBox_invoices_client_name
-Client code	info_label_invoices_client_code
-Invoice index at client	info_label_invoices_invoice_index_at_client
-Month	comboBox_invoices_month
-Year	comboBox_invoices_year
-Invoice date	lineEdit_invoices_invoice_date
-Rate during day (euro/h)	lineEdit_invoices_rate_during_day
-Rate for shifts (euro/h)	lineEdit_invoices_rate_for_shifts
-Compensation for commute (euro/km)	lineEdit_invoices_compensation_for_commute
-Compensation for driving during work (euro/km)	lineEdit_invoices_compensation_for_driving_during_work
+info_name	widget_name	invoice_template_tag
+UID	info_label_invoices_invoice_number	#invoice_number
+Client name	comboBox_invoices_client_name	#client_name
+Client code	info_label_invoices_client_code	
+Invoice index at client	info_label_invoices_invoice_index_at_client	
+Month	comboBox_invoices_month	
+Year	comboBox_invoices_year	
+Invoice date	lineEdit_invoices_invoice_date	#invoice_date
+Rate during day (euro/h)	lineEdit_invoices_rate_during_day	#invoice_rate_during_day
+Rate for shifts (euro/h)	lineEdit_invoices_rate_for_shifts	#invoice_rate_for_shifts
+Compensation for commute (euro/km)	lineEdit_invoices_compensation_for_commute	#invoice_compensation_for_commute
+Compensation for driving during work (euro/km)	lineEdit_invoices_compensation_for_driving_during_work	#invoice_compensation_for_driving_during_work

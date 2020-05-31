@@ -125,7 +125,8 @@ class TimesTab(QtWidgets.QMainWindow):
 
     def _on_pushbutton_add_working_day_clicked(self):
         relevant_widget_name_list = ['comboBox_times_client_name', 'info_label_times_client_code', 'lineEdit_times_date', 'info_label_day_of_week',
-                                     'comboBox_times_start_time', 'comboBox_times_stop_time', 'info_label_times_hours']
+                                     'comboBox_times_start_time', 'comboBox_times_stop_time', 'info_label_times_hours', 'comboBox_times_type_of_hours'
+                                     'lineEdit_commute_km', 'lineEdit_distance_during_work_km']
         try:
             add_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
             times_query_widget_value_dict = self._generate_times_query_widget_value_dict()
@@ -229,7 +230,8 @@ class TimesTab(QtWidgets.QMainWindow):
         row_dict = tableview_times_query_widget.get_df_row_as_dict(current_row)
         UID_to_be_overwritten = row_dict['UID']
         relevant_widget_name_list = ['comboBox_times_client_name', 'info_label_times_client_code', 'lineEdit_times_date', 'info_label_day_of_week',
-                                     'comboBox_times_start_time', 'comboBox_times_stop_time', 'info_label_times_hours']
+                                     'comboBox_times_start_time', 'comboBox_times_stop_time', 'info_label_times_hours', 'comboBox_times_type_of_hours'
+                                     'lineEdit_commute_km', 'lineEdit_distance_during_work_km']
         try:
             overwrite_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
             times_query_widget_value_dict = self._generate_times_query_widget_value_dict()

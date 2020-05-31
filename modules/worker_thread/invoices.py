@@ -1,5 +1,6 @@
-import inspect
+import openpyxl
 import datetime
+import inspect
 import os
 import sys
 import traceback
@@ -18,7 +19,7 @@ class Invoices:
         self.invoices_filename = params.invoices_filename
         self._generate_invoices_df_from_input_file()
 
-    @toolbox.print_when_called_and_return_exception_inside_thread
+
     def get_next_invoice_index_at_client(self, client_code):
         print('in get next invoice index')
         try:
@@ -61,11 +62,13 @@ class Invoices:
 
     @toolbox.print_when_called_and_return_exception_inside_thread
     def generate_invoice_from_dict(self, widget_value_dict):
+        print('here -----------')
         print(inspect.currentframe().f_code.co_name)
         dict_to_be_added = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
         print(dict_to_be_added)
         self._add_invoice_in_memory(dict_to_be_added)
         self._add_invoice_to_file(dict_to_be_added)
+        self.invoices_from_template.generate_invoice(dict_to_be_added)
 
     def _generate_dict_to_be_added_from_widget_value_dict(self, widget_value_dict):
         dict_to_be_added = dict()
@@ -218,3 +221,7 @@ class InvoicesQuery:
         user_directory = self.params.user_directory
         export_path = os.path.join(user_directory, export_filename)
         self.query_result_df.to_csv(export_path, sep='\t', index=False, date_format=self.DATE_FORMAT)
+
+
+
+

@@ -1,8 +1,11 @@
-info_name	widget_name
-Client name	comboBox_times_client_name
-Client code	info_label_times_client_code
-Date	lineEdit_times_date
-Day of the week	info_label_day_of_week
-Start time	comboBox_times_start_time
-Stop time	comboBox_times_stop_time
-Hours	info_label_times_hours
+info_name	widget_name	invoice_template_tag
+Client name	comboBox_times_client_name	
+Client code	info_label_times_client_code	
+Date	lineEdit_times_date	#times_date
+Day of the week	info_label_day_of_week	
+Start time	comboBox_times_start_time	#times_start_time
+Stop time	comboBox_times_stop_time	#times_stop_time
+Hours	info_label_times_hours	
+Type of hours	comboBox_times_type_of_hours	#times_type_of_hours
+Commute (km)	lineEdit_commute_km	#times_commute_km
+Distance during work (km)	lineEdit_distance_during_work_km	#times_distance_during_work_km

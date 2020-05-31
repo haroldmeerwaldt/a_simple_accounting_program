@@ -4,7 +4,7 @@ import traceback
 
 from PySide2 import QtCore
 
-from modules.worker_thread import times, clients, invoices
+from modules.worker_thread import times, clients, invoices, invoice_generation
 
 
 class BackgroundExecution(QtCore.QObject):
@@ -18,6 +18,8 @@ class BackgroundExecution(QtCore.QObject):
         self.clients_query = clients.ClientsQuery(self.signals, self.params, self.clients)
         self.invoices = invoices.Invoices(self.signals, self.params)
         self.invoices_query = invoices.InvoicesQuery(self.signals, self.params, self.invoices)
+        self.invoices_from_template = invoice_generation.InvoicesFromTemplate(self.times, self.clients, self.invoices, params)
+
 
     ######################
     # times tab
