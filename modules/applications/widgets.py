@@ -16,7 +16,7 @@ class Widgets:
                 self._widget_dict[widget_name] = PushbuttonWidget(qt_widget)
             elif 'comboBox' in widget_name:
                 self._widget_dict[widget_name] = ComboboxWidget(qt_widget)
-            elif widget_name == 'lineEdit_times_date':
+            elif widget_name in ['lineEdit_times_date', 'lineEdit_invoices_invoice_date']:
                 self._widget_dict[widget_name] = LineeditTimesDateWidget(qt_widget, date_format=DATE_FORMAT)
             elif 'lineEdit' in widget_name:
                 self._widget_dict[widget_name] = LineeditWidget(qt_widget)
@@ -90,6 +90,7 @@ class ComboboxWidget(Widget):
         return -1
 
     def set_allowed_values(self, value_list):
+        self.qt_widget.clear()
         for value in value_list:
             if self._find_data(value) == -1:
                 self.qt_widget.addItem(str(value), value)

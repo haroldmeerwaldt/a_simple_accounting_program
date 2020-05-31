@@ -22,7 +22,11 @@ class InvoicesTab(QtWidgets.QMainWindow):
         self.signals.invoices_deliver_client_name_list_signal.connect(self._initialize_client_combobox_lists)
         self.signals.invoices_update_client_name_combobox_signal.connect(self._update_client_combobox_lists)
         self.signals.invoices_request_client_code_next_invoice_index_at_client_rates_and_compensations_signal.connect(self.background_execution.invoices_request_client_code_next_invoice_index_at_client_rates_and_compensations_slot)
-        self.signals.invoices_deliver_client_code_next_invoice_index_at_client_rates_and_compensations_signal.connect(self._update_client_code_invoice_index_at_client_and_invoice_number)
+        self.signals.invoices_deliver_client_code_next_invoice_index_at_client_rates_and_compensations_signal.connect(self._update_client_info_with_dict)
+        self.signals.invoices_deliver_client_code_next_invoice_index_at_client_rates_signal.connect(self._update_client_info_with_dict)
+
+
+
         # self.signals.invoices_request_invoice_number_signal.connect(self.background_execution.invoices_request_invoice_number_slot)
         # self.signals.invoices_deliver_invoice_number_signal.connect(self._update_invoice_number)
 
@@ -81,7 +85,7 @@ class InvoicesTab(QtWidgets.QMainWindow):
         except IndexError:
             print('No clients found')
 
-    def _update_client_code_invoice_index_at_client_and_invoice_number(self, client_info_dict):
+    def _update_client_info_with_dict(self, client_info_dict):
         print('in update')
         widget_value_dict = self._generate_widget_value_dict_from_row_dict(client_info_dict)
         print(client_info_dict)
@@ -132,15 +136,25 @@ class InvoicesTab(QtWidgets.QMainWindow):
         self.signals.invoices_request_client_code_next_invoice_index_at_client_rates_and_compensations_signal.emit(client_name)
 
     def _on_pushbutton_generate_invoice_clicked(self):
-        relevant_widget_name_list = ['comboBox_invoices_client_name', 'info_label_invoices_client_code', 'info_label_invoices_invoice_index_at_client',
-                                     'info_label_invoices_invoice_number', 'comboBox_invoices_month', 'comboBox_invoices_year',
-                                     'lineEdit_invoices_invoice_date', 'lineEdit_invoices_rate_during_day',
-                                     'lineEdit_invoices_rate_for_shifts', 'lineEdit_invoices_compensation_for_commute', 'lineEdit_invoices_compensation_for_driving_during_work']
+
         try:
-            widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
-            self.signals.pushbutton_generate_invoice_clicked_signal.emit(widget_value_dict)
+            invoice_widget_value_dict = self._generate_invoice_widget_value_dict()
+            query_widget_value_dict = self._generate_invoices_query_widget_value_dict()
+            self.signals.pushbutton_generate_invoice_clicked_signal.emit(invoice_widget_value_dict, query_widget_value_dict)
         except ValueError:
             print('Date was provided in an invalid format. It should be DD-MM-YYYY')
+
+    def _generate_invoice_widget_value_dict(self):
+        relevant_widget_name_list = ['comboBox_invoices_client_name', 'info_label_invoices_client_code',
+                                     'info_label_invoices_invoice_index_at_client',
+                                     'info_label_invoices_invoice_number', 'comboBox_invoices_month',
+                                     'comboBox_invoices_year',
+                                     'lineEdit_invoices_invoice_date', 'lineEdit_invoices_rate_during_day',
+                                     'lineEdit_invoices_rate_for_shifts',
+                                     'lineEdit_invoices_compensation_for_commute',
+                                     'lineEdit_invoices_compensation_for_driving_during_work']
+        widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
+        return widget_value_dict
 
     def _on_pushbutton_fill_in_today_clicked(self):
         today = datetime.date.today()
@@ -205,14 +219,10 @@ class InvoicesTab(QtWidgets.QMainWindow):
         tableview_invoices_query_widget = self.widgets.get_widget('tableView_invoices_query') # violates Law of Demeter, todo fix it
         row_dict = tableview_invoices_query_widget.get_df_row_as_dict(current_row)
         UID_to_be_overwritten = row_dict['UID']
-        relevant_widget_name_list = ['comboBox_invoices_client_name', 'info_label_invoices_client_code', 'info_label_invoices_invoice_index_at_client',
-                                     'info_label_invoices_invoice_number', 'comboBox_invoices_month', 'comboBox_invoices_year',
-                                     'lineEdit_invoices_invoice_date', 'lineEdit_invoices_rate_during_day',
-                                     'lineEdit_invoices_rate_for_shifts', 'lineEdit_invoices_compensation_for_commute', 'lineEdit_invoices_compensation_for_driving_during_work']
-
         try:
-            overwrite_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
-            self.signals.pushbutton_invoices_overwrite_clicked_signal.emit(overwrite_working_day_widget_value_dict, UID_to_be_overwritten)
+            invoice_widget_value_dict = self._generate_invoice_widget_value_dict()
+            query_widget_value_dict = self._generate_invoices_query_widget_value_dict()
+            self.signals.pushbutton_invoices_overwrite_clicked_signal.emit(invoice_widget_value_dict, UID_to_be_overwritten, query_widget_value_dict)
         except ValueError:
             print('Date was provided in an invalid format. It should be DD-MM-YYYY')
 
@@ -221,4 +231,5 @@ class InvoicesTab(QtWidgets.QMainWindow):
         tableview_invoices_query_widget = self.widgets.get_widget('tableView_invoices_query') # violates Law of Demeter, todo fix it
         row_dict = tableview_invoices_query_widget.get_df_row_as_dict(current_row)
         UID_to_be_deleted = row_dict['UID']
-        self.signals.pushbutton_invoices_delete_clicked_signal.emit(UID_to_be_deleted)
+        query_widget_value_dict = self._generate_invoices_query_widget_value_dict()
+        self.signals.pushbutton_invoices_delete_clicked_signal.emit(UID_to_be_deleted, query_widget_value_dict)

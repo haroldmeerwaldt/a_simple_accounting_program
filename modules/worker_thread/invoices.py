@@ -22,9 +22,13 @@ class Invoices:
     def get_next_invoice_index_at_client(self, client_code):
         print('in get next invoice index')
         try:
+            print('client_code', client_code)
+            print('self.invoices_df[Client code]', self.invoices_df['Client code'])
             valid_row_indices = self.invoices_df['Client code'] == client_code
             client_df = self.invoices_df.loc[valid_row_indices]
+            print('client_df', client_df)
             highest_index = client_df['Invoice index at client'].max()
+            print('highest_index', highest_index)
             if np.isnan(highest_index):
                 highest_index = 0
             next_index = highest_index + 1
@@ -43,10 +47,17 @@ class Invoices:
             self.invoices_df = pd.DataFrame(columns=column_list)
 
         self.invoices_df['Invoice date'] = pd.to_datetime(self.invoices_df['Invoice date'], format=self.DATE_FORMAT)
+        self.invoices_df['Client code'] = self.invoices_df['Client code'].astype(str)
 
 
     def get_invoices_df(self):
         return self.invoices_df
+
+    def there_is_already_an_invoice_for_this_client_month_and_year(self, client_code, month, year):
+        valid_row_indices_for_client = self.invoices_df['Client code'] == client_code
+        client_invoice_info_df = self.invoices_df.loc[valid_row_indices_for_client]
+        month_and_year_match_bool_series = (client_invoice_info_df['Month'] == month) & (client_invoice_info_df['Year'] == year)
+        return any(month_and_year_match_bool_series)
 
     @toolbox.print_when_called_and_return_exception_inside_thread
     def generate_invoice_from_dict(self, widget_value_dict):
@@ -80,7 +91,6 @@ class Invoices:
 
     def _append_row_to_invoices_df_using_widget_value_dict(self, widget_value_dict):
         dict_to_be_overwritten_with = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
-        dict_to_be_overwritten_with['UID'] = self._generate_UID(dict_to_be_overwritten_with)
         self.invoices_df = self.invoices_df.append(dict_to_be_overwritten_with, ignore_index=True)
 
     def delete_invoice(self, UID_of_dropped_row):

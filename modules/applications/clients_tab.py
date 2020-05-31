@@ -84,7 +84,8 @@ class ClientsTab(QtWidgets.QMainWindow):
             print('The client name is left empty. Please fill in a client name')  # todo move to logger
         else:
             add_client_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
-            self.signals.pushbutton_add_client_clicked_signal.emit(add_client_widget_value_dict)
+            clients_query_widget_value_dict = self._generate_clients_query_widget_value_dict()
+            self.signals.pushbutton_add_client_clicked_signal.emit(add_client_widget_value_dict, clients_query_widget_value_dict)
 
 
     def _on_combobox_clients_first_year_currentindexchanged(self):
@@ -157,11 +158,13 @@ class ClientsTab(QtWidgets.QMainWindow):
                                      'lineEdit_clients_standard_compensation_for_driving_during_work']
 
         overwrite_client_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
-        self.signals.pushbutton_clients_overwrite_clicked_signal.emit(overwrite_client_widget_value_dict, UID_to_be_overwritten)
+        clients_query_widget_value_dict = self._generate_clients_query_widget_value_dict()
+        self.signals.pushbutton_clients_overwrite_clicked_signal.emit(overwrite_client_widget_value_dict, UID_to_be_overwritten, clients_query_widget_value_dict)
 
     def _on_pushbutton_clients_delete_clicked(self):
         current_row = self._get_current_row_of_tableview_clients_query()
         tableview_clients_query_widget = self.widgets.get_widget('tableView_clients_query') # violates Law of Demeter, todo fix it
         row_dict = tableview_clients_query_widget.get_df_row_as_dict(current_row)
         UID_to_be_deleted = row_dict['UID']
-        self.signals.pushbutton_clients_delete_clicked_signal.emit(UID_to_be_deleted)
+        clients_query_widget_value_dict = self._generate_clients_query_widget_value_dict()
+        self.signals.pushbutton_clients_delete_clicked_signal.emit(UID_to_be_deleted, clients_query_widget_value_dict)

@@ -19,25 +19,49 @@ class BackgroundExecution(QtCore.QObject):
         self.invoices = invoices.Invoices(self.signals, self.params)
         self.invoices_query = invoices.InvoicesQuery(self.signals, self.params, self.invoices)
 
-
+    ######################
     # times tab
+    ######################
     def times_request_client_name_list_slot(self):
-        clients_df = self.clients.get_clients_df()
-        client_name_list = list(clients_df['Client name'])
-        self.signals.deliver_client_name_list_signal.emit(client_name_list)
+        print('requesting client name list')
+        try:
+            clients_df = self.clients.get_clients_df()
+            client_name_list = list(clients_df['Client name'])
+            self.signals.times_deliver_client_name_list_signal.emit(client_name_list)
+        except:
+            type, value, tb = sys.exc_info()
+            traceback.print_tb(tb)
+
+    def times_update_client_name_combobox(self):
+        print('requesting client name list')
+        try:
+            clients_df = self.clients.get_clients_df()
+            client_name_list = list(clients_df['Client name'])
+            print('client_name_list', client_name_list)
+            self.signals.times_update_client_name_combobox_signal.emit(client_name_list)
+        except:
+            type, value, tb = sys.exc_info()
+            traceback.print_tb(tb)
+
 
     def times_request_client_code_slot(self, client_name):
         client_code = self.clients.get_client_code_based_on_client_name(client_name)
-        self.signals.deliver_client_code_signal.emit(client_code)
+        self.signals.times_deliver_client_code_signal.emit(client_code)
 
-    def pushbutton_add_working_day_clicked_slot(self, widget_value_dict):
+    def pushbutton_add_working_day_clicked_slot(self, widget_value_dict, query_widget_value_dict):
         self.times.add_working_day_from_dict(widget_value_dict)
+        if self.times_query.query_has_been_run_before():
+            self.pushbutton_times_run_query_clicked_slot(query_widget_value_dict)
 
-    def pushbutton_times_overwrite_clicked_slot(self, widget_value_dict, UID_to_be_overwritten):
+    def pushbutton_times_overwrite_clicked_slot(self, widget_value_dict, UID_to_be_overwritten, query_widget_value_dict):
         self.times.overwrite_working_day_from_dict(widget_value_dict, UID_to_be_overwritten)
+        if self.times_query.query_has_been_run_before():
+            self.pushbutton_times_run_query_clicked_slot(query_widget_value_dict)
 
-    def pushbutton_times_delete_clicked_slot(self, UID_to_be_removed):
+    def pushbutton_times_delete_clicked_slot(self, UID_to_be_removed, query_widget_value_dict):
         self.times.delete_working_day(UID_to_be_removed)
+        if self.times_query.query_has_been_run_before():
+            self.pushbutton_times_run_query_clicked_slot(query_widget_value_dict)
 
     def radiobutton_times_query_clicked_slot(self, radiobutton_name, widget_value_dict):
         if radiobutton_name == 'radioButton_times_query_dates_only':
@@ -68,36 +92,49 @@ class BackgroundExecution(QtCore.QObject):
     def pushbutton_times_export_query_results_clicked_slot(self):
         self.times_query.export_query_result()
 
-
+    ######################
     # clients tab
+    ######################
     def request_next_index_within_year_slot(self, year):
         next_index = self.clients.get_next_index_within_year(year)
         self.signals.deliver_next_index_within_year_signal.emit(next_index)
 
-    def pushbutton_add_client_clicked_slot(self, widget_value_dict):
-        self.clients.add_client_from_dict(widget_value_dict)
-        year = widget_value_dict['comboBox_clients_first_year']
+    def pushbutton_add_client_clicked_slot(self, client_widget_value_dict, query_widget_value_dict):
+        self.clients.add_client_from_dict(client_widget_value_dict)
+        year = client_widget_value_dict['comboBox_clients_first_year']
         self.request_next_index_within_year_slot(year)
 
-        clients_df = self.clients.get_clients_df()
-        client_name_list = list(clients_df['Client name'])
-        self.signals.update_client_name_combobox_signal.emit(client_name_list)
+        # clients_df = self.clients.get_clients_df()
+        # client_name_list = list(clients_df['Client name'])
+        # self.signals.update_client_name_combobox_signal.emit(client_name_list)
+        self.times_update_client_name_combobox()
+        self.invoices_update_client_name_combobox()
+        if self.clients_query.query_has_been_run_before():
+            self.pushbutton_clients_run_query_clicked_slot(query_widget_value_dict)
 
-    def pushbutton_clients_overwrite_clicked_slot(self, widget_value_dict, UID_to_be_overwritten):
+    def pushbutton_clients_overwrite_clicked_slot(self, widget_value_dict, UID_to_be_overwritten, query_widget_value_dict):
         self.clients.overwrite_client_from_dict(widget_value_dict, UID_to_be_overwritten)
+        self.times_update_client_name_combobox()
+        self.invoices_update_client_name_combobox()
+        if self.clients_query.query_has_been_run_before():
+            self.pushbutton_clients_run_query_clicked_slot(query_widget_value_dict)
 
-    def pushbutton_clients_delete_clicked_slot(self, UID_to_be_removed):
+    def pushbutton_clients_delete_clicked_slot(self, UID_to_be_removed, query_widget_value_dict):
         print('UID_to_be_removed', UID_to_be_removed)
         self.clients.delete_client(UID_to_be_removed)
+        self.times_update_client_name_combobox()
+        self.invoices_update_client_name_combobox()
+        if self.clients_query.query_has_been_run_before():
+            self.pushbutton_clients_run_query_clicked_slot(query_widget_value_dict)
 
-    def radiobutton_clients_query_clicked_slot(self, radiobutton_name, widget_value_dict):
+    def radiobutton_clients_query_clicked_slot(self, radiobutton_name, query_widget_value_dict):
         if radiobutton_name == 'radioButton_clients_query_using_years':
             self.clients_query.set_query_selection('using_years')
         elif radiobutton_name == 'radioButton_clients_query_return_all':
             self.clients_query.set_query_selection('return_all')
 
         if self.clients_query.query_has_been_run_before():
-            self.pushbutton_clients_run_query_clicked_slot(widget_value_dict)
+            self.pushbutton_clients_run_query_clicked_slot(query_widget_value_dict)
 
     def pushbutton_clients_run_query_clicked_slot(self, widget_value_dict):
         self.clients_query.run_query(widget_value_dict)
@@ -114,12 +151,20 @@ class BackgroundExecution(QtCore.QObject):
 
     def pushbutton_clients_export_query_results_clicked_slot(self):
         self.clients_query.export_query_result()
-        
+
+    ######################
     # invoices tab
+    ######################
     def invoices_request_client_name_list_slot(self):
         clients_df = self.clients.get_clients_df()
-        client_name_list = list(clients_df['Client name'])
+        client_name_list = [str(client_name) for client_name in clients_df['Client name']]
         self.signals.invoices_deliver_client_name_list_signal.emit(client_name_list)
+
+    def invoices_update_client_name_combobox(self):
+        clients_df = self.clients.get_clients_df()
+        client_name_list = [str(client_name) for client_name in clients_df['Client name']]
+        self.signals.invoices_update_client_name_combobox_signal.emit(client_name_list)
+
 
     def invoices_request_client_code_next_invoice_index_at_client_rates_and_compensations_slot(self, client_name):
         print('in slot invoices_request_client_code_and_next_invoice_index_at_client_slot')
@@ -128,8 +173,7 @@ class BackgroundExecution(QtCore.QObject):
             client_code = client_info_dict['UID']
             next_invoice_index_at_client = self.invoices.get_next_invoice_index_at_client(client_code)
             print(next_invoice_index_at_client)
-            row_dict = dict()
-            row_dict['Invoice index at client'] = next_invoice_index_at_client
+            row_dict = {'Invoice index at client': next_invoice_index_at_client}
             client_to_invoice_dict = {'UID': 'Client code',
                                       'Standard rate during day (euro/h)': 'Rate during day (euro/h)',
                                       'Standard rate for shifts (euro/h)': 'Rate for shifts (euro/h)',
@@ -143,17 +187,53 @@ class BackgroundExecution(QtCore.QObject):
             type, value, tb = sys.exc_info()
             traceback.print_tb(tb)
 
-    def pushbutton_generate_invoice_clicked_slot(self, widget_value_dict):
+    def invoices_request_client_code_next_invoice_index_at_client_rates_slot(self, client_name):
+        print('in slot invoices_request_client_code_and_next_invoice_index_at_client_slot')
+        try:
+            client_info_dict = self.clients.get_client_info_dict_based_on_client_name(client_name)
+            client_code = client_info_dict['UID']
+            next_invoice_index_at_client = self.invoices.get_next_invoice_index_at_client(client_code)
+            print(next_invoice_index_at_client)
+            row_dict = {'Invoice index at client': next_invoice_index_at_client,
+                        'Client code': client_code}
+            self.signals.invoices_deliver_client_code_next_invoice_index_at_client_rates_signal.emit(row_dict)
+        except Exception as e:
+            print(e)
+            type, value, tb = sys.exc_info()
+            traceback.print_tb(tb)
+
+    def pushbutton_generate_invoice_clicked_slot(self, invoice_widget_value_dict, query_widget_value_dict):
         print(inspect.currentframe().f_code.co_name)
-        self.invoices.generate_invoice_from_dict(widget_value_dict)
+        try:
+            client_code = invoice_widget_value_dict['info_label_invoices_client_code']
+            month = invoice_widget_value_dict['comboBox_invoices_month']
+            year = invoice_widget_value_dict['comboBox_invoices_year']
+            if self.invoices.there_is_already_an_invoice_for_this_client_month_and_year(client_code, month, year):
+                print('There is already an invoice for this client in this month and year. No invoice generated')
+            else:
+                self.invoices.generate_invoice_from_dict(invoice_widget_value_dict)
+                client_name = invoice_widget_value_dict['comboBox_invoices_client_name']
+                self.invoices_request_client_code_next_invoice_index_at_client_rates_slot(client_name)
 
-    def pushbutton_invoices_overwrite_clicked_slot(self, widget_value_dict, UID_to_be_overwritten):
+                if self.invoices_query.query_has_been_run_before():
+                    self.pushbutton_invoices_run_query_clicked_slot(query_widget_value_dict)
+        except:
+            type, value, tb = sys.exc_info()
+            traceback.print_tb(tb)
+
+
+
+    def pushbutton_invoices_overwrite_clicked_slot(self, widget_value_dict, UID_to_be_overwritten, query_widget_value_dict):
         self.invoices.overwrite_invoice_from_dict(widget_value_dict, UID_to_be_overwritten)
+        if self.invoices_query.query_has_been_run_before():
+            self.pushbutton_invoices_run_query_clicked_slot(query_widget_value_dict)
 
-    def pushbutton_invoices_delete_clicked_slot(self, UID_to_be_removed):
+    def pushbutton_invoices_delete_clicked_slot(self, UID_to_be_removed, query_widget_value_dict):
         self.invoices.delete_invoice(UID_to_be_removed)
+        if self.invoices_query.query_has_been_run_before():
+            self.pushbutton_invoices_run_query_clicked_slot(query_widget_value_dict)
 
-    def radiobutton_invoices_query_clicked_slot(self, radiobutton_name, widget_value_dict):
+    def radiobutton_invoices_query_clicked_slot(self, radiobutton_name, query_widget_value_dict):
         if radiobutton_name == 'radioButton_invoices_sort_by_date_only':
             self.invoices_query.set_query_selection('by_date_only')
         elif radiobutton_name == 'radioButton_invoices_sort_by_client_first':
@@ -162,7 +242,7 @@ class BackgroundExecution(QtCore.QObject):
             self.invoices_query.set_query_selection('by_month_then_by_client')
 
         if self.invoices_query.query_has_been_run_before():
-            self.pushbutton_invoices_run_query_clicked_slot(widget_value_dict)
+            self.pushbutton_invoices_run_query_clicked_slot(query_widget_value_dict)
 
     def pushbutton_invoices_run_query_clicked_slot(self, widget_value_dict):
         print(inspect.currentframe().f_code.co_name)

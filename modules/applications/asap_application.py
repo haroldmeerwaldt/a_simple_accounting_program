@@ -12,17 +12,17 @@ class Signals(QtCore.QObject):
     times_update_client_name_combobox_signal = QtCore.Signal(list)
     times_request_client_code_signal = QtCore.Signal(str)
     times_deliver_client_code_signal = QtCore.Signal(str)
-    pushbutton_add_working_day_clicked_signal = QtCore.Signal(dict)
+    pushbutton_add_working_day_clicked_signal = QtCore.Signal(dict, dict)
     radiobutton_times_query_clicked_signal = QtCore.Signal(str, dict)
     pushbutton_times_run_query_clicked_signal = QtCore.Signal(dict)
     radiobutton_times_sort_clicked_signal = QtCore.Signal(str)
     display_times_query_df_in_tableview_signal = QtCore.Signal(pd.DataFrame)
     pushbutton_times_export_query_results_clicked_signal = QtCore.Signal()
-    pushbutton_times_overwrite_clicked_signal = QtCore.Signal(dict, str)
-    pushbutton_times_delete_clicked_signal = QtCore.Signal(str)
+    pushbutton_times_overwrite_clicked_signal = QtCore.Signal(dict, str, dict)
+    pushbutton_times_delete_clicked_signal = QtCore.Signal(str, dict)
 
     # clients tab
-    pushbutton_add_client_clicked_signal = QtCore.Signal(dict)
+    pushbutton_add_client_clicked_signal = QtCore.Signal(dict, dict)
     request_next_index_within_year_signal = QtCore.Signal(int)
     deliver_next_index_within_year_signal = QtCore.Signal(int)
     radiobutton_clients_query_clicked_signal = QtCore.Signal(str, dict)
@@ -30,8 +30,8 @@ class Signals(QtCore.QObject):
     radiobutton_clients_sort_clicked_signal = QtCore.Signal(str)
     display_clients_query_df_in_tableview_signal = QtCore.Signal(pd.DataFrame)
     pushbutton_clients_export_query_results_clicked_signal = QtCore.Signal()
-    pushbutton_clients_overwrite_clicked_signal = QtCore.Signal(dict, str)
-    pushbutton_clients_delete_clicked_signal = QtCore.Signal(str)
+    pushbutton_clients_overwrite_clicked_signal = QtCore.Signal(dict, str, dict)
+    pushbutton_clients_delete_clicked_signal = QtCore.Signal(str, dict)
    
     # invoices tab
     invoices_request_client_name_list_signal = QtCore.Signal()
@@ -39,16 +39,17 @@ class Signals(QtCore.QObject):
     invoices_update_client_name_combobox_signal = QtCore.Signal(list)
     invoices_request_client_code_next_invoice_index_at_client_rates_and_compensations_signal = QtCore.Signal(str)
     invoices_deliver_client_code_next_invoice_index_at_client_rates_and_compensations_signal = QtCore.Signal(dict)
+    invoices_deliver_client_code_next_invoice_index_at_client_rates_signal = QtCore.Signal(dict)
     # invoices_request_invoice_number_signal = QtCore.Signal(str)
     # invoices_deliver_invoice_number_signal = QtCore.Signal(str)
-    pushbutton_generate_invoice_clicked_signal = QtCore.Signal(dict)
+    pushbutton_generate_invoice_clicked_signal = QtCore.Signal(dict, dict)
     radiobutton_invoices_query_clicked_signal = QtCore.Signal(str, dict)
     pushbutton_invoices_run_query_clicked_signal = QtCore.Signal(dict)
     radiobutton_invoices_sort_clicked_signal = QtCore.Signal(str)
     display_invoices_query_df_in_tableview_signal = QtCore.Signal(pd.DataFrame)
     pushbutton_invoices_export_query_results_clicked_signal = QtCore.Signal()
-    pushbutton_invoices_overwrite_clicked_signal = QtCore.Signal(dict, str)
-    pushbutton_invoices_delete_clicked_signal = QtCore.Signal(str)
+    pushbutton_invoices_overwrite_clicked_signal = QtCore.Signal(dict, str, dict)
+    pushbutton_invoices_delete_clicked_signal = QtCore.Signal(str, dict)
     
 
 

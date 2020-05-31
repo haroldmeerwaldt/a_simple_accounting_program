@@ -128,7 +128,8 @@ class TimesTab(QtWidgets.QMainWindow):
                                      'comboBox_times_start_time', 'comboBox_times_stop_time', 'info_label_times_hours']
         try:
             add_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
-            self.signals.pushbutton_add_working_day_clicked_signal.emit(add_working_day_widget_value_dict)
+            times_query_widget_value_dict = self._generate_times_query_widget_value_dict()
+            self.signals.pushbutton_add_working_day_clicked_signal.emit(add_working_day_widget_value_dict, times_query_widget_value_dict)
         except ValueError:
             print('Date was provided in an invalid format. It should be DD-MM-YYYY')
 
@@ -231,7 +232,8 @@ class TimesTab(QtWidgets.QMainWindow):
                                      'comboBox_times_start_time', 'comboBox_times_stop_time', 'info_label_times_hours']
         try:
             overwrite_working_day_widget_value_dict = self.widgets.get_widget_value_dict(relevant_widget_name_list)
-            self.signals.pushbutton_times_overwrite_clicked_signal.emit(overwrite_working_day_widget_value_dict, UID_to_be_overwritten)
+            times_query_widget_value_dict = self._generate_times_query_widget_value_dict()
+            self.signals.pushbutton_times_overwrite_clicked_signal.emit(overwrite_working_day_widget_value_dict, UID_to_be_overwritten, times_query_widget_value_dict)
         except ValueError:
             print('Date was provided in an invalid format. It should be DD-MM-YYYY')
 
@@ -240,4 +242,5 @@ class TimesTab(QtWidgets.QMainWindow):
         tableview_times_query_widget = self.widgets.get_widget('tableView_times_query') # violates Law of Demeter, todo fix it
         row_dict = tableview_times_query_widget.get_df_row_as_dict(current_row)
         UID_to_be_deleted = row_dict['UID']
-        self.signals.pushbutton_times_delete_clicked_signal.emit(UID_to_be_deleted)
+        times_query_widget_value_dict = self._generate_times_query_widget_value_dict()
+        self.signals.pushbutton_times_delete_clicked_signal.emit(UID_to_be_deleted, times_query_widget_value_dict)
