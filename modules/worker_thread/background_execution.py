@@ -213,7 +213,9 @@ class BackgroundExecution(QtCore.QObject):
             if self.invoices.there_is_already_an_invoice_for_this_client_month_and_year(client_code, month, year):
                 print('There is already an invoice for this client in this month and year. No invoice generated')
             else:
-                self.invoices.generate_invoice_from_dict(invoice_widget_value_dict)
+                dict_to_be_added = self.invoices.generate_invoice_from_dict(invoice_widget_value_dict)
+                self.invoices_from_template.generate_invoice(dict_to_be_added)
+
                 client_name = invoice_widget_value_dict['comboBox_invoices_client_name']
                 self.invoices_request_client_code_next_invoice_index_at_client_rates_slot(client_name)
 

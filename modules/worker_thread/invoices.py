@@ -68,7 +68,8 @@ class Invoices:
         print(dict_to_be_added)
         self._add_invoice_in_memory(dict_to_be_added)
         self._add_invoice_to_file(dict_to_be_added)
-        self.invoices_from_template.generate_invoice(dict_to_be_added)
+        return dict_to_be_added  # handle returning dict better
+
 
     def _generate_dict_to_be_added_from_widget_value_dict(self, widget_value_dict):
         dict_to_be_added = dict()
