@@ -69,13 +69,38 @@ class InvoicesFromTemplate:
                 new_cell = invoice_worksheet.cell(row=row, column=col)
                 new_cell.value = cell.value
                 if cell.has_style:
-                    # new_cell._style = copy.copy(cell._style)
                     new_cell.font = copy.copy(cell.font)
                     new_cell.border = copy.copy(cell.border)
                     new_cell.fill = copy.copy(cell.fill)
                     new_cell.number_format = copy.copy(cell.number_format)
                     new_cell.protection = copy.copy(cell.protection)
                     new_cell.alignment = copy.copy(cell.alignment)
+
+        print('substituting')
+        client_name = invoice_dict['Client name']
+        client_info_dict = self.clients.get_client_info_dict_based_on_client_name(client_name)
+
+
+
+        for key, val in invoice_dict.items():
+            print(key)
+            try:
+                coordinate = self.invoices_cell_coordinate_dict[key]
+                print(coordinate)
+                cell = invoice_worksheet[coordinate]
+                cell.value = val
+            except KeyError:
+                pass
+
+        for key, val in client_info_dict.items():
+            print(key)
+            try:
+                coordinate = self.clients_cell_coordinate_dict[key]
+                print(coordinate)
+                cell = invoice_worksheet[coordinate]
+                cell.value = val
+            except KeyError:
+                pass
 
 
 
