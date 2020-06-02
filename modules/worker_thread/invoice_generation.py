@@ -1,7 +1,9 @@
+import datetime
 import copy
 import os
 import openpyxl
 import numpy as np
+from modules.utilities import toolbox
 
 class InvoicesFromTemplate:
     def __init__(self, times, clients, invoices, params):
@@ -54,9 +56,9 @@ class InvoicesFromTemplate:
                             self.invoices_cell_coordinate_dict[info_name] = cell.coordinate
                             print(info_name, self.invoices_cell_coordinate_dict[info_name])
 
-
+    @toolbox.print_when_called_and_return_exception_inside_thread
     def generate_invoice(self, invoice_dict):
-        print(invoice_dict)
+        print('invoice_dict', invoice_dict)
         invoice_workbook = openpyxl.Workbook()
         blank_worksheet_name = invoice_workbook.sheetnames[0]
         blank_worksheet = invoice_workbook.get_sheet_by_name(blank_worksheet_name)
@@ -80,6 +82,15 @@ class InvoicesFromTemplate:
         client_name = invoice_dict['Client name']
         client_info_dict = self.clients.get_client_info_dict_based_on_client_name(client_name)
 
+        invoice_month = invoice_dict['Month']
+        invoice_year = invoice_dict['Year']
+
+        print('before start date')
+        start_date, stop_date = self._extract_start_and_stop_date_from_month_and_year(invoice_month, invoice_year)
+        print('after start date')
+        full_times_df = self.times.get_times_df()
+        valid_row_indices = (start_date <= full_times_df['Date']) & (full_times_df['Date'] < stop_date) & (full_times_df['Client name'] == client_name)
+        invoice_times_df = full_times_df.loc[valid_row_indices]
 
 
         for key, val in invoice_dict.items():
@@ -102,6 +113,10 @@ class InvoicesFromTemplate:
             except KeyError:
                 pass
 
+        for namedtuple in invoice_times_df.itertuples():
+            print('dir(namedtuple)', dir(namedtuple))
+
+
 
 
         invoice_filename_info_list = ['Client name', 'Month', 'Year']
@@ -114,3 +129,18 @@ class InvoicesFromTemplate:
         # copy cell style
         # if cell.has_style:
         #     new_cell._style = copy(cell._style)
+
+    def _extract_start_and_stop_date_from_month_and_year(self, month, year):
+        date_string = month + ' ' + str(year)
+        start_date = datetime.datetime.strptime(date_string, '%B %Y')
+
+        stop_date = datetime.datetime.strptime(date_string, '%B %Y')
+        stop_date_month = stop_date.month
+        stop_date_year = stop_date.year
+        if stop_date_month == 12:
+            stop_date_month = 1
+            stop_date_year = stop_date_year + 1
+        else:
+            stop_date_month = stop_date_month + 1
+        stop_date = datetime.datetime(year=stop_date_year, month=stop_date_month, day=1, hour=0, minute=0, second=0)
+        return start_date, stop_date
