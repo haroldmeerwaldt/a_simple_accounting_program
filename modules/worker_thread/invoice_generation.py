@@ -56,6 +56,21 @@ class InvoicesFromTemplate:
                             self.invoices_cell_coordinate_dict[info_name] = cell.coordinate
                             print(info_name, self.invoices_cell_coordinate_dict[info_name])
 
+        print('calculations')
+        self.calculated_cell_coordinate_dict = dict()
+        for info_structure_row in self.params.get_calculations_info_structure_df_itertuples():
+            info_name = info_structure_row.info_name
+            invoice_template_tag = info_structure_row.invoice_template_tag
+            if isinstance(invoice_template_tag, str):
+                for row in range(1, self.template_worksheet.max_row + 1):
+                    for col in range(1, self.template_worksheet.max_column + 1):
+                        cell = self.template_worksheet.cell(row=row, column=col)
+                        if cell.value == invoice_template_tag:
+                            self.calculated_cell_coordinate_dict[info_name] = cell.coordinate
+                            print(info_name, self.calculated_cell_coordinate_dict[info_name])
+
+
+
     @toolbox.print_when_called_and_return_exception_inside_thread
     def generate_invoice(self, invoice_dict):
         print('invoice_dict', invoice_dict)
@@ -91,7 +106,7 @@ class InvoicesFromTemplate:
         full_times_df = self.times.get_times_df()
         valid_row_indices = (start_date <= full_times_df['Date']) & (full_times_df['Date'] < stop_date) & (full_times_df['Client name'] == client_name)
         invoice_times_df = full_times_df.loc[valid_row_indices]
-
+        print('invoice_times_df', invoice_times_df)
 
         for key, val in invoice_dict.items():
             print(key)
@@ -113,11 +128,31 @@ class InvoicesFromTemplate:
             except KeyError:
                 pass
 
-        for namedtuple in invoice_times_df.itertuples():
-            print('dir(namedtuple)', dir(namedtuple))
+        for index, row in invoice_times_df.iterrows():
+            print('row', row)
+            for key, val in row.iteritems():
+                try:
+                    coordinate = self.times_cell_coordinate_dict[key]
+                    print(coordinate)
+                    cell = invoice_worksheet[coordinate]
+                    cell.value = val
+                except KeyError:
+                    pass
 
+        def set_calculated_value(info_name, value):
+            coordinate = self.calculated_cell_coordinate_dict[info_name]
+            cell = invoice_worksheet[coordinate]
+            cell.value = value
 
+        set_calculated_value('Calculated hours', '=24*({}-{})'.format(self.times_cell_coordinate_dict['Stop time'], self.times_cell_coordinate_dict['Start time']))
+        if True:  #todo differentiate different types of work
+            set_calculated_value('Calculated amount for hours', '={}*{}'.format(self.invoices_cell_coordinate_dict['Rate during day (euro/h)'], self.calculated_cell_coordinate_dict['Calculated hours']))
 
+        set_calculated_value('Calculated amount for commute', '={}*{}'.format(self.invoices_cell_coordinate_dict['Compensation for commute (euro/km)'], self.times_cell_coordinate_dict['Commute (km)']))
+        set_calculated_value('Calculated amount for distance during work', '={}*{}'.format(self.invoices_cell_coordinate_dict['Compensation for driving during work (euro/km)'], self.times_cell_coordinate_dict['Distance during work (km)']))
+        set_calculated_value('Calculated amount for working day', '={}+{}+{}'.format(self.calculated_cell_coordinate_dict['Calculated amount for hours'], self.calculated_cell_coordinate_dict['Calculated amount for commute'], self.calculated_cell_coordinate_dict['Calculated amount for distance during work']))
+
+        set_calculated_value('Calculated total amount', '={}'.format(self.calculated_cell_coordinate_dict['Calculated amount for working day']))
 
         invoice_filename_info_list = ['Client name', 'Month', 'Year']
         invoice_filename = '_'.join([str(invoice_dict[key]) for key in invoice_filename_info_list])

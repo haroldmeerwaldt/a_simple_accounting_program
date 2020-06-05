@@ -1,0 +1,7 @@
+info_name	invoice_template_tag
+Calculated hours	#calculated_hours
+Calculated amount for hours	#calculated_amount_for_hours
+Calculated amount for commute	#calculated_amount_for_commute
+Calculated amount for distance during work	#calculated_amount_for_distance_during_work
+Calculated amount for working day	#calculated_amount_for_working_day
+Calculated total amount	#calculated_total_amount
