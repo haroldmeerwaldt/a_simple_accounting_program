@@ -7,6 +7,7 @@ import numpy as np
 from modules.utilities import toolbox
 
 class InvoicesFromTemplate:
+    translation_dict = {'during day': 'Dagwaarneming', 'shift': 'Dienst'}
     def __init__(self, times, clients, invoices, params):
         self.times = times
         self.clients = clients
@@ -103,6 +104,7 @@ class InvoicesFromTemplate:
         full_times_df = self.times.get_times_df()
         valid_row_indices = (start_date <= full_times_df['Date']) & (full_times_df['Date'] < stop_date) & (full_times_df['Client name'] == client_name)
         invoice_times_df = full_times_df.loc[valid_row_indices]
+        invoice_times_df = invoice_times_df.sort_values(by='Date', ignore_index=True)
 
         self.number_of_working_days = len(invoice_times_df)
         print('invoice_times_df', invoice_times_df)
@@ -139,10 +141,12 @@ class InvoicesFromTemplate:
                     invoice_cell = self.invoice_worksheet.cell(row=invoice_row, column=col)
                     InvoicesFromTemplate.copy_cell(template_cell, invoice_cell)
 
-
             for key, val in df_row.iteritems():
                 try:
-                    self.set_times_value(key, row_offset, val)
+                    if key == 'Type of hours':
+                        self.set_times_value(key, row_offset, self.translation_dict[val])
+                    else:
+                        self.set_times_value(key, row_offset, val)
                     # coordinate = self.times_cell_coordinate_dict[key]
                     # print(coordinate)
                     # template_cell = self.invoice_worksheet[coordinate]
@@ -151,8 +155,14 @@ class InvoicesFromTemplate:
                     pass
 
             self._fill_in_calculated_hours(row_offset)
-            if True:  #todo differentiate different types of work
-                self._fill_in_calculated_amount_for_hours(row_offset)
+
+            if df_row['Type of hours'] == 'during day':
+                self._fill_in_calculated_amount_for_hours_during_day(row_offset)
+            elif df_row['Type of hours'] == 'shift':
+                self._fill_in_calculated_amount_for_hours_in_shift(row_offset)
+            else:
+                print('Invalid type of hours in times')
+
 
             self._fill_in_calculated_amount_for_commute(row_offset)
 
@@ -186,7 +196,7 @@ class InvoicesFromTemplate:
 
     def _fill_in_calculated_total_amount(self, row_offset):
         initial_calculated_amount_for_working_day_coordinate = self.calculated_cell_coordinate_dict['Calculated amount for working day']
-        new_coordinate_list = [self._increment_coordinate_by_row_offset(initial_calculated_amount_for_working_day_coordinate, row_offset+index*self.row_increment_between_two_working_days) for index in range(self.number_of_working_days)]
+        new_coordinate_list = [self._increment_coordinate_by_row_offset(initial_calculated_amount_for_working_day_coordinate, index*self.row_increment_between_two_working_days) for index in range(self.number_of_working_days)]
         string_format = '=' + '+'.join(['{}']*self.number_of_working_days) # should give e.g. '={}+{}' if there are two working days
         self.set_calculated_value('Calculated total amount', row_offset, string_format, new_coordinate_list)
 
@@ -208,10 +218,16 @@ class InvoicesFromTemplate:
         quantity_coordinate = self.times_cell_coordinate_dict['Commute (km)']
         self._fill_in_calculated_amount('Calculated amount for commute', row_offset, multiplication_coordinate, quantity_coordinate)
 
-    def _fill_in_calculated_amount_for_hours(self, row_offset):
+    def _fill_in_calculated_amount_for_hours_during_day(self, row_offset):
         multiplication_coordinate = self.invoices_cell_coordinate_dict['Rate during day (euro/h)']
         quantity_coordinate = self.calculated_cell_coordinate_dict['Calculated hours']
         self._fill_in_calculated_amount('Calculated amount for hours', row_offset, multiplication_coordinate, quantity_coordinate)
+
+    def _fill_in_calculated_amount_for_hours_in_shift(self, row_offset):
+        multiplication_coordinate = self.invoices_cell_coordinate_dict['Rate for shifts (euro/h)']
+        quantity_coordinate = self.calculated_cell_coordinate_dict['Calculated hours']
+        self._fill_in_calculated_amount('Calculated amount for hours', row_offset, multiplication_coordinate, quantity_coordinate)
+
 
     def _fill_in_calculated_amount(self, calculated_amount, row_offset, multiplication_coordinate, quantity_coordinate):
         new_multiplication_coordinate = openpyxl.utils.cell.absolute_coordinate(multiplication_coordinate)

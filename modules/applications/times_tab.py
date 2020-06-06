@@ -63,6 +63,10 @@ class TimesTab(QtWidgets.QMainWindow):
         self.widgets.set_allowed_widget_values('comboBox_times_query_stop_year', year_list)
         self.widgets.set_widget_value('comboBox_times_query_stop_year', year_list[-1])
 
+        type_of_hours_list = ['during day', 'shift']
+        self.widgets.set_allowed_widget_values('comboBox_times_type_of_hours', type_of_hours_list)
+        self.widgets.set_widget_value('comboBox_times_type_of_hours', type_of_hours_list[0])
+
     def _initialize_client_combobox_lists(self, client_name_list):
         self._update_client_combobox_lists(client_name_list)
 

@@ -45,7 +45,9 @@ class Clients:
 
     def get_client_info_dict_based_on_client_name(self, client_name):
         valid_row_indices = self.clients_df['Client name'] == client_name
-        required_column_names = ['UID', 'Standard rate during day (euro/h)', 'Standard rate for shifts (euro/h)', 'Standard compensation for commute (euro/km)', 'Standard compensation for driving during work (euro/km)']
+        # required_column_names = ['UID', 'Standard rate during day (euro/h)', 'Standard rate for shifts (euro/h)', 'Standard compensation for commute (euro/km)', 'Standard compensation for driving during work (euro/km)']
+        required_column_names = ['UID', 'Person name', 'Address', 'Postal code and city', 'Standard rate during day (euro/h)', 'Standard rate for shifts (euro/h)', 'Standard compensation for commute (euro/km)', 'Standard compensation for driving during work (euro/km)']
+
         client_info_df = self.clients_df.loc[valid_row_indices, required_column_names]
 
         print('client_info_df', client_info_df)
