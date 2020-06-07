@@ -7,7 +7,7 @@ import numpy as np
 from modules.utilities import toolbox
 
 class InvoicesFromTemplate:
-    translation_dict = {'during day': 'Dagwaarneming', 'shift': 'Dienst'}
+
     def __init__(self, times, clients, invoices, params):
         self.times = times
         self.clients = clients
@@ -73,8 +73,8 @@ class InvoicesFromTemplate:
 
         self.working_day_start_row, _ = openpyxl.utils.cell.coordinate_to_tuple(self.times_cell_coordinate_dict['Type of hours'])
         self.working_day_stop_row, _ = openpyxl.utils.cell.coordinate_to_tuple(self.calculated_cell_coordinate_dict['Calculated amount for working day'])
-        self.working_day_stop_row = self.working_day_stop_row + 1
-        self.row_increment_between_two_working_days = self.working_day_stop_row - self.working_day_start_row + 1
+        # self.working_day_stop_row = self.working_day_stop_row + 1
+        self.row_increment_between_two_working_days = self.working_day_stop_row - self.working_day_start_row + 2
 
     @toolbox.print_when_called_and_return_exception_inside_thread
     def generate_invoice(self, invoice_dict):
@@ -85,7 +85,7 @@ class InvoicesFromTemplate:
         invoice_workbook.remove_sheet(blank_worksheet)
         self.invoice_worksheet = invoice_workbook.create_sheet(self.worksheet_name) # todo get somewhere else
 
-        for df_row in range(1, self.template_worksheet.max_row + 1):
+        for df_row in range(1, self.working_day_start_row):
             for col in range(1, self.template_worksheet.max_column + 1):
                 template_cell = self.template_worksheet.cell(row=df_row, column=col)
                 invoice_cell = self.invoice_worksheet.cell(row=df_row, column=col)
@@ -144,13 +144,14 @@ class InvoicesFromTemplate:
             for key, val in df_row.iteritems():
                 try:
                     if key == 'Type of hours':
-                        self.set_times_value(key, row_offset, self.translation_dict[val])
+                        if val == 'during day':
+                            self.set_times_value(key, row_offset, self.params.translation_during_day)
+                        elif val == 'shift':
+                            self.set_times_value(key, row_offset, self.params.translation_shift)
+                        else:
+                            print('Invalid type of hours in times')
                     else:
                         self.set_times_value(key, row_offset, val)
-                    # coordinate = self.times_cell_coordinate_dict[key]
-                    # print(coordinate)
-                    # template_cell = self.invoice_worksheet[coordinate]
-                    # template_cell.value = val
                 except KeyError:
                     pass
 
@@ -173,7 +174,7 @@ class InvoicesFromTemplate:
 
 
         row_offset_for_end = (len(invoice_times_df)-1)*self.row_increment_between_two_working_days
-        for row in range(self.working_day_stop_row + 1, self.template_worksheet.max_row + 1):
+        for row in range(self.working_day_stop_row + 2, self.template_worksheet.max_row + 1):
             for col in range(1, self.template_worksheet.max_column + 1):
                 template_cell = self.template_worksheet.cell(row=row, column=col)
                 invoice_row = row + row_offset_for_end
@@ -186,7 +187,7 @@ class InvoicesFromTemplate:
         invoice_filename_info_list = ['Client name', 'Month', 'Year']
         invoice_filename = '_'.join([str(invoice_dict[key]) for key in invoice_filename_info_list])
         invoice_filename = invoice_filename + '_' + invoice_dict['Invoice date'].strftime('%Y%m%d') + '.xlsx'
-        invoice_path = os.path.join(self.params.user_directory, invoice_filename)
+        invoice_path = os.path.join(self.params.invoices_directory, invoice_filename)
         print(invoice_path)
         invoice_workbook.save(invoice_path)
 

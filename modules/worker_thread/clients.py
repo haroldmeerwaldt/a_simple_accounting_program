@@ -178,6 +178,6 @@ class ClientsQuery:
 
     def export_query_result(self):
         export_filename = 'export_clients_query_results_{}.tsv'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
-        user_directory = self.params.user_directory
-        export_path = os.path.join(user_directory, export_filename)
+        exports_directory = self.params.exports_directory
+        export_path = os.path.join(exports_directory, export_filename)
         self.query_result_df.to_csv(export_path, sep='\t', index=False, date_format=self.DATE_FORMAT)

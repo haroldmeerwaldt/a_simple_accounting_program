@@ -13,16 +13,25 @@ from modules.applications import asap_application
 
 class Parameters:
     DATE_FORMAT = "%d-%m-%Y"
+    subdirectory_dict = {'backup_directory': 'backups', 'invoices_directory': 'invoices', 'exports_directory': 'exports'}
     def __init__(self):
-        self._generate_user_directory()
+        self._generate_user_directories()
         self._generate_input_file_constants()
         self._generate_info_structure_dfs()
         self._generate_data_filenames()
 
-    def _generate_user_directory(self):
+    def _generate_user_directories(self):
         self.user_directory = os.path.expanduser('~/ASAP')
         if not os.path.exists(self.user_directory):
             os.makedirs(self.user_directory)
+
+        for attribute, folder_name in self.subdirectory_dict.items():
+            self._generate_subdirectory(attribute, folder_name)
+
+    def _generate_subdirectory(self, attribute, folder_name):
+        setattr(self, attribute, os.path.join(self.user_directory, folder_name))
+        if not os.path.exists(getattr(self, attribute)):
+            os.makedirs(getattr(self, attribute))
 
     def _generate_input_file_constants(self):
         current_directory = os.path.dirname(os.path.realpath(__file__))
