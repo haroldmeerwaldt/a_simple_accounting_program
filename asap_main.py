@@ -1,12 +1,8 @@
 import os
-from typing import Any, Union
-
-import pandas as pd
 import sys
 
+import pandas as pd
 from PySide2 import QtWidgets
-from pandas import DataFrame, Series
-from pandas.io.parsers import TextFileReader
 
 from modules.applications import asap_application
 

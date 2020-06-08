@@ -2,10 +2,14 @@ from PySide2 import QtWidgets, QtCore
 from modules.GUI_layouts import asap_layout
 from modules.applications import widgets, times_tab, clients_tab, invoices_tab
 from modules.worker_thread import background_execution
+from modules.utilities import toolbox
 import pandas as pd
+import logging
 
 
 class Signals(QtCore.QObject):
+    logging_message_signal = QtCore.Signal(str)
+
     # times tab
     times_request_client_name_list_signal = QtCore.Signal()
     times_deliver_client_name_list_signal = QtCore.Signal(list)
@@ -65,8 +69,10 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.DATE_FORMAT = params.DATE_FORMAT
         self._initialize_user_interface()
         self.signals = Signals()
+
         self._initialize_background_execution_thread()
         self._initialize_tabs()
+        self._initialize_logger()
 
     def _initialize_user_interface(self):
         self.ui = asap_layout.Ui_MainWindow()
@@ -90,8 +96,21 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.times_tab.connect_buttons_to_slots()
         self.invoices_tab.set_initial_values()
         self.invoices_tab.connect_buttons_to_slots()
-        
-        
+
+    def _initialize_logger(self):
+
+        self.logger = logging.getLogger('main' + __name__)
+        self.logger.setLevel(logging.DEBUG)
+        self.handler = toolbox.QLogHandler(self.signals.logging_message_signal, self.ui)
+        self.handler.setLevel(logging.DEBUG)
+
+        self.formatter = logging.Formatter(fmt='{asctime} - {message}', style='{')
+        self.handler.setFormatter(self.formatter)
+        self.logger.addHandler(self.handler)
+
+        self.logger.info('biba')
+
+
 
 
     def closeEvent(self, event):

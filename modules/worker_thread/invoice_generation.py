@@ -19,7 +19,7 @@ class InvoicesFromTemplate:
         self._generate_cell_addresses_from_template_dict()
 
     def _generate_cell_addresses_from_template_dict(self):
-        print('times')
+
         self.times_cell_coordinate_dict = dict()
         for info_structure_row in self.params.get_times_info_structure_df_itertuples():
             info_name = info_structure_row.info_name
@@ -30,9 +30,7 @@ class InvoicesFromTemplate:
                         cell = self.template_worksheet.cell(row=row, column=col)
                         if cell.value == invoice_template_tag:
                             self.times_cell_coordinate_dict[info_name] = cell.coordinate
-                            print(info_name, self.times_cell_coordinate_dict[info_name])
 
-        print('clients')
         self.clients_cell_coordinate_dict = dict()
         for info_structure_row in self.params.get_clients_info_structure_df_itertuples():
             info_name = info_structure_row.info_name
@@ -43,9 +41,7 @@ class InvoicesFromTemplate:
                         cell = self.template_worksheet.cell(row=row, column=col)
                         if cell.value == invoice_template_tag:
                             self.clients_cell_coordinate_dict[info_name] = cell.coordinate
-                            print(info_name, self.clients_cell_coordinate_dict[info_name])
 
-        print('invoices')
         self.invoices_cell_coordinate_dict = dict()
         for info_structure_row in self.params.get_invoices_info_structure_df_itertuples():
             info_name = info_structure_row.info_name
@@ -56,9 +52,7 @@ class InvoicesFromTemplate:
                         cell = self.template_worksheet.cell(row=row, column=col)
                         if cell.value == invoice_template_tag:
                             self.invoices_cell_coordinate_dict[info_name] = cell.coordinate
-                            print(info_name, self.invoices_cell_coordinate_dict[info_name])
 
-        print('calculations')
         self.calculated_cell_coordinate_dict = dict()
         for info_structure_row in self.params.get_calculations_info_structure_df_itertuples():
             info_name = info_structure_row.info_name
@@ -69,7 +63,6 @@ class InvoicesFromTemplate:
                         cell = self.template_worksheet.cell(row=row, column=col)
                         if cell.value == invoice_template_tag:
                             self.calculated_cell_coordinate_dict[info_name] = cell.coordinate
-                            print(info_name, self.calculated_cell_coordinate_dict[info_name])
 
         self.working_day_start_row, _ = openpyxl.utils.cell.coordinate_to_tuple(self.times_cell_coordinate_dict['Type of hours'])
         self.working_day_stop_row, _ = openpyxl.utils.cell.coordinate_to_tuple(self.calculated_cell_coordinate_dict['Calculated amount for working day'])
@@ -78,7 +71,6 @@ class InvoicesFromTemplate:
 
     @toolbox.print_when_called_and_return_exception_inside_thread
     def generate_invoice(self, invoice_dict):
-        print('invoice_dict', invoice_dict)
         invoice_workbook = openpyxl.Workbook()
         blank_worksheet_name = invoice_workbook.sheetnames[0]
         blank_worksheet = invoice_workbook.get_sheet_by_name(blank_worksheet_name)
@@ -91,39 +83,31 @@ class InvoicesFromTemplate:
                 invoice_cell = self.invoice_worksheet.cell(row=df_row, column=col)
                 InvoicesFromTemplate.copy_cell(template_cell, invoice_cell)
 
-        print('substituting')
         client_name = invoice_dict['Client name']
         client_info_dict = self.clients.get_client_info_dict_based_on_client_name(client_name)
 
         invoice_month = invoice_dict['Month']
         invoice_year = invoice_dict['Year']
 
-        print('before start date')
         start_date, stop_date = self._extract_start_and_stop_date_from_month_and_year(invoice_month, invoice_year)
-        print('after start date')
         full_times_df = self.times.get_times_df()
         valid_row_indices = (start_date <= full_times_df['Date']) & (full_times_df['Date'] < stop_date) & (full_times_df['Client name'] == client_name)
         invoice_times_df = full_times_df.loc[valid_row_indices]
         invoice_times_df = invoice_times_df.sort_values(by='Date', ignore_index=True)
 
         self.number_of_working_days = len(invoice_times_df)
-        print('invoice_times_df', invoice_times_df)
 
         for key, val in invoice_dict.items():
-            print(key)
             try:
                 coordinate = self.invoices_cell_coordinate_dict[key]
-                print(coordinate)
                 template_cell = self.invoice_worksheet[coordinate]
                 template_cell.value = val
             except KeyError:
                 pass
 
         for key, val in client_info_dict.items():
-            print(key)
             try:
                 coordinate = self.clients_cell_coordinate_dict[key]
-                print(coordinate)
                 template_cell = self.invoice_worksheet[coordinate]
                 template_cell.value = val
             except KeyError:
@@ -132,7 +116,6 @@ class InvoicesFromTemplate:
 
 
         for index, df_row in invoice_times_df.iterrows():
-            print('row', df_row)
             row_offset = index*self.row_increment_between_two_working_days
             for row in range(self.working_day_start_row, self.working_day_stop_row + 1):
                 for col in range(1, self.template_worksheet.max_column + 1):
@@ -188,7 +171,7 @@ class InvoicesFromTemplate:
         invoice_filename = '_'.join([str(invoice_dict[key]) for key in invoice_filename_info_list])
         invoice_filename = invoice_filename + '_' + invoice_dict['Invoice date'].strftime('%Y%m%d') + '.xlsx'
         invoice_path = os.path.join(self.params.invoices_directory, invoice_filename)
-        print(invoice_path)
+
         invoice_workbook.save(invoice_path)
 
         # copy cell style

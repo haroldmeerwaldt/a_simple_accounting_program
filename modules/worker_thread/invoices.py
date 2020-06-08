@@ -21,15 +21,10 @@ class Invoices:
 
 
     def get_next_invoice_index_at_client(self, client_code):
-        print('in get next invoice index')
         try:
-            print('client_code', client_code)
-            print('self.invoices_df[Client code]', self.invoices_df['Client code'])
             valid_row_indices = self.invoices_df['Client code'] == client_code
             client_df = self.invoices_df.loc[valid_row_indices]
-            print('client_df', client_df)
             highest_index = client_df['Invoice index at client'].max()
-            print('highest_index', highest_index)
             if np.isnan(highest_index):
                 highest_index = 0
             next_index = highest_index + 1
@@ -37,7 +32,6 @@ class Invoices:
             type, value, tb = sys.exc_info()
             traceback.print_tb(tb)
 
-        print('next_index', next_index)
         return next_index
 
     def _generate_invoices_df_from_input_file(self):
@@ -62,10 +56,7 @@ class Invoices:
 
     @toolbox.print_when_called_and_return_exception_inside_thread
     def generate_invoice_from_dict(self, widget_value_dict):
-        print('here -----------')
-        print(inspect.currentframe().f_code.co_name)
         dict_to_be_added = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
-        print(dict_to_be_added)
         self._add_invoice_in_memory(dict_to_be_added)
         self._add_invoice_to_file(dict_to_be_added)
         return dict_to_be_added  # handle returning dict better
@@ -142,8 +133,6 @@ class InvoicesQuery:
     def query_dates_only(self, snapshot_dict):
         start_date, stop_date = self._extract_start_and_stop_date_from_snapshot_dict(snapshot_dict)
         invoices_df = self.invoices.get_invoices_df()
-        print('invoices_df', invoices_df.columns)
-        print(invoices_df['Invoice date'].dtype)
         valid_row_indices = (start_date <= invoices_df['Invoice date']) & (invoices_df['Invoice date'] < stop_date)
         self.query_result_df = invoices_df.loc[valid_row_indices]
 

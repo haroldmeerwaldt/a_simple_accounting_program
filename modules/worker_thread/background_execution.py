@@ -26,36 +26,8 @@ class BackgroundExecution(QtCore.QObject):
         self._backup_user_files()
 
     def _backup_user_files(self):
-        user_directory = self.params.user_directory
-        backup_directory = self.params.backup_directory
-        user_directory_depth = len(user_directory.split(os.sep))
-
-        now = datetime.datetime.now()
-        zipfile_name = now.strftime("%Y%m%d_%H%M%S_ASAP_user_files_backup") + '.zip'
-        zipfile_path = os.path.join(backup_directory, zipfile_name)
-
-        with zipfile.ZipFile(zipfile_path, 'w') as zip_object:
-            # Iterate over all the files in directory
-            for directory, subfolders, filenames in os.walk(user_directory):
-                if directory != backup_directory:
-
-                    directory_depth = len(directory.split(os.sep))
-                    if directory_depth == user_directory_depth:
-                        directory_in_archive = ''
-                    else:
-                        subdirectory_in_archive_list = directory.split(os.sep)[-(directory_depth-user_directory_depth):]
-                        directory_in_archive = os.path.join(*subdirectory_in_archive_list)
-
-                    for filename in filenames:
-
-                        file_path = os.path.join(directory, filename)
-                        file_path_in_archive = os.path.join(directory_in_archive, filename)
-                        print(file_path, file_path_in_archive, filename)
-                        zip_object.write(file_path, file_path_in_archive) #, os.path.basename(file_path))
-
-
-        # shutil.make_archive(zipfile_path, 'zip', user_directory)
-
+        backup = Backup(self.params)
+        backup.generate_backup()
 
     ######################
     # times tab
@@ -308,3 +280,31 @@ class BackgroundExecution(QtCore.QObject):
 
     def pushbutton_invoices_export_query_results_clicked_slot(self):
         self.invoices_query.export_query_result()
+
+class Backup:
+    def __init__(self, params):
+        self.user_directory = params.user_directory
+        self.backup_directory = params.backup_directory
+        self.user_directory_depth = len(self.user_directory.split(os.sep))
+
+        now = datetime.datetime.now()
+        zipfile_name = now.strftime("%Y%m%d_%H%M%S_ASAP_user_files_backup") + '.zip'
+        self.zipfile_path = os.path.join(self.backup_directory, zipfile_name)
+
+    def generate_backup(self):
+        with zipfile.ZipFile(self.zipfile_path, 'w') as zip_object:
+            for directory, subfolders, filenames in os.walk(self.user_directory):
+                if directory != self.backup_directory:
+
+                    directory_depth = len(directory.split(os.sep))
+                    if directory_depth == self.user_directory_depth:
+                        directory_in_archive = ''
+                    else:
+                        subdirectory_in_archive_list = directory.split(os.sep)[-(directory_depth-self.user_directory_depth):]
+                        directory_in_archive = os.path.join(*subdirectory_in_archive_list)
+
+                    for filename in filenames:
+
+                        file_path = os.path.join(directory, filename)
+                        file_path_in_archive = os.path.join(directory_in_archive, filename)
+                        zip_object.write(file_path, file_path_in_archive)

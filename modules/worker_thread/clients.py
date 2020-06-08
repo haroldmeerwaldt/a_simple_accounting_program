@@ -33,7 +33,6 @@ class Clients:
     def get_client_code_based_on_client_name(self, client_name):
         valid_row_indices = self.clients_df['Client name'] == client_name
         client_code_list = self.clients_df.loc[valid_row_indices, 'UID'].tolist()
-        print('client_code_list', client_code_list)
 
         if len(client_code_list) == 0:
             print('client info was not found')
@@ -50,13 +49,10 @@ class Clients:
 
         client_info_df = self.clients_df.loc[valid_row_indices, required_column_names]
 
-        print('client_info_df', client_info_df)
 
         if len(client_info_df) == 0:
             print('client info was not found')
         elif len(client_info_df) == 1:
-            print('one row')
-            print(client_info_df.iloc[0, :], type(client_info_df.iloc[0, :]))
             client_info_dict = client_info_df.iloc[0, :].to_dict()
             return client_info_dict
         elif len(client_info_df) > 1:

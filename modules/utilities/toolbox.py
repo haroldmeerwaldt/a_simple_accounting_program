@@ -4,6 +4,7 @@ import inspect
 import sys
 import traceback
 import threading
+import logging
 
 class PandasModel(QtCore.QAbstractTableModel):
     """
@@ -134,3 +135,27 @@ class SimpleTime:
 
     def __float__(self):
         return float(self.hours + self.minutes/60)
+
+
+
+
+class QLogHandler(logging.Handler):
+
+    def __init__(self, logging_message_signal, ui):
+        super().__init__()
+
+        self.logging_message_signal = logging_message_signal
+        self.ui = ui
+        self.logging_message_signal.connect(lambda text: self.add_message_to_textbrowser(text))
+
+
+    def emit(self, record):
+        self.logging_message_signal.emit(self.format(record))
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__} : {logging.getLevelName(self.level)}>"
+
+    def add_message_to_textbrowser(self, text):
+        print('in add message')
+        print(text)
+        self.ui.textBrowser_console.append(text)
