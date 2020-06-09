@@ -141,11 +141,12 @@ class SimpleTime:
 
 class QLogHandler(logging.Handler):
 
-    def __init__(self, logging_message_signal, ui):
+    def __init__(self, logging_message_signal, textbrowser):
         super().__init__()
 
         self.logging_message_signal = logging_message_signal
-        self.ui = ui
+        self.textbrowser = textbrowser
+        self.scrollbar = self.textbrowser.verticalScrollBar()
         self.logging_message_signal.connect(lambda text: self.add_message_to_textbrowser(text))
 
 
@@ -156,6 +157,10 @@ class QLogHandler(logging.Handler):
         return f"<{self.__class__.__name__} : {logging.getLevelName(self.level)}>"
 
     def add_message_to_textbrowser(self, text):
-        print('in add message')
-        print(text)
-        self.ui.textBrowser_console.append(text)
+        self.textbrowser.append(text)
+
+        scrollbar_is_at_end = (self.scrollbar.maximum() - self.scrollbar.value()) <= 10
+        if scrollbar_is_at_end:
+            self.scrollbar.setValue(self.scrollbar.maximum())
+
+

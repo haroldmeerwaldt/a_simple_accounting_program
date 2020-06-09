@@ -44,8 +44,6 @@ class Signals(QtCore.QObject):
     invoices_request_client_code_next_invoice_index_at_client_rates_and_compensations_signal = QtCore.Signal(str)
     invoices_deliver_client_code_next_invoice_index_at_client_rates_and_compensations_signal = QtCore.Signal(dict)
     invoices_deliver_client_code_next_invoice_index_at_client_rates_signal = QtCore.Signal(dict)
-    # invoices_request_invoice_number_signal = QtCore.Signal(str)
-    # invoices_deliver_invoice_number_signal = QtCore.Signal(str)
     pushbutton_generate_invoice_clicked_signal = QtCore.Signal(dict, dict)
     radiobutton_invoices_query_clicked_signal = QtCore.Signal(str, dict)
     pushbutton_invoices_run_query_clicked_signal = QtCore.Signal(dict)
@@ -54,12 +52,9 @@ class Signals(QtCore.QObject):
     pushbutton_invoices_export_query_results_clicked_signal = QtCore.Signal()
     pushbutton_invoices_overwrite_clicked_signal = QtCore.Signal(dict, str, dict)
     pushbutton_invoices_delete_clicked_signal = QtCore.Signal(str, dict)
-    
-
 
     def __init__(self):
         super().__init__()
-
 
 
 class ASAPApplication(QtWidgets.QMainWindow):
@@ -67,20 +62,26 @@ class ASAPApplication(QtWidgets.QMainWindow):
         super().__init__()
         self.params = params
         self.DATE_FORMAT = params.DATE_FORMAT
+
         self._initialize_user_interface()
         self.signals = Signals()
 
+        self._initialize_logger()
         self._initialize_background_execution_thread()
         self._initialize_tabs()
-        self._initialize_logger()
+        self._display_welcome_message()
+
 
     def _initialize_user_interface(self):
         self.ui = asap_layout.Ui_MainWindow()
         self.ui.setupUi(self)
+        self._set_tableview_selection_modes()
+        self.widgets = widgets.Widgets(self.ui, self.DATE_FORMAT)
+
+    def _set_tableview_selection_modes(self):
         self.ui.tableView_times_query.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.ui.tableView_clients_query.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.ui.tableView_invoices_query.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.widgets = widgets.Widgets(self.ui, self.DATE_FORMAT)
 
     def _initialize_background_execution_thread(self):
         self.background_execution_thread = QtCore.QThread()
@@ -98,20 +99,20 @@ class ASAPApplication(QtWidgets.QMainWindow):
         self.invoices_tab.connect_buttons_to_slots()
 
     def _initialize_logger(self):
+        logger = logging.getLogger('main')
+        logger.setLevel(logging.DEBUG)
 
-        self.logger = logging.getLogger('main' + __name__)
-        self.logger.setLevel(logging.DEBUG)
-        self.handler = toolbox.QLogHandler(self.signals.logging_message_signal, self.ui)
-        self.handler.setLevel(logging.DEBUG)
+        handler = toolbox.QLogHandler(self.signals.logging_message_signal, self.ui.textBrowser_console)
+        handler.setLevel(logging.DEBUG)
 
-        self.formatter = logging.Formatter(fmt='{asctime} - {message}', style='{')
-        self.handler.setFormatter(self.formatter)
-        self.logger.addHandler(self.handler)
+        formatter = logging.Formatter(fmt='{asctime} | {message}', datefmt='%H:%M:%S', style='{')
 
-        self.logger.info('biba')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
 
-
-
+    def _display_welcome_message(self):
+        self.logger = logging.getLogger('main.' + __name__)
+        self.logger.info('Welcome to A Simple Accounting Program!')
 
     def closeEvent(self, event):
         self.background_execution_thread.quit()

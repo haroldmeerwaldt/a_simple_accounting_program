@@ -58,7 +58,10 @@ class Widgets:
         # date_object = datetime.datetime.strptime(date_string, self.DATE_FORMAT)
         return date
 
-
+    def get_tableview_df_row_as_dict(self, tableview_name, row_number):
+        tableview_widget = self.get_widget(tableview_name)
+        row_dict = tableview_widget.get_df_row_as_dict(row_number)
+        return row_dict
 
 
 class Widget:

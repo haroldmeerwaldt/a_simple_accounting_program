@@ -177,9 +177,8 @@ class BackgroundExecution(QtCore.QObject):
 
 
     def invoices_request_client_code_next_invoice_index_at_client_rates_and_compensations_slot(self, client_name):
-        print('in slot invoices_request_client_code_and_next_invoice_index_at_client_slot')
-        try:
-            client_info_dict = self.clients.get_client_info_dict_based_on_client_name(client_name)
+        client_info_dict = self.clients.get_client_info_dict_based_on_client_name(client_name)
+        if client_info_dict is not None:
             client_code = client_info_dict['UID']
             next_invoice_index_at_client = self.invoices.get_next_invoice_index_at_client(client_code)
             print(next_invoice_index_at_client)
@@ -192,13 +191,8 @@ class BackgroundExecution(QtCore.QObject):
             for key_client, key_invoice in client_to_invoice_dict.items():
                 row_dict[key_invoice] = client_info_dict[key_client]
             self.signals.invoices_deliver_client_code_next_invoice_index_at_client_rates_and_compensations_signal.emit(row_dict)
-        except Exception as e:
-            print(e)
-            type, value, tb = sys.exc_info()
-            traceback.print_tb(tb)
 
     def invoices_request_client_code_next_invoice_index_at_client_rates_slot(self, client_name):
-        print('in slot invoices_request_client_code_and_next_invoice_index_at_client_slot')
         try:
             client_info_dict = self.clients.get_client_info_dict_based_on_client_name(client_name)
             client_code = client_info_dict['UID']
