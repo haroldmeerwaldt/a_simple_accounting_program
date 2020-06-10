@@ -24,8 +24,377 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
+    <widget class="QWidget" name="tab_clients">
+     <attribute name="title">
+      <string>Clients</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>311</width>
+        <height>511</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Add clients</string>
+      </property>
+      <widget class="QPushButton" name="pushButton_add_client">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>430</y>
+         <width>75</width>
+         <height>75</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Add client</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_clients_clear_fields">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>430</y>
+         <width>75</width>
+         <height>75</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Clear fields</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="gridLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>20</y>
+         <width>231</width>
+         <height>403</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_times_date_2">
+          <property name="text">
+           <string>First year</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_30">
+          <property name="text">
+           <string>Address</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="0">
+         <widget class="QLabel" name="label_23">
+          <property name="text">
+           <string>Standard
+compensation
+for driving
+during work
+(euro/km)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="info_label_clients_index_within_year">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_day_of_week_2">
+          <property name="text">
+           <string>Client code</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="label_19">
+          <property name="text">
+           <string>Standard rate
+during day
+(euro/h)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_20">
+          <property name="text">
+           <string>Standard rate
+for shifts
+(euro/h)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_standard_rate_for_shifts"/>
+        </item>
+        <item row="9" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_standard_compensation_for_commute"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_times_client_2">
+          <property name="text">
+           <string>Client name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_29">
+          <property name="text">
+           <string>Person name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_standard_rate_during_day"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="comboBox_clients_first_year"/>
+        </item>
+        <item row="10" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_standard_compensation_for_driving_during_work"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Index within year</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="info_label_clients_client_code">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0">
+         <widget class="QLabel" name="label_22">
+          <property name="text">
+           <string>Standard
+compensation
+for commute
+(euro/km)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_client_name"/>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_31">
+          <property name="text">
+           <string>Postal code
+and city</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_person_name"/>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_address"/>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLineEdit" name="lineEdit_clients_postal_code_and_city"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>20</y>
+        <width>861</width>
+        <height>511</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Query clients</string>
+      </property>
+      <widget class="QWidget" name="verticalLayoutWidget_3">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>170</y>
+         <width>831</width>
+         <height>331</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPushButton" name="pushButton_clients_overwrite">
+            <property name="text">
+             <string>Overwrite</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_clients_delete">
+            <property name="text">
+             <string>Delete</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableView" name="tableView_clients_query"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="formLayoutWidget_4">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>50</y>
+         <width>160</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <layout class="QFormLayout" name="formLayout_4">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Start year</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="comboBox_clients_query_start_year"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Stop year</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="comboBox_clients_query_stop_year"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_6">
+       <property name="geometry">
+        <rect>
+         <x>261</x>
+         <y>50</y>
+         <width>161</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="QRadioButton" name="radioButton_clients_query_using_years">
+          <property name="text">
+           <string>Query using years</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_clients_query_return_all">
+          <property name="text">
+           <string>Return all</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QPushButton" name="pushButton_clients_export_query_results">
+       <property name="geometry">
+        <rect>
+         <x>760</x>
+         <y>40</y>
+         <width>75</width>
+         <height>75</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Export 
+query 
+results</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_clients_run_query">
+       <property name="geometry">
+        <rect>
+         <x>660</x>
+         <y>40</y>
+         <width>75</width>
+         <height>75</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Run query</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_4">
+       <property name="geometry">
+        <rect>
+         <x>450</x>
+         <y>50</y>
+         <width>186</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QRadioButton" name="radioButton_clients_sort_by_year_and_index">
+          <property name="text">
+           <string>Sort by year and index</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_clients_sort_by_client_name">
+          <property name="text">
+           <string>Sort by client name</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </widget>
     <widget class="QWidget" name="tab_times">
      <attribute name="title">
       <string>Times</string>
@@ -448,375 +817,6 @@ during work (km)</string>
        <property name="text">
         <string>Clear fields</string>
        </property>
-      </widget>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_clients">
-     <attribute name="title">
-      <string>Clients</string>
-     </attribute>
-     <widget class="QGroupBox" name="groupBox_3">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>311</width>
-        <height>511</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Add clients</string>
-      </property>
-      <widget class="QPushButton" name="pushButton_add_client">
-       <property name="geometry">
-        <rect>
-         <x>180</x>
-         <y>430</y>
-         <width>75</width>
-         <height>75</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Add client</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_clients_clear_fields">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>430</y>
-         <width>75</width>
-         <height>75</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Clear fields</string>
-       </property>
-      </widget>
-      <widget class="QWidget" name="gridLayoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>40</x>
-         <y>20</y>
-         <width>231</width>
-         <height>403</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_times_date_2">
-          <property name="text">
-           <string>First year</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_30">
-          <property name="text">
-           <string>Address</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="0">
-         <widget class="QLabel" name="label_23">
-          <property name="text">
-           <string>Standard
-compensation
-for driving
-during work
-(euro/km)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLabel" name="info_label_clients_index_within_year">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_day_of_week_2">
-          <property name="text">
-           <string>Client code</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="0">
-         <widget class="QLabel" name="label_19">
-          <property name="text">
-           <string>Standard rate
-during day
-(euro/h)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="label_20">
-          <property name="text">
-           <string>Standard rate
-for shifts
-(euro/h)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="1">
-         <widget class="QLineEdit" name="lineEdit_clients_standard_rate_for_shifts"/>
-        </item>
-        <item row="9" column="1">
-         <widget class="QLineEdit" name="lineEdit_clients_standard_compensation_for_commute"/>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_times_client_2">
-          <property name="text">
-           <string>Client name</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_29">
-          <property name="text">
-           <string>Person name</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="1">
-         <widget class="QLineEdit" name="lineEdit_clients_standard_rate_during_day"/>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="comboBox_clients_first_year"/>
-        </item>
-        <item row="10" column="1">
-         <widget class="QLineEdit" name="lineEdit_clients_standard_compensation_for_driving_during_work"/>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Index within year</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="info_label_clients_client_code">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="0">
-         <widget class="QLabel" name="label_22">
-          <property name="text">
-           <string>Standard
-compensation
-for commute
-(euro/km)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="lineEdit_clients_client_name"/>
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="label_31">
-          <property name="text">
-           <string>Postal code
-and city</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QLineEdit" name="lineEdit_clients_person_name"/>
-        </item>
-        <item row="5" column="1">
-         <widget class="QLineEdit" name="lineEdit_clients_address"/>
-        </item>
-        <item row="6" column="1">
-         <widget class="QLineEdit" name="lineEdit_clients_postal_code_and_city"/>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_4">
-      <property name="geometry">
-       <rect>
-        <x>350</x>
-        <y>20</y>
-        <width>861</width>
-        <height>511</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Query clients</string>
-      </property>
-      <widget class="QWidget" name="verticalLayoutWidget_3">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>170</y>
-         <width>831</width>
-         <height>331</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QPushButton" name="pushButton_clients_overwrite">
-            <property name="text">
-             <string>Overwrite</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_clients_delete">
-            <property name="text">
-             <string>Delete</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QTableView" name="tableView_clients_query"/>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="formLayoutWidget_4">
-       <property name="geometry">
-        <rect>
-         <x>70</x>
-         <y>50</y>
-         <width>160</width>
-         <height>51</height>
-        </rect>
-       </property>
-       <layout class="QFormLayout" name="formLayout_4">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>Start year</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="comboBox_clients_query_start_year"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_9">
-          <property name="text">
-           <string>Stop year</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="comboBox_clients_query_stop_year"/>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="verticalLayoutWidget_6">
-       <property name="geometry">
-        <rect>
-         <x>261</x>
-         <y>50</y>
-         <width>161</width>
-         <height>51</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_8">
-        <item>
-         <widget class="QRadioButton" name="radioButton_clients_query_using_years">
-          <property name="text">
-           <string>Query using years</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="radioButton_clients_query_return_all">
-          <property name="text">
-           <string>Return all</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QPushButton" name="pushButton_clients_export_query_results">
-       <property name="geometry">
-        <rect>
-         <x>760</x>
-         <y>40</y>
-         <width>75</width>
-         <height>75</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Export 
-query 
-results</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_clients_run_query">
-       <property name="geometry">
-        <rect>
-         <x>660</x>
-         <y>40</y>
-         <width>75</width>
-         <height>75</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Run query</string>
-       </property>
-      </widget>
-      <widget class="QWidget" name="verticalLayoutWidget_4">
-       <property name="geometry">
-        <rect>
-         <x>450</x>
-         <y>50</y>
-         <width>186</width>
-         <height>51</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <widget class="QRadioButton" name="radioButton_clients_sort_by_year_and_index">
-          <property name="text">
-           <string>Sort by year and index</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="radioButton_clients_sort_by_client_name">
-          <property name="text">
-           <string>Sort by client name</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
       </widget>
      </widget>
     </widget>
@@ -1284,11 +1284,6 @@ results</string>
        </property>
       </widget>
      </widget>
-    </widget>
-    <widget class="QWidget" name="tab_configuration">
-     <attribute name="title">
-      <string>Configuration</string>
-     </attribute>
     </widget>
    </widget>
    <widget class="QTextBrowser" name="textBrowser_console">

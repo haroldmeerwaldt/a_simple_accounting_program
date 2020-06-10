@@ -2,11 +2,8 @@ import datetime
 
 from modules.utilities import toolbox
 
-from PySide2 import QtCore
-
 
 class Widgets:
-
     def __init__(self, ui, DATE_FORMAT):
         self.DATE_FORMAT = DATE_FORMAT
         qt_widget_dict = vars(ui)
@@ -17,7 +14,7 @@ class Widgets:
             elif 'comboBox' in widget_name:
                 self._widget_dict[widget_name] = ComboboxWidget(qt_widget)
             elif widget_name in ['lineEdit_times_date', 'lineEdit_invoices_invoice_date']:
-                self._widget_dict[widget_name] = LineeditTimesDateWidget(qt_widget, date_format=DATE_FORMAT)
+                self._widget_dict[widget_name] = LineeditDateWidget(qt_widget, date_format=DATE_FORMAT)
             elif 'lineEdit' in widget_name:
                 self._widget_dict[widget_name] = LineeditWidget(qt_widget)
             elif 'info_label' in widget_name:
@@ -38,28 +35,27 @@ class Widgets:
         for widget_name, value in widget_value_dict.items():
             self.set_widget_value(widget_name, value)
 
-    def get_widget(self, widget_name):
+    def _get_widget(self, widget_name):
         return self._widget_dict[widget_name]
 
     def get_widget_value(self, widget_name):
-        widget = self.get_widget(widget_name)
+        widget = self._get_widget(widget_name)
         return widget.get_value()
 
     def set_widget_value(self, widget_name, value):
-        widget = self.get_widget(widget_name)
+        widget = self._get_widget(widget_name)
         widget.set_value(value)
 
     def set_allowed_widget_values(self, widget_name, value_list):
-        widget = self.get_widget(widget_name)
+        widget = self._get_widget(widget_name)
         widget.set_allowed_values(value_list)
 
     def get_times_date_as_object(self):
         date = self.get_widget_value('lineEdit_times_date')
-        # date_object = datetime.datetime.strptime(date_string, self.DATE_FORMAT)
         return date
 
     def get_tableview_df_row_as_dict(self, tableview_name, row_number):
-        tableview_widget = self.get_widget(tableview_name)
+        tableview_widget = self._get_widget(tableview_name)
         row_dict = tableview_widget.get_df_row_as_dict(row_number)
         return row_dict
 
@@ -99,8 +95,7 @@ class ComboboxWidget(Widget):
                 self.qt_widget.addItem(str(value), value)
 
 
-
-class LineeditTimesDateWidget(Widget):
+class LineeditDateWidget(Widget):
     def __init__(self, *args, date_format=None):
         super().__init__(*args)
         self.date_format = date_format

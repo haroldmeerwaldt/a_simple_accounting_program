@@ -70,9 +70,6 @@ def print_when_called_and_return_exception_inside_thread(decorated_function):
             print("Traceback (most recent call last):")
             print("".join(traceback.format_list(full_tb)), end='')
             print("".join(exc_line))
-
-
-
     return wrapper
 
 
@@ -117,7 +114,6 @@ class SimpleTime:
 
         return SimpleTime(hours=sum_hours, minutes=sum_minutes)
 
-
     def __sub__(self, other):
         delta_hours = self.hours - other.hours
         if delta_hours < 0:
@@ -137,10 +133,7 @@ class SimpleTime:
         return float(self.hours + self.minutes/60)
 
 
-
-
 class QLogHandler(logging.Handler):
-
     def __init__(self, logging_message_signal, textbrowser):
         super().__init__()
 
@@ -148,7 +141,6 @@ class QLogHandler(logging.Handler):
         self.textbrowser = textbrowser
         self.scrollbar = self.textbrowser.verticalScrollBar()
         self.logging_message_signal.connect(lambda text: self.add_message_to_textbrowser(text))
-
 
     def emit(self, record):
         self.logging_message_signal.emit(self.format(record))
