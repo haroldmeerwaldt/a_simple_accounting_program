@@ -1,22 +1,24 @@
-import sys
-import traceback
-
 import datetime
+import logging
 import os
-import numpy as np
 
+import numpy as np
 import pandas as pd
 
 from modules.utilities import toolbox
 
 
 class Clients:
+    client_info_dict_column_names_list = ['UID', 'Person name', 'Address', 'Postal code and city', 'Standard rate during day (euro/h)', 'Standard rate for shifts (euro/h)',
+                             'Standard compensation for commute (euro/km)', 'Standard compensation for driving during work (euro/km)']
     def __init__(self, signals, params):
         self.signals = signals
         self.params = params
         self.clients_filename = params.clients_filename
-        self._generate_clients_df_from_input_file()
 
+        self.logger = logging.getLogger('main.' + __name__)
+
+        self._generate_clients_df_from_input_file()
 
     def get_next_index_within_year(self, year):
         valid_row_indices = self.clients_df['First year'] == year
@@ -35,28 +37,24 @@ class Clients:
         client_code_list = self.clients_df.loc[valid_row_indices, 'UID'].tolist()
 
         if len(client_code_list) == 0:
-            print('client info was not found')
+            self.logger.error('client info was not found')
         elif len(client_code_list) == 1:
             client_code = client_code_list[0]
             return client_code
         elif len(client_code_list) > 1:
-            print('multiple client names were found')
+            self.logger.error('multiple client names were found')
 
     def get_client_info_dict_based_on_client_name(self, client_name):
         valid_row_indices = self.clients_df['Client name'] == client_name
-        # required_column_names = ['UID', 'Standard rate during day (euro/h)', 'Standard rate for shifts (euro/h)', 'Standard compensation for commute (euro/km)', 'Standard compensation for driving during work (euro/km)']
-        required_column_names = ['UID', 'Person name', 'Address', 'Postal code and city', 'Standard rate during day (euro/h)', 'Standard rate for shifts (euro/h)', 'Standard compensation for commute (euro/km)', 'Standard compensation for driving during work (euro/km)']
-
-        client_info_df = self.clients_df.loc[valid_row_indices, required_column_names]
-
+        client_info_df = self.clients_df.loc[valid_row_indices, self.client_info_dict_column_names_list]
 
         if len(client_info_df) == 0:
-            print('client info was not found')
+            self.logger.error('client info was not found')
         elif len(client_info_df) == 1:
             client_info_dict = client_info_df.iloc[0, :].to_dict()
             return client_info_dict
         elif len(client_info_df) > 1:
-            print('multiple client names were found')
+            self.logger.error('multiple client names were found')
 
     def _generate_clients_df_from_input_file(self):
         try:
@@ -66,8 +64,6 @@ class Clients:
             self.clients_df = pd.DataFrame(columns=column_list)
         self.clients_df = self.clients_df.astype({'UID': str, 'Client name': str, 'First year': int})
 
-
-    @toolbox.print_when_called_and_return_exception_inside_thread
     def add_client_from_dict(self, widget_value_dict):
         dict_to_be_added = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
 
@@ -91,9 +87,8 @@ class Clients:
         try:
             df_to_be_added.to_csv(self.clients_filename, sep='\t', mode='a', index=False, header=use_header)
         except PermissionError:
-            print('{} is currently open. Please close the file and try again'.format(self.clients_filename))
+            self.logger.error('{} is currently open. Please close the file and try again'.format(self.clients_filename))
 
-    @toolbox.print_when_called_and_return_exception_inside_thread
     def overwrite_client_from_dict(self, widget_value_dict, UID_of_dropped_row):
         self._drop_rows_from_clients_df_based_on_UID(UID_of_dropped_row)
         self._append_row_to_clients_df_using_widget_value_dict(widget_value_dict)
@@ -121,6 +116,7 @@ class ClientsQuery:
         self.params = params
         self.clients = clients
         self.DATE_FORMAT = params.DATE_FORMAT
+
         self.query_result_df = None
         self.query_selection = 'using_years'
         self.query_sort_method = 'by_year_and_index'
