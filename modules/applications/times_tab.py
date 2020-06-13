@@ -139,9 +139,12 @@ class TimesTab(QtWidgets.QMainWindow):
         self.widgets.set_allowed_widget_values('comboBox_times_client_name', sorted_client_name_list)
         self.widgets.set_allowed_widget_values('comboBox_times_query_client_name', sorted_client_name_list)
 
-        first_client_name = sorted_client_name_list[0]
-        self.widgets.set_widget_value('comboBox_times_client_name', first_client_name)
-        self.widgets.set_widget_value('comboBox_times_query_client_name', first_client_name)
+        try:
+            first_client_name = sorted_client_name_list[0]
+            self.widgets.set_widget_value('comboBox_times_client_name', first_client_name)
+            self.widgets.set_widget_value('comboBox_times_query_client_name', first_client_name)
+        except IndexError:
+            pass
 
     def _update_client_code(self, client_code):
         self.widgets.set_widget_value('info_label_times_client_code', client_code)

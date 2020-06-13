@@ -5,6 +5,8 @@ import sys
 import traceback
 import threading
 import logging
+import pandas as pd
+import openpyxl
 
 class PandasModel(QtCore.QAbstractTableModel):
     """
@@ -155,4 +157,16 @@ class QLogHandler(logging.Handler):
         if scrollbar_is_at_end:
             self.scrollbar.setValue(self.scrollbar.maximum())
 
+def append_df_to_excel(df, excel_path, header=False):
+    if header:
+        df.to_excel(excel_path, header=True)
+    else:
+        workbook = openpyxl.load_workbook(excel_path)
+        writer = pd.ExcelWriter(excel_path, engine='openpyxl')
+        writer.workbook = workbook
+        writer.sheets = {ws.title: ws for ws in workbook.worksheets}
 
+        for sheetname in writer.sheets:
+            df.to_excel(writer, sheet_name=sheetname, startrow=writer.sheets[sheetname].max_row, index=False, header=False)
+
+        writer.save()

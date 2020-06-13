@@ -48,9 +48,9 @@ class Parameters:
         self.calculations_info_structure_df = pd.read_csv(self.calculations_info_structure_path, sep='\t')
 
     def _generate_data_filenames(self):
-        self.times_filename = os.path.join(self.user_directory, 'times.tsv')
-        self.clients_filename = os.path.join(self.user_directory, 'clients.tsv')
-        self.invoices_filename = os.path.join(self.user_directory, 'invoices.tsv')
+        self.times_filename = os.path.join(self.user_directory, 'times.xlsx')
+        self.clients_filename = os.path.join(self.user_directory, 'clients.xlsx')
+        self.invoices_filename = os.path.join(self.user_directory, 'invoices.xlsx')
 
     def get_times_info_structure_df_itertuples(self):
         return self.times_info_structure_df.itertuples()

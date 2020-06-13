@@ -56,13 +56,13 @@ class Times:
     def _add_working_day_to_file(self, dict_to_be_added):
         df_to_be_added = pd.DataFrame([dict_to_be_added], columns=self.times_df.columns)
         use_header = not os.path.exists(self.times_filename)
-        df_to_be_added.to_csv(self.times_filename, sep='\t', mode='a', index=False, header=use_header, date_format=self.DATE_FORMAT)
+        toolbox.append_df_to_excel(df_to_be_added, self.times_filename, header=use_header) #, date_format=self.DATE_FORMAT)
 
     @toolbox.print_when_called_and_return_exception_inside_thread
     def overwrite_working_day_from_dict(self, widget_value_dict, UID_of_dropped_row):
         self._drop_rows_from_times_df_based_on_UID(UID_of_dropped_row)
         self._append_row_to_times_df_using_widget_value_dict(widget_value_dict)
-        self._save_times_df_to_tsv_file()
+        self._save_times_df_to_file()
 
     def _append_row_to_times_df_using_widget_value_dict(self, widget_value_dict):
         dict_to_be_overwritten_with = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
@@ -71,15 +71,15 @@ class Times:
 
     def delete_working_day(self, UID_of_dropped_row):
         self._drop_rows_from_times_df_based_on_UID(UID_of_dropped_row)
-        self._save_times_df_to_tsv_file()
+        self._save_times_df_to_file()
 
     def _drop_rows_from_times_df_based_on_UID(self, UID_of_dropped_row):
         self.times_df = self.times_df.set_index('UID')
         self.times_df = self.times_df.drop(index=UID_of_dropped_row)
         self.times_df = self.times_df.reset_index().rename(columns={'index': 'UID'})
 
-    def _save_times_df_to_tsv_file(self):
-        self.times_df.to_csv(self.times_filename, sep='\t', index=False, date_format=self.DATE_FORMAT)
+    def _save_times_df_to_file(self):
+        self.times_df.to_excel(self.times_filename, index=False, date_format=self.DATE_FORMAT)
 
 
 class TimesQuery:
@@ -182,7 +182,7 @@ class TimesQuery:
             self.query_result_df = query_result_df_copy.copy()
 
     def export_query_result(self):
-        export_filename = 'export_times_query_results_{}.tsv'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
+        export_filename = 'export_times_query_results_{}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
         exports_directory = self.params.exports_directory
         export_path = os.path.join(exports_directory, export_filename)
-        self.query_result_df.to_csv(export_path, sep='\t', index=False, date_format=self.DATE_FORMAT)
+        self.query_result_df.to_excel(export_path, index=False, date_format=self.DATE_FORMAT)

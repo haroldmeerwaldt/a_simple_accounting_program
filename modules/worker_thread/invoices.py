@@ -76,13 +76,13 @@ class Invoices:
     def _add_invoice_to_file(self, dict_to_be_added):
         df_to_be_added = pd.DataFrame([dict_to_be_added], columns=self.invoices_df.columns)
         use_header = not os.path.exists(self.invoices_filename)
-        df_to_be_added.to_csv(self.invoices_filename, sep='\t', mode='a', index=False, header=use_header, date_format=self.DATE_FORMAT)
+        toolbox.append_df_to_excel(df_to_be_added, self.invoices_filename, header=use_header) #, date_format=self.DATE_FORMAT)
 
     @toolbox.print_when_called_and_return_exception_inside_thread
     def overwrite_invoice_from_dict(self, widget_value_dict, UID_of_dropped_row):
         self._drop_rows_from_invoices_df_based_on_UID(UID_of_dropped_row)
         self._append_row_to_invoices_df_using_widget_value_dict(widget_value_dict)
-        self._save_invoices_df_to_tsv_file()
+        self._save_invoices_df_to_file()
 
     def _append_row_to_invoices_df_using_widget_value_dict(self, widget_value_dict):
         dict_to_be_overwritten_with = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
@@ -90,15 +90,15 @@ class Invoices:
 
     def delete_invoice(self, UID_of_dropped_row):
         self._drop_rows_from_invoices_df_based_on_UID(UID_of_dropped_row)
-        self._save_invoices_df_to_tsv_file()
+        self._save_invoices_df_to_file()
 
     def _drop_rows_from_invoices_df_based_on_UID(self, UID_of_dropped_row):
         self.invoices_df = self.invoices_df.set_index('UID')
         self.invoices_df = self.invoices_df.drop(index=UID_of_dropped_row)
         self.invoices_df = self.invoices_df.reset_index().rename(columns={'index': 'UID'})
 
-    def _save_invoices_df_to_tsv_file(self):
-        self.invoices_df.to_csv(self.invoices_filename, sep='\t', index=False, date_format=self.DATE_FORMAT)
+    def _save_invoices_df_to_file(self):
+        self.invoices_df.to_excel(self.invoices_filename, index=False, date_format=self.DATE_FORMAT)
 
 
 class InvoicesQuery:
@@ -207,10 +207,10 @@ class InvoicesQuery:
             self.query_result_df = query_result_df_copy.copy()
 
     def export_query_result(self):
-        export_filename = 'export_invoices_query_results_{}.tsv'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
+        export_filename = 'export_invoices_query_results_{}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
         exports_directory = self.params.exports_directory
         export_path = os.path.join(exports_directory, export_filename)
-        self.query_result_df.to_csv(export_path, sep='\t', index=False, date_format=self.DATE_FORMAT)
+        self.query_result_df.to_excel(export_path, index=False, date_format=self.DATE_FORMAT)
 
 
 

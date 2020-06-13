@@ -109,14 +109,20 @@ class BackgroundExecution(QtCore.QObject):
         self.signals.deliver_next_index_within_year_signal.emit(next_index)
 
     def pushbutton_add_client_clicked_slot(self, client_widget_value_dict, query_widget_value_dict):
-        self.clients.add_client_from_dict(client_widget_value_dict)
-        year = client_widget_value_dict['comboBox_clients_first_year']
-        self.request_next_index_within_year_slot(year)
+        print('in slot')
+        try:
+            self.clients.add_client_from_dict(client_widget_value_dict)
+            year = client_widget_value_dict['comboBox_clients_first_year']
+            self.request_next_index_within_year_slot(year)
 
-        self.times_update_client_name_combobox()
-        self.invoices_update_client_name_combobox()
-        if self.clients_query.query_has_been_run_before():
-            self.pushbutton_clients_run_query_clicked_slot(query_widget_value_dict)
+            self.times_update_client_name_combobox()
+            self.invoices_update_client_name_combobox()
+            if self.clients_query.query_has_been_run_before():
+                self.pushbutton_clients_run_query_clicked_slot(query_widget_value_dict)
+        except:
+            type, value, tb = sys.exc_info()
+            traceback.print_tb(tb)
+        print('out slot')
 
     # querying
     def radiobutton_clients_query_clicked_slot(self, radiobutton_name, query_widget_value_dict):

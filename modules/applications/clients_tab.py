@@ -107,6 +107,7 @@ class ClientsTab(QtWidgets.QMainWindow):
         self.widgets.set_widget_values_using_dict(widget_value_dict)
 
     def _on_pushbutton_add_client_clicked(self):
+        print('in _add_client_clicked')
         client_name = self.widgets.get_widget_value('lineEdit_clients_client_name')
         if client_name == '':
             self.logger.warning('The client name is left empty. Please fill in a client name')
@@ -114,6 +115,7 @@ class ClientsTab(QtWidgets.QMainWindow):
             add_client_widget_value_dict = self.widgets.get_widget_value_dict(self.add_overwrite_widget_name_list)
             clients_query_widget_value_dict = self._get_clients_query_widget_value_dict()
             self.signals.pushbutton_add_client_clicked_signal.emit(add_client_widget_value_dict, clients_query_widget_value_dict)
+        print('out _add_client_clicked')
 
     # querying
     def _on_radiobutton_clients_query_clicked(self):
