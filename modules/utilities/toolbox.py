@@ -162,11 +162,9 @@ def append_df_to_excel(df, excel_path, header=False):
         df.to_excel(excel_path, index=False, header=True)
     else:
         workbook = openpyxl.load_workbook(excel_path)
-        writer = pd.ExcelWriter(excel_path, engine='openpyxl')
-        writer.workbook = workbook
-        writer.sheets = {ws.title: ws for ws in workbook.worksheets}
+        first_sheet_name = workbook.worksheets[0].title
+        with pd.ExcelWriter(excel_path, mode='a') as writer:
+            writer.sheets = dict((ws.title, ws) for ws in writer.book.worksheets)
+            df.to_excel(writer, sheet_name=first_sheet_name, startrow=writer.sheets[first_sheet_name].max_row, index=False, header=False)
 
-        for sheetname in writer.sheets:
-            df.to_excel(writer, sheet_name=sheetname, startrow=writer.sheets[sheetname].max_row, index=False, header=False)
 
-        writer.save()

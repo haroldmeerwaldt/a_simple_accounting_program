@@ -12,6 +12,9 @@ class Times:
         self.signals = signals
         self.params = params
         self.DATE_FORMAT = params.DATE_FORMAT
+
+        self.logger = logging.getLogger('main.' + __name__)
+
         self.times_filename = params.times_filename
         self._generate_times_df_from_input_file()
 
@@ -27,7 +30,6 @@ class Times:
     def get_times_df(self):
         return self.times_df
 
-    @toolbox.print_when_called_and_return_exception_inside_thread
     def add_working_day_from_dict(self, widget_value_dict):
         dict_to_be_added = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
         dict_to_be_added['UID'] = self._generate_UID(dict_to_be_added)
@@ -62,7 +64,6 @@ class Times:
         use_header = not os.path.exists(self.times_filename)
         toolbox.append_df_to_excel(df_to_be_added, self.times_filename, header=use_header)
 
-    @toolbox.print_when_called_and_return_exception_inside_thread
     def overwrite_working_day_from_dict(self, widget_value_dict, UID_of_dropped_row):
         self._drop_rows_from_times_df_based_on_UID(UID_of_dropped_row)
         self._append_row_to_times_df_using_widget_value_dict(widget_value_dict)
@@ -123,7 +124,7 @@ class TimesQuery:
             self.query_dates_and_client(widget_value_dict)
 
     def query_dates_only(self, snapshot_dict):
-        start_date, stop_date = self._extract_start_and_stop_date_from_snapshot_dict(snapshot_dict)
+        start_date, stop_date = TimesQuery._extract_start_and_stop_date_from_snapshot_dict(snapshot_dict)
         times_df = self.times.get_times_df()
 
         valid_row_indices = (start_date <= times_df['Date']) & (times_df['Date'] < stop_date)
@@ -137,14 +138,15 @@ class TimesQuery:
         self.query_result_df = times_df.loc[valid_row_indices]
 
     def query_dates_and_client(self, snapshot_dict):
-        start_date, stop_date = self._extract_start_and_stop_date_from_snapshot_dict(snapshot_dict)
+        start_date, stop_date = TimesQuery._extract_start_and_stop_date_from_snapshot_dict(snapshot_dict)
         client_name = snapshot_dict['comboBox_times_query_client_name']
         times_df = self.times.get_times_df()
 
         valid_row_indices = (start_date <= times_df['Date']) & (times_df['Date'] < stop_date) & (times_df['Client name'] == client_name)
         self.query_result_df = times_df.loc[valid_row_indices]
 
-    def _extract_start_and_stop_date_from_snapshot_dict(self, snapshot_dict):
+    @staticmethod
+    def _extract_start_and_stop_date_from_snapshot_dict(snapshot_dict):
         start_date_string = snapshot_dict['comboBox_times_query_start_month'] + ' ' + str(snapshot_dict['comboBox_times_query_start_year'])
         start_date = datetime.datetime.strptime(start_date_string, '%B %Y')
 

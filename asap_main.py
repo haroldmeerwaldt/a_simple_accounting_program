@@ -1,6 +1,5 @@
 import os
 import sys
-import pathlib
 
 import pandas as pd
 from PySide2 import QtWidgets
@@ -11,6 +10,7 @@ from modules.applications import asap_application
 class Parameters:
     DATE_FORMAT = "%d-%m-%Y"
     subdirectory_dict = {'backup_directory': 'backups', 'invoices_directory': 'invoices', 'exports_directory': 'exports'}
+
     def __init__(self):
         self._generate_user_directories()
         self._generate_input_file_constants()
@@ -71,17 +71,11 @@ def main():
     print('Starting up program, this may take a few seconds ...')
 
     params = Parameters()
-
     q_application = QtWidgets.QApplication(sys.argv)
     main_application = asap_application.ASAPApplication(params)
+
     main_application.show()
-
-
-
     q_application.exec_()
 
-
-
 if __name__ == '__main__':
-    print(sys.executable)
     main()

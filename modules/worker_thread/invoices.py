@@ -22,7 +22,6 @@ class Invoices:
         self.invoices_filename = params.invoices_filename
         self._generate_invoices_df_from_input_file()
 
-
     def get_next_invoice_index_at_client(self, client_code):
         valid_row_indices = self.invoices_df['Client code'] == client_code
         client_df = self.invoices_df.loc[valid_row_indices]
@@ -56,16 +55,7 @@ class Invoices:
         dict_to_be_added['File path'] = self._create_invoice_file_path(dict_to_be_added)
         self._add_invoice_in_memory(dict_to_be_added)
         self._add_invoice_to_file(dict_to_be_added)
-
-
         return dict_to_be_added  # handle returning dict better
-
-    def _create_invoice_file_path(self, invoice_info_dict):
-        invoice_filename_info_list = ['Client name', 'Month', 'Year']
-        invoice_filename = '_'.join([str(invoice_info_dict[key]) for key in invoice_filename_info_list])
-        invoice_filename = invoice_filename + '_' + invoice_info_dict['Invoice date'].strftime('%Y%m%d') + '.xlsx'
-        invoice_path = os.path.join(self.params.invoices_directory, invoice_filename)
-        return pathlib.Path(invoice_path)
 
     def _generate_dict_to_be_added_from_widget_value_dict(self, widget_value_dict):
         dict_to_be_added = dict()
@@ -75,6 +65,13 @@ class Invoices:
             dict_to_be_added[info_name] = widget_value_dict[widget_name]
         return dict_to_be_added
 
+    def _create_invoice_file_path(self, invoice_info_dict):
+        invoice_filename_info_list = ['Client name', 'Month', 'Year']
+        invoice_filename = '_'.join([str(invoice_info_dict[key]) for key in invoice_filename_info_list])
+        invoice_filename = invoice_filename + '_' + invoice_info_dict['Invoice date'].strftime('%Y%m%d') + '.xlsx'
+        invoice_path = os.path.join(self.params.invoices_directory, invoice_filename)
+        return pathlib.Path(invoice_path)
+
     def _add_invoice_in_memory(self, dict_to_be_added):
         self.invoices_df = self.invoices_df.append(dict_to_be_added, ignore_index=True)
 
@@ -83,7 +80,6 @@ class Invoices:
         use_header = not os.path.exists(self.invoices_filename)
         toolbox.append_df_to_excel(df_to_be_added, self.invoices_filename, header=use_header) #, date_format=self.DATE_FORMAT)
 
-    @toolbox.print_when_called_and_return_exception_inside_thread
     def overwrite_invoice_from_dict(self, widget_value_dict, UID_of_dropped_row):
         self._drop_rows_from_invoices_df_based_on_UID(UID_of_dropped_row)
         self._append_row_to_invoices_df_using_widget_value_dict(widget_value_dict)
@@ -140,11 +136,10 @@ class InvoicesQuery:
             self.query_return_all(widget_value_dict)
 
     def query_dates_only(self, snapshot_dict):
-        start_date, stop_date = self._extract_start_and_stop_date_from_snapshot_dict(snapshot_dict)
+        start_date, stop_date = InvoicesQuery._extract_start_and_stop_date_from_snapshot_dict(snapshot_dict)
         invoices_df = self.invoices.get_invoices_df()
         valid_row_indices = (start_date <= invoices_df['Invoice date']) & (invoices_df['Invoice date'] < stop_date)
         self.query_result_df = invoices_df.loc[valid_row_indices]
-
 
     def query_client_only(self, snapshot_dict):
         client_name = snapshot_dict['comboBox_invoices_query_client_name']
@@ -154,7 +149,7 @@ class InvoicesQuery:
         self.query_result_df = invoices_df.loc[valid_row_indices]
 
     def query_dates_and_client(self, snapshot_dict):
-        start_date, stop_date = self._extract_start_and_stop_date_from_snapshot_dict(snapshot_dict)
+        start_date, stop_date = InvoicesQuery._extract_start_and_stop_date_from_snapshot_dict(snapshot_dict)
         client_name = snapshot_dict['comboBox_invoices_query_client_name']
         invoices_df = self.invoices.get_invoices_df()
 
@@ -165,7 +160,8 @@ class InvoicesQuery:
         invoices_df = self.invoices.get_invoices_df()
         self.query_result_df = invoices_df.copy()
 
-    def _extract_start_and_stop_date_from_snapshot_dict(self, snapshot_dict):
+    @staticmethod
+    def _extract_start_and_stop_date_from_snapshot_dict(snapshot_dict):
         start_date_string = snapshot_dict['comboBox_invoices_query_start_month'] + ' ' + str(snapshot_dict['comboBox_invoices_query_start_year'])
         start_date = datetime.datetime.strptime(start_date_string, '%B %Y')
 
@@ -204,7 +200,6 @@ class InvoicesQuery:
         if self.query_result_df is not None:
             self.query_result_df = self.query_result_df.sort_values(by=['Client name', 'Date'])
 
-    @toolbox.print_when_called_and_return_exception_inside_thread
     def sort_query_result_by_month_then_by_client(self):
         self.query_sort_method = 'by_month_then_by_client'
         if self.query_result_df is not None:
