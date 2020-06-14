@@ -1,4 +1,5 @@
 import datetime
+import logging
 import os
 
 import pandas as pd
@@ -16,7 +17,7 @@ class Times:
 
     def _generate_times_df_from_input_file(self):
         try:
-            self.times_df = pd.read_csv(self.times_filename, sep='\t')
+            self.times_df = pd.read_excel(self.times_filename)
         except FileNotFoundError:
             column_list = ['UID'] + self.params.times_info_structure_df['info_name'].tolist()
             self.times_df = pd.DataFrame(columns=column_list)
@@ -32,6 +33,9 @@ class Times:
         dict_to_be_added['UID'] = self._generate_UID(dict_to_be_added)
         self._add_working_day_in_memory(dict_to_be_added)
         self._add_working_day_to_file(dict_to_be_added)
+
+        date = dict_to_be_added['Date']
+        self.logger.info('Working day on {} successfully added'.format(date.strftime(self.DATE_FORMAT)))
 
     def _generate_dict_to_be_added_from_widget_value_dict(self, widget_value_dict):
         dict_to_be_added = dict()
@@ -56,13 +60,17 @@ class Times:
     def _add_working_day_to_file(self, dict_to_be_added):
         df_to_be_added = pd.DataFrame([dict_to_be_added], columns=self.times_df.columns)
         use_header = not os.path.exists(self.times_filename)
-        toolbox.append_df_to_excel(df_to_be_added, self.times_filename, header=use_header) #, date_format=self.DATE_FORMAT)
+        toolbox.append_df_to_excel(df_to_be_added, self.times_filename, header=use_header)
 
     @toolbox.print_when_called_and_return_exception_inside_thread
     def overwrite_working_day_from_dict(self, widget_value_dict, UID_of_dropped_row):
         self._drop_rows_from_times_df_based_on_UID(UID_of_dropped_row)
         self._append_row_to_times_df_using_widget_value_dict(widget_value_dict)
         self._save_times_df_to_file()
+
+        dict_to_be_overwritten = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
+        date = dict_to_be_overwritten['Date']
+        self.logger.info('Working day on {} successfully overwritten'.format(date.strftime(self.DATE_FORMAT)))
 
     def _append_row_to_times_df_using_widget_value_dict(self, widget_value_dict):
         dict_to_be_overwritten_with = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
@@ -73,13 +81,15 @@ class Times:
         self._drop_rows_from_times_df_based_on_UID(UID_of_dropped_row)
         self._save_times_df_to_file()
 
+        self.logger.info('Working day successfully overwritten')  # todo add date
+
     def _drop_rows_from_times_df_based_on_UID(self, UID_of_dropped_row):
         self.times_df = self.times_df.set_index('UID')
         self.times_df = self.times_df.drop(index=UID_of_dropped_row)
         self.times_df = self.times_df.reset_index().rename(columns={'index': 'UID'})
 
     def _save_times_df_to_file(self):
-        self.times_df.to_excel(self.times_filename, index=False, date_format=self.DATE_FORMAT)
+        self.times_df.to_excel(self.times_filename, index=False)
 
 
 class TimesQuery:
@@ -88,6 +98,9 @@ class TimesQuery:
         self.params = params
         self.times = times
         self.DATE_FORMAT = params.DATE_FORMAT
+
+        self.logger = logging.getLogger('main.' + __name__)
+
         self.query_result_df = None
         self.query_selection = 'dates_only'
         self.query_sort_method = 'by_date_only'
@@ -170,7 +183,6 @@ class TimesQuery:
         if self.query_result_df is not None:
             self.query_result_df = self.query_result_df.sort_values(by=['Client name', 'Date'])
 
-    @toolbox.print_when_called_and_return_exception_inside_thread
     def sort_query_result_by_month_then_by_client(self):
         self.query_sort_method = 'by_month_then_by_client'
         if self.query_result_df is not None:
@@ -185,4 +197,7 @@ class TimesQuery:
         export_filename = 'export_times_query_results_{}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
         exports_directory = self.params.exports_directory
         export_path = os.path.join(exports_directory, export_filename)
-        self.query_result_df.to_excel(export_path, index=False, date_format=self.DATE_FORMAT)
+        self.query_result_df.to_excel(export_path, index=False)
+
+        self.logger.info('Query exported to file at: {}'.format(export_path))
+

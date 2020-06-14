@@ -243,10 +243,7 @@ class InvoicesFromTemplate: # todo refactor into multiple classes
         self.set_calculated_value('Calculated total amount', row_offset, string_format, new_coordinate_list)
 
     def _save_invoice_workbook(self, invoice_workbook, invoice_dict):
-        invoice_filename_info_list = ['Client name', 'Month', 'Year']
-        invoice_filename = '_'.join([str(invoice_dict[key]) for key in invoice_filename_info_list])
-        invoice_filename = invoice_filename + '_' + invoice_dict['Invoice date'].strftime('%Y%m%d') + '.xlsx'
-        invoice_path = os.path.join(self.params.invoices_directory, invoice_filename)
+        invoice_path = invoice_dict['File path']
         invoice_workbook.save(invoice_path)
         self.logger.info('Invoice saved to location: {}'.format(invoice_path))
 

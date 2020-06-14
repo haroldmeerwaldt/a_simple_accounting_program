@@ -159,7 +159,7 @@ class QLogHandler(logging.Handler):
 
 def append_df_to_excel(df, excel_path, header=False):
     if header:
-        df.to_excel(excel_path, header=True)
+        df.to_excel(excel_path, index=False, header=True)
     else:
         workbook = openpyxl.load_workbook(excel_path)
         writer = pd.ExcelWriter(excel_path, engine='openpyxl')

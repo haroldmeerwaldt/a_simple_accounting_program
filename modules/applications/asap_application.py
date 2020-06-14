@@ -75,6 +75,7 @@ class ASAPApplication(QtWidgets.QMainWindow):
     def _initialize_user_interface(self):
         self.ui = asap_layout.Ui_MainWindow()
         self.ui.setupUi(self)
+        self.setWindowTitle('A Simple Accounting Program')
         self._set_tableview_selection_modes()
         self.widgets = widgets.Widgets(self.ui, self.DATE_FORMAT)
 

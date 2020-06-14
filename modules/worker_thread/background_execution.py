@@ -1,3 +1,4 @@
+import webbrowser
 import datetime
 import inspect
 import logging
@@ -109,20 +110,14 @@ class BackgroundExecution(QtCore.QObject):
         self.signals.deliver_next_index_within_year_signal.emit(next_index)
 
     def pushbutton_add_client_clicked_slot(self, client_widget_value_dict, query_widget_value_dict):
-        print('in slot')
-        try:
-            self.clients.add_client_from_dict(client_widget_value_dict)
-            year = client_widget_value_dict['comboBox_clients_first_year']
-            self.request_next_index_within_year_slot(year)
+        self.clients.add_client_from_dict(client_widget_value_dict)
+        year = client_widget_value_dict['comboBox_clients_first_year']
+        self.request_next_index_within_year_slot(year)
 
-            self.times_update_client_name_combobox()
-            self.invoices_update_client_name_combobox()
-            if self.clients_query.query_has_been_run_before():
-                self.pushbutton_clients_run_query_clicked_slot(query_widget_value_dict)
-        except:
-            type, value, tb = sys.exc_info()
-            traceback.print_tb(tb)
-        print('out slot')
+        self.times_update_client_name_combobox()
+        self.invoices_update_client_name_combobox()
+        if self.clients_query.query_has_been_run_before():
+            self.pushbutton_clients_run_query_clicked_slot(query_widget_value_dict)
 
     # querying
     def radiobutton_clients_query_clicked_slot(self, radiobutton_name, query_widget_value_dict):
@@ -219,6 +214,10 @@ class BackgroundExecution(QtCore.QObject):
             if self.invoices_query.query_has_been_run_before():
                 self.pushbutton_invoices_run_query_clicked_slot(query_widget_value_dict)
 
+            invoice_file_path = dict_to_be_added['File path']
+            self.logger.info('Invoice generated at: {}'.format(invoice_file_path))
+            webbrowser.open(invoice_file_path)
+
     # querying
     def radiobutton_invoices_query_clicked_slot(self, radiobutton_name, query_widget_value_dict):
         if radiobutton_name == 'radioButton_invoices_sort_by_date_only':
@@ -273,20 +272,23 @@ class Backup:
         self.zipfile_path = os.path.join(self.backup_directory, zipfile_name)
 
     def generate_backup(self):
-        with zipfile.ZipFile(self.zipfile_path, 'w') as zip_object:
-            for directory, subfolders, filenames in os.walk(self.user_directory):
-                if directory != self.backup_directory:
-                    directory_depth = len(directory.split(os.sep))
+        try:
+            with zipfile.ZipFile(self.zipfile_path, 'w') as zip_object:
+                for directory, subfolders, filenames in os.walk(self.user_directory):
+                    if directory != self.backup_directory:
+                        directory_depth = len(directory.split(os.sep))
 
-                    if directory_depth == self.user_directory_depth:
-                        directory_in_archive = ''
-                    else:
-                        subdirectory_in_archive_list = directory.split(os.sep)[-(directory_depth-self.user_directory_depth):]
-                        directory_in_archive = os.path.join(*subdirectory_in_archive_list)
+                        if directory_depth == self.user_directory_depth:
+                            directory_in_archive = ''
+                        else:
+                            subdirectory_in_archive_list = directory.split(os.sep)[-(directory_depth-self.user_directory_depth):]
+                            directory_in_archive = os.path.join(*subdirectory_in_archive_list)
 
-                    for filename in filenames:
-                        file_path = os.path.join(directory, filename)
-                        file_path_in_archive = os.path.join(directory_in_archive, filename)
-                        zip_object.write(file_path, file_path_in_archive)
+                        for filename in filenames:
+                            file_path = os.path.join(directory, filename)
+                            file_path_in_archive = os.path.join(directory_in_archive, filename)
+                            zip_object.write(file_path, file_path_in_archive)
 
-        self.logger.info('Backup of user files generated and stored at: {}'.format(self.zipfile_path))
+            self.logger.info('Backup of user files generated and stored at: {}'.format(self.zipfile_path))
+        except PermissionError:
+            self.logger.error('One of the files in {} is opened. No backup of user files was performed. If you want the backup, please close the program and the file(s), and open the program again'.format(self.user_directory))

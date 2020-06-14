@@ -70,6 +70,9 @@ class Clients:
         self._add_client_in_memory(dict_to_be_added)
         self._add_client_to_file(dict_to_be_added)
 
+        client_name = dict_to_be_added['Client name']
+        self.logger.info('Client {} successfully added'.format(client_name))
+
     def _generate_dict_to_be_added_from_widget_value_dict(self, widget_value_dict):
         dict_to_be_added = dict()
         for row in self.params.get_clients_info_structure_df_itertuples():
@@ -94,6 +97,10 @@ class Clients:
         self._append_row_to_clients_df_using_widget_value_dict(widget_value_dict)
         self._save_clients_df_to_file()
 
+        dict_to_be_overwritten = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
+        client_name = dict_to_be_overwritten['Client name']
+        self.logger.info('Client {} successfully overwritten'.format(client_name))
+
     def _append_row_to_clients_df_using_widget_value_dict(self, widget_value_dict):
         dict_to_be_overwritten_with = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
         self.clients_df = self.clients_df.append(dict_to_be_overwritten_with, ignore_index=True)
@@ -101,6 +108,8 @@ class Clients:
     def delete_client(self, UID_of_dropped_row):
         self._drop_rows_from_clients_df_based_on_UID(UID_of_dropped_row)
         self._save_clients_df_to_file()
+
+        self.logger.info('Client successfully deleted')  # todo add client name
 
     def _drop_rows_from_clients_df_based_on_UID(self, UID_of_dropped_row):
         self.clients_df = self.clients_df.set_index('UID')
@@ -116,6 +125,8 @@ class ClientsQuery:
         self.params = params
         self.clients = clients
         self.DATE_FORMAT = params.DATE_FORMAT
+
+        self.logger = logging.getLogger('main.' + __name__)
 
         self.query_result_df = None
         self.query_selection = 'using_years'
@@ -172,4 +183,6 @@ class ClientsQuery:
         export_filename = 'export_clients_query_results_{}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
         exports_directory = self.params.exports_directory
         export_path = os.path.join(exports_directory, export_filename)
-        self.query_result_df.to_excel(export_path, index=False, date_format=self.DATE_FORMAT)
+        self.query_result_df.to_excel(export_path, index=False)
+
+        self.logger.info('Query exported to file at: {}'.format(export_path))

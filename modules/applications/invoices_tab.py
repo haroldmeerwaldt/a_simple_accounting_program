@@ -1,4 +1,7 @@
+import webbrowser
 import datetime
+import pathlib
+import subprocess
 
 from PySide2 import QtWidgets
 
@@ -114,6 +117,7 @@ class InvoicesTab(QtWidgets.QMainWindow):
 
         # tableview
         self.ui.tableView_invoices_query.clicked.connect(self._on_tableview_invoices_query_clicked)
+        self.ui.tableView_invoices_query.doubleClicked.connect(self._on_tableview_invoices_query_doubleclicked)
 
         self.ui.pushButton_invoices_overwrite.clicked.connect(self._on_pushbutton_invoices_overwrite_clicked)
         self.ui.pushButton_invoices_delete.clicked.connect(self._on_pushbutton_invoices_delete_clicked)
@@ -217,6 +221,12 @@ class InvoicesTab(QtWidgets.QMainWindow):
             except KeyError:
                 pass
         return widget_value_dict
+
+    def _on_tableview_invoices_query_doubleclicked(self):
+        current_row = self._get_current_row_of_tableview_invoices_query()
+        row_dict = self.widgets.get_tableview_df_row_as_dict('tableView_invoices_query', current_row)
+        invoice_file_path = row_dict['File path']
+        webbrowser.open(invoice_file_path)
 
     def _on_pushbutton_invoices_overwrite_clicked(self):
         current_row = self._get_current_row_of_tableview_invoices_query()

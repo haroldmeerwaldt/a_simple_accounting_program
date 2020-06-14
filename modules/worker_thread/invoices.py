@@ -1,7 +1,6 @@
-import openpyxl
 import datetime
-import inspect
 import os
+import pathlib
 import sys
 import traceback
 
@@ -9,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 from modules.utilities import toolbox
+import logging
 
 
 class Invoices:
@@ -16,34 +16,31 @@ class Invoices:
         self.signals = signals
         self.params = params
         self.DATE_FORMAT = params.DATE_FORMAT
+
+        self.logger = logging.getLogger('main.' + __name__)
+
         self.invoices_filename = params.invoices_filename
         self._generate_invoices_df_from_input_file()
 
 
     def get_next_invoice_index_at_client(self, client_code):
-        try:
-            valid_row_indices = self.invoices_df['Client code'] == client_code
-            client_df = self.invoices_df.loc[valid_row_indices]
-            highest_index = client_df['Invoice index at client'].max()
-            if np.isnan(highest_index):
-                highest_index = 0
-            next_index = highest_index + 1
-        except:
-            type, value, tb = sys.exc_info()
-            traceback.print_tb(tb)
-
+        valid_row_indices = self.invoices_df['Client code'] == client_code
+        client_df = self.invoices_df.loc[valid_row_indices]
+        highest_index = client_df['Invoice index at client'].max()
+        if np.isnan(highest_index):
+            highest_index = 0
+        next_index = highest_index + 1
         return next_index
 
     def _generate_invoices_df_from_input_file(self):
         try:
-            self.invoices_df = pd.read_csv(self.invoices_filename, sep='\t')
+            self.invoices_df = pd.read_excel(self.invoices_filename)
         except FileNotFoundError:
             column_list = self.params.invoices_info_structure_df['info_name'].tolist()
             self.invoices_df = pd.DataFrame(columns=column_list)
 
         self.invoices_df['Invoice date'] = pd.to_datetime(self.invoices_df['Invoice date'], format=self.DATE_FORMAT)
         self.invoices_df['Client code'] = self.invoices_df['Client code'].astype(str)
-
 
     def get_invoices_df(self):
         return self.invoices_df
@@ -54,13 +51,21 @@ class Invoices:
         month_and_year_match_bool_series = (client_invoice_info_df['Month'] == month) & (client_invoice_info_df['Year'] == year)
         return any(month_and_year_match_bool_series)
 
-    @toolbox.print_when_called_and_return_exception_inside_thread
     def generate_invoice_from_dict(self, widget_value_dict):
         dict_to_be_added = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
+        dict_to_be_added['File path'] = self._create_invoice_file_path(dict_to_be_added)
         self._add_invoice_in_memory(dict_to_be_added)
         self._add_invoice_to_file(dict_to_be_added)
+
+
         return dict_to_be_added  # handle returning dict better
 
+    def _create_invoice_file_path(self, invoice_info_dict):
+        invoice_filename_info_list = ['Client name', 'Month', 'Year']
+        invoice_filename = '_'.join([str(invoice_info_dict[key]) for key in invoice_filename_info_list])
+        invoice_filename = invoice_filename + '_' + invoice_info_dict['Invoice date'].strftime('%Y%m%d') + '.xlsx'
+        invoice_path = os.path.join(self.params.invoices_directory, invoice_filename)
+        return pathlib.Path(invoice_path)
 
     def _generate_dict_to_be_added_from_widget_value_dict(self, widget_value_dict):
         dict_to_be_added = dict()
@@ -86,6 +91,7 @@ class Invoices:
 
     def _append_row_to_invoices_df_using_widget_value_dict(self, widget_value_dict):
         dict_to_be_overwritten_with = self._generate_dict_to_be_added_from_widget_value_dict(widget_value_dict)
+        dict_to_be_overwritten_with['File path'] = self._create_invoice_file_path(dict_to_be_overwritten_with)
         self.invoices_df = self.invoices_df.append(dict_to_be_overwritten_with, ignore_index=True)
 
     def delete_invoice(self, UID_of_dropped_row):
@@ -98,7 +104,7 @@ class Invoices:
         self.invoices_df = self.invoices_df.reset_index().rename(columns={'index': 'UID'})
 
     def _save_invoices_df_to_file(self):
-        self.invoices_df.to_excel(self.invoices_filename, index=False, date_format=self.DATE_FORMAT)
+        self.invoices_df.to_excel(self.invoices_filename, index=False)
 
 
 class InvoicesQuery:
@@ -107,6 +113,9 @@ class InvoicesQuery:
         self.params = params
         self.invoices = invoices
         self.DATE_FORMAT = params.DATE_FORMAT
+
+        self.logger = logging.getLogger('main.' + __name__)
+
         self.query_result_df = None
         self.query_selection = 'dates_only'
         self.query_sort_method = 'by_date_only'
@@ -210,7 +219,9 @@ class InvoicesQuery:
         export_filename = 'export_invoices_query_results_{}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
         exports_directory = self.params.exports_directory
         export_path = os.path.join(exports_directory, export_filename)
-        self.query_result_df.to_excel(export_path, index=False, date_format=self.DATE_FORMAT)
+        self.query_result_df.to_excel(export_path, index=False)
+
+        self.logger.info('Query exported to file at: {}'.format(export_path))
 
 
 
