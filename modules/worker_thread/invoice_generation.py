@@ -245,8 +245,7 @@ class InvoicesFromTemplate: # todo refactor into multiple classes
     def _save_invoice_workbook(self, invoice_workbook, invoice_dict):
         invoice_path = invoice_dict['File path']
         invoice_workbook.save(invoice_path)
-        self.logger.info('Invoice saved to location: {}'.format(invoice_path))
-
+        
     def set_calculated_value(self, info_name, row_offset, string_format, string_parameter_list):
         coordinate = self.calculated_cell_coordinate_dict[info_name]
         initial_row, initial_col = openpyxl.utils.cell.coordinate_to_tuple(coordinate)

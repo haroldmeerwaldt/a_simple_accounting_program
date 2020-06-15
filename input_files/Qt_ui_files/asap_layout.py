@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1268, 829)
+        MainWindow.resize(1276, 829)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.tabWidget = QTabWidget(self.centralwidget)
@@ -821,11 +821,11 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_invoices, "")
         self.textBrowser_console = QTextBrowser(self.centralwidget)
         self.textBrowser_console.setObjectName(u"textBrowser_console")
-        self.textBrowser_console.setGeometry(QRect(40, 620, 1201, 131))
+        self.textBrowser_console.setGeometry(QRect(40, 620, 1221, 131))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1268, 21))
+        self.menubar.setGeometry(QRect(0, 0, 1276, 21))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
