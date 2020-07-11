@@ -13,6 +13,7 @@ pause
 python -m venv env
 echo ... Virtual environment created at .\env
 .\env\Scripts\python -m pip install --upgrade pip
-echo ... Pip ugraded
+echo ... Pip upgraded
 .\env\Scripts\python -m pip install -r requirements.txt
+echo ... Virtual environment and necessary packages installed successfully
 pause
