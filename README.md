@@ -3,8 +3,8 @@ This is a simple local program to do the accounting of a small company or a free
 
 The main idea is that it gives output that is still completely usable without the program (through the use of .xlsx files).
 
-You can run the program, following these three steps:
-1. Download python from python.org, choosing version 3.8 or newer
+To run the program, follow these three steps:
+1. Download Python from python.org, choosing version 3.8 or newer
 2. Run create_environment.bat, which will create a virtual environment and install the necessary packages
 3. Run run_asap.bat, to start the program
 
