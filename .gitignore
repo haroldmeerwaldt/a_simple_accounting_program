@@ -134,3 +134,6 @@ usage.statistics.xml
 tasks.xml
 shelf/
 *.iml
+.idea/misc.xml
+
+input_files/invoice_template.xlsx

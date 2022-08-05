@@ -98,7 +98,7 @@ class ClientsTab(QtWidgets.QMainWindow):
     def _update_index_within_year_and_client_code(self, next_index):
         self.widgets.set_widget_value('info_label_clients_index_within_year', next_index)
         first_year = self.widgets.get_widget_value('comboBox_clients_first_year')
-        client_code = '.'.join([str(first_year), '{:02d}'.format(next_index)])
+        client_code = f"{str(first_year)[2:]}.{next_index:02d}"
         self.widgets.set_widget_value('info_label_clients_client_code', client_code)
 
     def _on_pushbutton_clear_fields_clicked(self):
