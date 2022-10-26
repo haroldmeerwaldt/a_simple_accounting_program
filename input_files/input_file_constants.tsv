@@ -2,7 +2,7 @@ parameter	value
 times_info_structure_path	.\constants\times_info_structure.tsv
 clients_info_structure_path	.\constants\clients_info_structure.tsv
 invoices_info_structure_path	.\constants\invoices_info_structure.tsv
-invoice_template_path	.\invoice_template.xlsx
+example_invoice_template_path	.\example_invoice_template.xlsx
 calculations_info_structure_path	.\constants\calculations_info_structure.tsv
 translation_during_day	Dagwaarneming
 translation_shift	Dienst

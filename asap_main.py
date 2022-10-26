@@ -1,4 +1,5 @@
 import os
+import shutil
 import sys
 
 import pandas as pd
@@ -16,6 +17,7 @@ class Parameters:
         self._generate_input_file_constants()
         self._generate_info_structure_dfs()
         self._generate_data_filenames()
+        self._generate_invoice_template_filename()
 
     def _generate_user_directories(self):
         self.user_directory = os.path.expanduser('~/ASAP')
@@ -52,6 +54,11 @@ class Parameters:
         self.times_filename = os.path.join(self.user_directory, 'times.xlsx')
         self.clients_filename = os.path.join(self.user_directory, 'clients.xlsx')
         self.invoices_filename = os.path.join(self.user_directory, 'invoices.xlsx')
+
+    def _generate_invoice_template_filename(self):
+        self.invoice_template_filename = os.path.join(self.user_directory, 'invoice_template.xlsx')
+        if not os.path.exists(self.invoice_template_filename):
+            shutil.copyfile(self.example_invoice_template_path, self.invoice_template_filename)
 
     def get_times_info_structure_df_itertuples(self):
         return self.times_info_structure_df.itertuples()

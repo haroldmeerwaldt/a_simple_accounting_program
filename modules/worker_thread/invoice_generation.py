@@ -18,7 +18,7 @@ class InvoicesFromTemplate: # todo refactor into multiple classes
         self.logger = logging.getLogger('main.' + __name__)
 
         try:
-            self.template_workbook = openpyxl.load_workbook(params.invoice_template_path)
+            self.template_workbook = openpyxl.load_workbook(params.invoice_template_filename)
             self.worksheet_name = self.template_workbook.sheetnames[0]
             self.template_worksheet = self.template_workbook.get_sheet_by_name(self.worksheet_name)
             self._generate_cell_addresses_from_template_dict()
